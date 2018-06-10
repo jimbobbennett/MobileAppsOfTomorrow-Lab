@@ -11,7 +11,7 @@ We'll be using the [MVVM design pattern](https://docs.microsoft.com/xamarin/xama
 The page we are going to create is a `ContentPage`, a Xamarin.Forms page control that contains some form of content, normally a layout control containing other controls.
 
 1. Create a new XAML content page in the `HappyXamDevs` core project called `LoginPage`.
-   * For Visual Studio 2017 on Windows, right-click on the `HappyXamDevs` project and select _Add->New Item..._. Choose _Visual C#->Xamarin.Forms_ from the tree on the left, then select _Content Page_ (not _Content Page C#_). Set the name to be `LoginPage` and click "Add".
+   * For Visual Studio 2017 on Windows, right-click on the `HappyXamDevs` project and select _Add->New Item..._. Choose _Visual C#->Xamarin.Forms_ from the tree on the left, then select _Content Page_ (**NOT** _Content Page C#_). Set the name to be `LoginPage` and click "Add".
 
      ![Creating a content page using VS2017](../Images/VS2017CreateLoginPage.png)
 

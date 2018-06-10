@@ -1,13 +1,23 @@
 # Create an Azure service inside the mobile app to implement the login flow
 
-Now that your Function app is configured for authentication, it's time to implement this inside your mobile app. You'll be using the [__Microsoft.Azure.Mobile.Client__](https://www.nuget.org/packages/Microsoft.Azure.Mobile.Client/) NuGet package to help with authentication, as well as to call Azure Functions as an authenticated user, so install this package now:
+Now that your Function app is configured for authentication, it's time to implement this inside your mobile app. You'll be using the [__Microsoft.Azure.Mobile.Client__](https://www.nuget.org/packages/Microsoft.Azure.Mobile.Client/) NuGet package to help with authentication, as well as to call Azure Functions as an authenticated user.
+
+Before you can install this NuGet package you will need to install a Android support library package that is used by the Mobile Client package - this is to get round a quirk with NuGet dependencies and Android.
+
+* For Visual Studio 2017 on Windows, right-click on the `HappyXamDevs.Android` Android app in the solution explorer, select _Manage NuGet packages..._, head to the _Browse_ tab, enter "Xamarin.Android.Support.CustomTabs" into the search box, select the relevant package from the search results and click "Install".
+
+  ![Adding the Xamarin.Android.Support.CustomTabs NuGet package](../Images/VS2017AddCustomTabsNuget.png)
+
+* For Visual Studio for Mac, right-click on the `HappyXamDevs.Android` project and select _Add->Add NuGet Packages..._. Enter "Xamarin.Android.Support.CustomTabs" into the search box, select the relevant package from the search results, and click "Add Package".
+
+Next, install the "Microsoft.Azure.Mobile.Client" NuGet package.
 
 * For Visual Studio 2017 on Windows, right-click on the solution in the solution explorer, select _Manage NuGet packages for solution..._, head to the _Browse_ tab, enter "Microsoft.Azure.Mobile.Client" into the search box, select the relevant package from the search results, tick all the projects in the solution and click "Install".
 
   ![Adding the Microsoft.Azure.Mobile.Client NuGet package](../Images/VS2017AddMobileClientNuget.png)
 
 * For Visual Studio for Mac, right-click on the `HappyXamDevs` project and select _Add->Add NuGet Packages..._. Enter "Microsoft.Azure.Mobile.Client" into the search box, select the relevant package from the search results, and click "Add Package". Repeat this for all the projects in the solution.
-  > To make managing NuGet packages easier with Visual Studio for Mac, there is an extension you can install called _NuGet Package Management Extensions_. If you add this extension you will be able to add, remove and update NuGet packages at the solution level.
+  > To make managing NuGet packages easier with Visual Studio for Mac, there is an extension you can install called _NuGet Package Management Extensions_. If you add this extension you will be able to add, remove and update NuGet packages at the solution level."
 
 This NuGet package has a dependency on `System.Net.Http`, so you will need to reference this in your iOS and Android apps (UWP doesn't need this reference).
 

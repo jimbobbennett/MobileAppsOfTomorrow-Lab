@@ -2,31 +2,29 @@
 
 Due to a quirk with NuGet dependencies, the Mobile Client NuGet package will not work correctly in your Android app due to a dependency issue on some other Android packages. To stop this issue occurring you will need to install the latest version of the "Xamarin.Android.Support.CustomTabs" Android support library package first.
 
-1. Add the "Xamarin.Android.Support.CustomTabs" NuGet package to the `HappyXamDevs.Android` project.
+1. Add a new folder to the `HappyXamDevs.Android` project called `Services`, and add a new class to that folder called `AzureService`.
 
-    > Note: Earlier we added a NuGet package to every project in the Solution. This time we only need the Nuget package on the Android project. If you are not sure how to do this, ask your instructor!
-
-2. Add a new folder to the `HappyXamDevs.Android` project called `Services`, and add a new class to that folder called `AzureService`.
-
-3. Make this class public and derive from `AzureServiceBase`. You'll need to add a using statement for the `HappyXamDevs.Services` namespace.
+2. Make this class public and derive from `AzureServiceBase`. You'll need to add a using statement for the `HappyXamDevs.Services` namespace.
 
     ```cs
     public class AzureService : AzureServiceBase
     ...
     ```
 
-4. You next need to implement the abstract `AuthenticateUser` method. This method will call the `LoginAsync` method on the mobile service client, and this call needs the current Activity to be passed in. Activities represent full screen views inside your app, and the login method uses the current Activity to launch a web view to allow you to log in. You can easily get the current Activity using the "Plugin.CurrentActivity" NuGet package, so add this to your Android app.
+3. You next need to implement the abstract `AuthenticateUser` method. This method will call the `LoginAsync` method on the mobile service client, and this call needs the current Activity to be passed in. Activities represent full screen views inside your app, and the login method uses the current Activity to launch a web view to allow you to log in. You can easily get the current Activity using the "Plugin.CurrentActivity" plugin, so add the "Plugin.CurrentActivity" NuGet package to the `HappyXamDevs.Android` project.
 
-    Once the NuGet package is added, open the `MainActivity` class, and add the following to the `OnCreate` method, just before the call to `LoadApplication`.
+    ![Install the Plugin.CurrentActivity NuGet package](.,./Images/VS2017AddCurrentActivityNuget.png)
 
-    ```cs
-    protected override void OnCreate(Bundle bundle)
-    {
-        ...
-        Plugin.CurrentActivity.CrossCurrentActivity.Current.Init(this, bundle);
-        LoadApplication(new App());
-    }
-    ```
+4. Once the NuGet package is added, open the `MainActivity` class, and add the following to the `OnCreate` method, just before the call to `LoadApplication`.
+
+        ```cs
+        protected override void OnCreate(Bundle bundle)
+        {
+            ...
+            Plugin.CurrentActivity.CrossCurrentActivity.Current.Init(this, bundle);
+            LoadApplication(new App());
+        }
+        ```
 
 5. Implement the `AuthenticateUser` method in the `AzureService` class, calling the `LoginAsync` method on the mobile service client, requesting a login using Facebook. You will need to add using statements for the `Plugin.CurrentActivity` and `Microsoft.WindowsAzure.MobileServices` namespaces. Note that we also declare this method `async` because of the use of the keyword `await` inside the method.
 
@@ -58,7 +56,7 @@ using Microsoft.WindowsAzure.MobileServices;
 using Plugin.CurrentActivity;
 
 [assembly: Xamarin.Forms.Dependency(typeof(HappyXamDevs.Droid.Services.AzureService))]
-namespace HappyXamDevs.Android.Services
+namespace HappyXamDevs.Droid.Services
 {
     public class AzureService : AzureServiceBase
     {
