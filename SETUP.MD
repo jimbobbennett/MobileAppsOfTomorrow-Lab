@@ -151,27 +151,3 @@ In order to upgrade Visual Studio on Windows, start Visual Studio and follow the
 ![Visual Studio product update](./Images/Setup/VS2017Update.png)
 
 > Note: If you don't see the _Product Updates_ category or the _Visual Studio Update_ product, it means that you already have the latest version.
-
-### Visual Studio on Mac
-
-// TODO upgrade Visual Studio on Mac
-
-### Xamarin on Windows
-
-Xamarin gets updated through the Visual Studio updater, so if you are up to date with Visual Studio on Windows, you're up to date with Xamarin too :)
-
-### Xamarin on Mac
-
-// TODO upgrade Xamarin on Mac
-
-### Xcode on Mac
-
-// TODO upgrade Xcode on Mac
-
-### Android SDK on Windows
-
-// TODO upgrade Android SDK on Windows
-
-### Android SDK on Mac
-
-// TODO upgrade Android SDK on Mac
