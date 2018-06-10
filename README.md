@@ -8,7 +8,7 @@ The app you are creating is called __Happy Xamarin Developers__ and is a social-
 
 ## Prerequisites
 
-* Please make sure you have run through the [setup prerequisites](./SETUP.md) to configure your development environment before working through this workshop.
+* Please make sure you have run through the [setup prerequisites](./SETUP.MD) to configure your development environment before working through this workshop.
 
 * You will also need an Azure account to configure the services required. These services will either be using free tiers, or be very cheap and only needed for the duration of the workshop. If you do not already have an Azure account, you can sign up for a [free Azure account](https://azure.microsoft.com/free?WT.mc_id=mobileappsoftomorrow-workshop-jabenn) to get US$200 of credit on all services for 30 days, plus 12 months of free access for popular services, and unlimited access to 25 free services.
 
