@@ -80,7 +80,7 @@ Before we can put an image on the login page, we need to add the image file to t
 
 Android stores images in the `Resources/drawable` folders, with different `drawable` folders for different device resolutions - so `drawable-hdpi` for high density screens, `drawable-xhdpi` for extra high density screens and so on. Images of different resolutions are put into these folders.
 
-You can find the images already provided in different sizes in the [__Assets__](./Assets/) folder in this GitHub repo. Open the `Android` folder, and add the `Bit_Learning.png` image from the various `drawable` folders into the matching `drawable` folders in the `HappyXamDevs.Android` app. Do this by right-clicking on the `drawable-hdpi` folder and selecting _Add->Existing Item..._ (Visual Studio 2017 on Windows) or _Add->Add Files..._ (Visual Studio for Mac), then navigate to the `Assets/Android/drawable-hdpi` folder in this repo and select the `Bit_Learning.png` file. Repeat this for all the drawable folders in the `Assets` folder.
+You can find the images already provided in different sizes in the [__Assets__](../Assets/) folder in this GitHub repo. Open the `Android` folder, and add the `Bit_Learning.png` image from the various `drawable` folders into the matching `drawable` folders in the `HappyXamDevs.Android` app. Do this by right-clicking on the `drawable-hdpi` folder and selecting _Add->Existing Item..._ (Visual Studio 2017 on Windows) or _Add->Add Files..._ (Visual Studio for Mac), then navigate to the `Assets/Android/drawable-hdpi` folder in this repo and select the `Bit_Learning.png` file. Repeat this for all the drawable folders in the `Assets` folder.
 
 ### Adding the image on iOS
 
