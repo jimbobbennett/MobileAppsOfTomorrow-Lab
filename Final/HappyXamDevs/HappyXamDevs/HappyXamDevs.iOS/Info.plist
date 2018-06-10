@@ -41,7 +41,7 @@
 			<string>com.microsoft.HappyXamDevs</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>lbhappyxamdevs</string>
+				<string>happyxamdevs</string>
 			</array>
 		</dict>
 	</array>

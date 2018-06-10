@@ -14,7 +14,7 @@
         <action android:name="android.intent.action.VIEW" />
         <category android:name="android.intent.category.DEFAULT" />
         <category android:name="android.intent.category.BROWSABLE" />
-        <data android:scheme="lbhappyxamdevs" android:host="easyauth.callback" />
+        <data android:scheme="happyxamdevs" android:host="easyauth.callback" />
       </intent-filter>
     </activity>    
   </application>

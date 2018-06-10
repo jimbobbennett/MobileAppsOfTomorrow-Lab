@@ -27,7 +27,7 @@
       </uap:VisualElements>
       <Extensions>
         <uap:Extension Category="windows.protocol">
-          <uap:Protocol Name="lbhappyxamdevs">
+          <uap:Protocol Name="happyxamdevs">
             <uap:DisplayName>Happy Xamarin Developers</uap:DisplayName>
           </uap:Protocol>
         </uap:Extension>
