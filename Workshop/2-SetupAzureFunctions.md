@@ -67,7 +67,7 @@ Now that you have your app configured in Facebook, head back to the Azure portal
 
 5. Enter your _App ID_ and _App secret_ from your Facebook app into the corresponding fields, then tick the scope you want. This scope is the fields you want access to from Facebook. For now just select _public profile_ as we don't want any private data. Then click "OK".
 
-6. In the _Allowed external redirect URLs_ field, enter the name of your app followed by `://easyauth.callback` - for example `happyxamdevs://easyauth.callback`. This is the callback that will be made by the authentication flow, and your mobile app can be configured to handle this URI.
+6. In the _Allowed external redirect URLs_ field, enter `happyxamdevs://easyauth.callback`. This is the callback that will be made by the authentication flow, and your mobile app can be configured to handle this URI.
 
 7. Click "Save".
 

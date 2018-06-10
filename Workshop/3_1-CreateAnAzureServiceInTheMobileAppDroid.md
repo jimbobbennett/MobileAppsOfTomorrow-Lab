@@ -26,14 +26,14 @@ Due to a quirk with NuGet dependencies, the Mobile Client NuGet package will not
         }
         ```
 
-5. Implement the `AuthenticateUser` method in the `AzureService` class, calling the `LoginAsync` method on the mobile service client, requesting a login using Facebook. You will need to add using statements for the `Plugin.CurrentActivity` and `Microsoft.WindowsAzure.MobileServices` namespaces. Note that we also declare this method `async` because of the use of the keyword `await` inside the method.
+5. Implement the `AuthenticateUser` method in the `AzureService` class, calling the `LoginAsync` method on the mobile service client, requesting a login using Facebook. You will need to add using statements for the `Plugin.CurrentActivity` and `Microsoft.WindowsAzure.MobileServices` namespaces. Note that we also declare this method `async` because of the use of the keyword `await` inside the method. The last `"happyxamdevs"` parameter is the name of the URL scheme to call back to - a name your app can register to tell the OS that any web requests to `happyxamdevs://<anything>` should be routed to your app.
 
     ```cs
     protected override async Task AuthenticateUser()
     {
         await Client.LoginAsync(CrossCurrentActivity.Current.Activity,
                                 MobileServiceAuthenticationProvider.Facebook,
-                                AzureAppName);
+                                "happyxamdevs");
     }
     ```
 
@@ -64,7 +64,7 @@ namespace HappyXamDevs.Droid.Services
         {
             await Client.LoginAsync(CrossCurrentActivity.Current.Activity,
                                     MobileServiceAuthenticationProvider.Facebook,
-                                    AzureAppName);
+                                    "happyxamdevs");
         }
     }
 }
@@ -89,7 +89,7 @@ Inside this XML file, find the `application` node. Add the following code inside
 </activity>
 ```
 
-> IMPORTANT: Note the `data` node - `<data android:scheme="happyxamdevs" android:host="easyauth.callback" />`. The value of the `android:scheme` attribute must be set to be your Functions App name, for example `happyxamdevs`. This needs to match the first part of the _Allowed external redirect URLs_ you configured in your Azure function app, so if your redirect URL was `happyxamdevs://easyauth.callback` then the _URL scheme_ would be `happyxamdevs` without the `://easyauth.callback`.
+This code registers your app with the OS as responding to any calls from a website to `happyxamdevs://easyauth.callback`.
 
 ## Next step
 

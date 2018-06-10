@@ -30,7 +30,7 @@
     {
         await Client.LoginAsync(GetTopmostViewController(),
                                 MobileServiceAuthenticationProvider.Facebook,
-                                AzureAppName);
+                                "happyxamdevs");
     }
     ```
 
@@ -56,7 +56,9 @@ namespace HappyXamDevs.iOS.Services
     {
         protected override async Task AuthenticateUser()
         {
-            await Client.LoginAsync(GetTopmostViewController(), MobileServiceAuthenticationProvider.Facebook, AzureAppName);
+            await Client.LoginAsync(GetTopmostViewController(),
+                                    MobileServiceAuthenticationProvider.Facebook,
+                                    "happyxamdevs");
         }
 
         static UIViewController GetTopmostViewController()
@@ -80,7 +82,7 @@ Just like with Android, you will need to configure the callback URL scheme, and 
 
 1. Head to the _Application_ tab and copy the value of the _Bundle Identifier_. This will be something like `com.companyname.happyxamdevs`.
 
-2. Switch to the _Advanced_ tab, expand the _URL types_ node and click _Add URL type_. Set the _Identifier_ to be the value of your _Bundle Identifier_, and the _URL Schemes_ to be your Azure Functions app name, for example `happyxamdevs`. This needs to match the first part of the _Allowed external redirect URLs_ you configured in your Azure functions app, so if your redirect URL was `happyxamdevs://easyauth.callback` then the _URL scheme_ would be `happyxamdevs` without the `://easyauth.callback`.
+2. Switch to the _Advanced_ tab, expand the _URL types_ node and click _Add URL type_. Set the _Identifier_ to be the value of your _Bundle Identifier_, and the _URL Schemes_ to be `happyxamdevs`. This matches the first part of the _Allowed external redirect URLs_ you configured in your Azure functions app, so the redirect URL of `happyxamdevs://easyauth.callback` would have a _URL scheme_ of `happyxamdevs` without the `://easyauth.callback`.
 
    ![Setting the URL scheme](../Images/VS2017AddUriScheme.png)
 

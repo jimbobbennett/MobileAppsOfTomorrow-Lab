@@ -15,7 +15,7 @@
     protected override async Task AuthenticateUser()
     {
         await Client.LoginAsync(MobileServiceAuthenticationProvider.Facebook,
-                                AzureAppName);
+                                "happyxamdevs");
     }
     ```
 
@@ -33,7 +33,7 @@ namespace HappyXamDevs.UWP.Services
         protected override async Task AuthenticateUser()
         {
             await Client.LoginAsync(MobileServiceAuthenticationProvider.Facebook,
-                                    AzureAppName);
+                                    "happyxamdevs");
         }
     }
 }
@@ -85,7 +85,7 @@ Just like with Android and iOS you will need to configure your app to handle the
     }
     ```
 
-4. Open the `Package.appxmanifest` file and switch to the _Declarations_ tab. Drop down the _Available Declarations_ list, select _Protocol_ and click "Add". Set the _Display Name_ to be the name of your app (for example "Happy Xamarin Developers"), and the _Name_ to be your Azure Functions app name, for example `happyxamdevs`. This needs to match the first part of the _Allowed external redirect URLs_ you configured in your Azure functions app, so if your redirect URL was `happyxamdevs://easyauth.callback` then the _URL scheme_ would be `happyxamdevs` without the `://easyauth.callback`.
+4. Open the `Package.appxmanifest` file and switch to the _Declarations_ tab. Drop down the _Available Declarations_ list, select _Protocol_ and click "Add". Set the _Display Name_ to be the name of your app (for example "Happy Xamarin Developers"), and the _Name_ to be `happyxamdevs`. This needs to match the first part of the _Allowed external redirect URLs_ you configured in your Azure functions app, so the _URL scheme_ is be `happyxamdevs` without the `://easyauth.callback`.
 
     ![Configuring the UWP protocol](../Images/VS2017ConfigureUWPProtocol.PNG)
 
