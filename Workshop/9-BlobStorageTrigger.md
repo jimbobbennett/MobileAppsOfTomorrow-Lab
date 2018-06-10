@@ -108,7 +108,7 @@ using System.Linq;
 using Microsoft.Azure.CognitiveServices.Vision.ComputerVision;
 using Microsoft.Azure.CognitiveServices.Vision.ComputerVision.Models;
 
-public static async Task Run(Stream myBlob, string name, TraceWriter log)
+public static async Task<object> Run(Stream myBlob, string name, TraceWriter log)
 {
     var apiKey = ConfigurationManager.AppSettings["ComputerVisionApiKey"];
     var creds = new ApiKeyServiceClientCredentials(apiKey);
