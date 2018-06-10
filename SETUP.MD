@@ -37,6 +37,8 @@ You can see the requirements and follow the steps in the [Xamarin environment se
 3. You don’t need all options selected but you should choose the following:
    ![The required components in the installation](./Images/Setup/VS2017SelectedBits.png)
 
+> There can be issues running emulators or connecting to physical devices if you are running Visual Studio in a Virtual Machine. Ideally you should run on the natively installed OS, but if you are using a virtual machine it is important to validate the setup before attempting the workshop.
+
 ### Testing the setup
 
 After the installation is complete, test the setup with the following steps:
