@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+             ios:Page.UseSafeArea="true"
+             xmlns:viewModels="clr-namespace:HappyXamDevs.ViewModels"
+             x:Class="HappyXamDevs.LoginPage">
+
+    <ContentPage.BindingContext>
+        <viewModels:LoginViewModel />
+    </ContentPage.BindingContext>
+
+    <ContentPage.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <Image Grid.Row="0"
+                   Source="Bit_Learning.png"
+                   Aspect="AspectFit"
+                   Margin="50" />
+
+            <Button Margin="20,0"
+                    Grid.Row="1"
+                    Command="{Binding LoginCommand}"
+                    Text="Log in with Facebook"
+                    BackgroundColor="{StaticResource CoolPurple}"
+                    TextColor="White" />
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

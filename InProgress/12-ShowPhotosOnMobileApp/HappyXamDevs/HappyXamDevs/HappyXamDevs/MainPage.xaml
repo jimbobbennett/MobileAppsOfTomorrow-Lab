@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             Title="Happy Developers"
+             xmlns:viewModels="clr-namespace:HappyXamDevs.ViewModels"
+             x:Class="HappyXamDevs.MainPage">
+
+    <ContentPage.BindingContext>
+        <viewModels:MainViewModel />
+    </ContentPage.BindingContext>
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Order="Primary"
+                     Icon="TakePhoto.png"
+                     Priority="0"
+                     Command="{Binding TakePhotoCommand}" />
+        <ToolbarItem Order="Primary"
+                     Icon="SelectFromLibrary.png"
+                     Priority="1"
+                     Command="{Binding SelectFromLibraryCommand}" />
+    </ContentPage.ToolbarItems>
+
+    <ListView ItemsSource="{Binding Photos}">
+        <ListView.ItemTemplate>
+            <DataTemplate>
+                <ImageCell ImageSource="{Binding Photo}"
+                           Text="{Binding Caption}"
+                           Detail="{Binding Tags}" />
+            </DataTemplate>
+        </ListView.ItemTemplate>
+    </ListView>
+
+</ContentPage>

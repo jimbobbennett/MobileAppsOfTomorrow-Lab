@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ViewCell xmlns="http://xamarin.com/schemas/2014/forms"
+          xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+          x:Class="HappyXamDevs.PhotoCell">
+
+    <Frame Padding="25"
+           Margin="5">
+        <Grid RowSpacing="5">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="200" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Image Grid.Row="0"
+                   Source="{Binding Photo}"
+                   Aspect="AspectFill"
+                   HeightRequest="200" />
+
+            <Label Grid.Row="1"
+                   Text="{Binding Caption}"
+                   FontSize="Large"
+                   TextColor="{StaticResource CoolPurple}" />
+
+            <Label Grid.Row="2"
+                   Text="{Binding Tags}"
+                   FontAttributes="Italic"
+                   TextColor="DarkGray"
+                   FontSize="Small" />
+        </Grid>
+    </Frame>
+</ViewCell>

@@ -1,0 +1,29 @@
+{
+  "images": [
+    {
+      "scale": "1x",
+      "idiom": "universal",
+      "filename": "Bit_Learning@1x.png"
+    },
+    {
+      "scale": "2x",
+      "idiom": "universal",
+      "filename": "Bit_Learning@2x.png"
+    },
+    {
+      "scale": "3x",
+      "idiom": "universal",
+      "filename": "Bit_Learning@3x.png"
+    },
+    {
+      "idiom": "universal"
+    }
+  ],
+  "properties": {
+    "template-rendering-intent": ""
+  },
+  "info": {
+    "version": 1,
+    "author": ""
+  }
+}

@@ -4,6 +4,8 @@
 
 Xamarin requires a few components to collaborate for a satisfying development experience. It is important that each participant to the workshop installs and tests the setup prior to the workshop day, so that we don’t lose any time and can jump into code as soon as possible 😊
 
+> Note: If you start from scratch, you will automatically get the latest and greatest version of each components. If however you already had Visual Studio or Xamarin installed, you might need to upgrade your installation. For more information, see [the corresponding section below](#upgrading-your-android-sdk-to-the-latest-version).
+
 ## Configurations
 
 You can develop for Xamarin using Windows or Mac. However if you use Windows and want to build Xamarin apps for iOS, you need a Mac computer too. This is because of Apple restrictions and cannot be avoided. During the workshop, we will support the following configurations:
@@ -27,9 +29,9 @@ __Keys to success:__
 
 ## Prerequisites on a Windows PC
 
-You can see the requirements and follow the steps for Xamarin environment setup on Windows at: https://docs.microsoft.com/en-us/xamarin/cross-platform/get-started/installation/windows.
+You can see the requirements and follow the steps in the [Xamarin environment setup on Windows](https://docs.microsoft.com/xamarin/cross-platform/get-started/installation/windows/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn).
 
-1. Install Visual Studio 2017 from https://www.visualstudio.com/vs. The free Community Edition is sufficient for this workshop.
+1. Install Visual Studio 2017 from [VisualStudio.com](https://www.visualstudio.com/vs/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn). The free Community Edition is sufficient for this workshop.
 2. Make sure to select the _"Mobile development with .NET"_ workload in the installer screen:
    ![The Xamarin workload selected in the installer](./Images/Setup/VS2017Workload.png)
 3. You don’t need all options selected but you should choose the following:
@@ -77,9 +79,9 @@ Now we will try running the application in Windows and Android to see if everyth
 
 ## Prerequisites on a Mac
 
-You can see the requirements and follow the steps for Xamarin environment setup on Mac at: https://docs.microsoft.com/en-us/visualstudio/mac/installation.
+You can see the requirements and follow the steps in the [Xamarin environment setup on Mac](https://docs.microsoft.com/visualstudio/mac/installation/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn).
 
-1. Install Visual Studio for Mac from https://www.visualstudio.com/vs. The free Community Edition is sufficient for this workshop.
+1. Install Visual Studio for Mac from [VisualStudio.com](https://www.visualstudio.com/vs/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn). The free Community Edition is sufficient for this workshop.
 2. Open the App Store app on macOS, search for Xcode and install Xcode. Visual Studio requires Xcode to build the iOS applications as well as run them on the Simulator.
    > Important: After you finish installing Xcode, run it once to make sure that all the necessary component are up to date. Some components are only downloaded the first time that Xcode runs.
 
@@ -130,4 +132,46 @@ If you want to use a physical Android device then you will need to enable develo
 7. Plug your device into your Mac or PC, set the Android app as the startup app, then select the device in the menu bar. A dialog will pop up on your Android device asking if you want to allow USB debugging from the connected Mac or PC.  Tap "Always allow", then tap "ok".
    ![Always allow USB debugging](./Images/Setup/AndroidAllowDebug.png)
 
-You can find more information at https://developer.android.com/studio/run/device
+You can find more information at [developer.android.com](https://developer.android.com/studio/run/device)
+
+## Upgrading your Android SDK to the latest version
+
+If you already installed Visual Studio or Xamarin on your computers, you might need to upgrade the installation in order to follow the steps of this tutorial.
+
+### Visual Studio on Windows
+
+In order to upgrade Visual Studio on Windows, start Visual Studio and follow the steps:
+
+* Select _File -> Tools -> Extensions and Update..._.
+
+![Extensions and Update menu](./Images/Setup/ExtensionsAndUpdate.png)
+
+* Select the _Updates_ category, then _Product Updates_ and then click the __Update__ button on the _Visual Studio Update_ product.
+
+![Visual Studio product update](./Images/Setup/VS2017Update.png)
+
+> Note: If you don't see the _Product Updates_ category or the _Visual Studio Update_ product, it means that you already have the latest version.
+
+### Visual Studio on Mac
+
+// TODO upgrade Visual Studio on Mac
+
+### Xamarin on Windows
+
+Xamarin gets updated through the Visual Studio updater, so if you are up to date with Visual Studio on Windows, you're up to date with Xamarin too :)
+
+### Xamarin on Mac
+
+// TODO upgrade Xamarin on Mac
+
+### Xcode on Mac
+
+// TODO upgrade Xcode on Mac
+
+### Android SDK on Windows
+
+// TODO upgrade Android SDK on Windows
+
+### Android SDK on Mac
+
+// TODO upgrade Android SDK on Mac
