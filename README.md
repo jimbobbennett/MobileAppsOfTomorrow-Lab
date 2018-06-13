@@ -81,3 +81,4 @@ This lab was built by [Jim Bennett](https://developer.microsoft.com/advocates/ji
 | Version | Date | Comments |
 |---------|------|----------|
 | 1.0     | 23 May 2018 | Initial release |
+| 1.1     | 11 June 2018 | Updates after first run to fix bugs and improve clarity |
