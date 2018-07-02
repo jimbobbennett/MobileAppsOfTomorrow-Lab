@@ -57,7 +57,7 @@ This function will be routed to the `photo/{name}` REST resource, so making an H
 
 1. From the Azure Portal, create a new function inside your function app. This will need to be a C# HTTP trigger. Set the _Name_ as "GetPhoto" and the _Authorization level_ as "Anonymous".
 2. Head to the _Integrate_ tab and set the _Route Template_ to "photo/{name}". This will allow you to add a parameter called `name` to your function and have this automatically populated with the resource name from the URL.
-3. Set the _Selected HTTP Methods_ to GET.
+3. Set the _Selected HTTP Methods_ to GET. The click "Save".
 
     ![Setting the route template and HTTP method for the GetPhoto function](../Images/PortalGetPhotoIntegrate.png)
 
