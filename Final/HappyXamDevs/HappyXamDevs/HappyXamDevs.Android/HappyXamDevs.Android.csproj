@@ -51,7 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.Azure.CognitiveServices.Vision.Face">
-      <Version>1.0.2-preview</Version>
+      <Version>2.3.0-preview</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Azure.Mobile.Client">
       <Version>4.1.1</Version>
