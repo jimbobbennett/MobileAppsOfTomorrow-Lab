@@ -18,6 +18,7 @@ namespace HappyXamDevs.Services
         private const string AuthTokenKey = "auth-token";
         private const string PhotoResource = "photo";
         private const string UserIdKey = "user-id";
+#error REPLACE [YOUR FACE API BASE URL]
         private const string FaceApiBaseUrl = "[YOUR FACE API BASE URL]";
         private readonly FaceClient faceApiClient;  
 
