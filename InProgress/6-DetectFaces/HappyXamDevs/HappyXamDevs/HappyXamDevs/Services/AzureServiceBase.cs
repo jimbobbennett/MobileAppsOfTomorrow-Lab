@@ -13,7 +13,8 @@ namespace HappyXamDevs.Services
     {
         private const string AuthTokenKey = "auth-token";
         private const string UserIdKey = "user-id";
-        private FaceAPI faceApi;
+        private const string FaceApiBaseUrl = "[YOUR FACE API BASE URL]";
+        private readonly FaceClient faceApiClient;
         
 #error REPLACE [YOUR AZURE APP NAME HERE]
         protected const string AzureAppName = "[YOUR AZURE APP NAME HERE]";
@@ -27,9 +28,9 @@ namespace HappyXamDevs.Services
 
 #error REPLACE [YOUR API KEY HERE]
             var creds = new ApiKeyServiceClientCredentials("[YOUR API KEY HERE]");
-            faceApi = new FaceAPI(creds)
+            faceApiClient = new FaceClient(creds)
             {
-                AzureRegion = AzureRegions.Westeurope
+                Endpoint = FaceApiBaseUrl
             };
         }
 
@@ -75,7 +76,7 @@ namespace HappyXamDevs.Services
             using (var s = photo.GetStream())
             {
                 var faceAttributes = new List<FaceAttributeType> { FaceAttributeType.Emotion };
-                var faces = await faceApi.Face.DetectWithStreamAsync(s, returnFaceAttributes: faceAttributes);
+                var faces = await faceApiClient.Face.DetectWithStreamAsync(s, returnFaceAttributes: faceAttributes);
                 return faces.Any() && faces.All(f => f.FaceAttributes.Emotion.Happiness > 0.75);
             }
         }
