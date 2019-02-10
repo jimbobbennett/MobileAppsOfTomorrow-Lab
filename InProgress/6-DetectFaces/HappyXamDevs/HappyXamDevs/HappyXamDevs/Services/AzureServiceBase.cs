@@ -13,9 +13,10 @@ namespace HappyXamDevs.Services
     {
         private const string AuthTokenKey = "auth-token";
         private const string UserIdKey = "user-id";
+#error REPLACE [YOUR FACE API BASE URL]
         private const string FaceApiBaseUrl = "[YOUR FACE API BASE URL]";
-        private readonly FaceClient faceApiClient;
-        
+        private readonly FaceClient faceApiClient;  
+
 #error REPLACE [YOUR AZURE APP NAME HERE]
         protected const string AzureAppName = "[YOUR AZURE APP NAME HERE]";
         protected readonly static string FunctionAppUrl = $"https://{AzureAppName}.azurewebsites.net";

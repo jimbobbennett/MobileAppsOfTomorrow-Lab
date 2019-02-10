@@ -17,7 +17,7 @@ namespace HappyXamDevs.Droid
 
             global::Xamarin.Forms.Forms.Init(this, bundle);
             Plugin.CurrentActivity.CrossCurrentActivity.Current.Init(this, bundle);
-
+            Xamarin.Essentials.Platform.Init(this, bundle);
             LoadApplication(new App());
         }
 
@@ -25,7 +25,9 @@ namespace HappyXamDevs.Droid
                                                         string[] permissions,
                                                         [GeneratedEnum] Permission[] grantResults)
         {
+            Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
             Plugin.Permissions.PermissionsImplementation.Current.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
