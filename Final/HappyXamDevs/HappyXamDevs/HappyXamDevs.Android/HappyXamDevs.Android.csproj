@@ -15,7 +15,6 @@
     <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
     <MonoAndroidResourcePrefix>Resources</MonoAndroidResourcePrefix>
     <MonoAndroidAssetsPrefix>Assets</MonoAndroidAssetsPrefix>
-    <AndroidUseLatestPlatformSdk>false</AndroidUseLatestPlatformSdk>
     <TargetFrameworkVersion>v9.0</TargetFrameworkVersion>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -111,7 +110,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\HappyXamDevs\HappyXamDevs.csproj">
-      <Project>{BA2B52E1-5ECB-4374-9321-BF47F13F05B5}</Project>
+      <Project>{B44B8317-2C29-47A0-B839-10C349C30F94}</Project>
       <Name>HappyXamDevs</Name>
     </ProjectReference>
   </ItemGroup>
