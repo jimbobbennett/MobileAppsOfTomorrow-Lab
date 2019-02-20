@@ -24,9 +24,10 @@ This back-end will use Facebook authentication, meaning that any calls to Functi
 
 7. In the **Function App** window, make the following selections:
 
-    - **App Name**: XamHappyDevsFunction_[Your Last Name]
+    - **App Name**: HappyXamDevsFunction-[Your Last Name]
+      - E.g. `HappyXamDevsFunction-Minnick`
 
-    > **Note:** App Name needs to be unique because this will be used as the domain for your Functions App. If the App Name entered is unique, you will see a green tick on the right; if not, you will see a red **X**
+    > **Note:** App Name needs to be unique because this will be used as the domain for your Functions App. If the App Name entered is unique, you will see a green ✔**️** on the right; if not, you will see a red **X**
 
     - **Subscription**: [Select your Azure Subscription]
 
@@ -34,14 +35,14 @@ This back-end will use Facebook authentication, meaning that any calls to Functi
 
     - **Resource Group**
         - **Create new**
-        - **Name:** XamHappyDevs
+        - **Name:** HappyXamDevs
     - **OS:** Windows
-    - **Hosting Plan:** Consumption
+    - **Hosting Plan:** Consumption Plan
     - **Location:** West US
     - **Runtime Stack**: .NET
     - **Storage** 
         - **Create New**
-        - XamHappyDevsStorage
+        - happyxamdevsstorage
     - **Applictaion Insights**
         - **Disabled**
 
@@ -62,7 +63,7 @@ This back-end will use Facebook authentication, meaning that any calls to Functi
 
 ![The Azure portal showing the newly created function app](../Images/PortalNewFunction.png)
 
-### 1. Set up Facebook App
+### 3. Set up Facebook App
 
 To set up authentication using Facebook, you will need to create an app in Facebook and configure it there.
 
@@ -113,29 +114,34 @@ To set up authentication using Facebook, you will need to create an app in Faceb
 14. Copy the **App Id** and **App Secret**
     - We will use these values later when configuring the Azure Functions Authentication
 
-### Setup Function App Authentication
+### 4. Setup Function App Authentication
 
 Now that you have your app configured in Facebook, head back to the Azure portal to configure your Function app.
 
 1. In your browser, navigate to the [Azure portal](https://portal.azure.com/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn)
 
-2. In the Azure Portal, navigate to your Function App, **XamHappyDevsFunction_[Your Last Name]**
+2. In the Azure Portal, navigate to your Function App, **HappyXamDevsFunction-[Your Last Name]**
 
-# ***TODO***
+3. In the Function App dashboard, select the **Platform features** tab
 
-3. From the Function App, select the _Platform features_ tab, and select _Authentication/Authorization_ under _Networking_.
+4. In the **Platform features** menu, under **Networking**, select **Authentication / Authorization**
 
-2. Turn _App service authentication_ __On__.
+5. On the **Authentication / Authorization** page, make the following selection:
+    - **App service authentication**: On
+    - **Action to take when request is not authenticated**: Log in with Facebook
+    - **Advanced Settings**
+      - **ALLOWED EXTERNAL REDIRECT URLS**: happyxamdevs://easyauth.callback
 
-3. Set the _Action to take when request is not authenticated_ to _Log in with Facebook_.
+6. On the **Authentication / Authorization** page, select **Facebook**
 
-4. Click the _Facebook_ option to configure it.
+7. On the **Facebook Authentication Settings** page, make the following selections:
+    - **App ID**: [Your Facebook App Id]
+    - **App Secret**: [Your Facebook App Secret]
+    - **public_profile**: [Check]
 
-5. Enter your _App ID_ and _App secret_ from your Facebook app into the corresponding fields, then tick the scope you want. This scope is the fields you want access to from Facebook. For now just select _public profile_ as we don't want any private data. Then click "OK".
+8. On the **Facebook Authentication Settings** page, click **OK**
 
-6. In the _Allowed external redirect URLs_ field, enter `happyxamdevs://easyauth.callback`. This is the callback that will be made by the authentication flow, and your mobile app can be configured to handle this URI.
-
-7. Click "Save".
+9. On the **Authentication / Authorization** page, click **Save**
 
 ![The final auth setup](../Images/PortalFinalAuthSetup.png)
 
