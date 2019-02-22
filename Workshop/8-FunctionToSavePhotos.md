@@ -27,10 +27,10 @@ Azure Functions are named functions, so you would name them based off a naming c
 3. On the left-hand menu, click **Functions**
 4. At the top of the **Functions** page, click the **+ New Function**
 5. On the **Choose a template...** page, click **HTTP Trigger**
-4. On the **New Function** slide-out menu, make the following selections:
+6. On the **New Function** slide-out menu, make the following selections:
     - **Name**: UploadPhoto
     - **Authorization level**: Anonymous
-5. On the **New Function** slide-out menu, click **Create**
+7. On the **New Function** slide-out menu, click **Create**
 
     ![Creating a new C# HTTP Triggered Azure Function](../Images/PortalnewHttpTrigger.png)
 
@@ -120,44 +120,47 @@ You'll actually implement the sending of this data later in this part, but for n
 
     > **Note**: This is a C# script file that contains the code that the function will run. The default new function contains a basic "Hello World" style function, which we will overwrite
 
+10. In the **run.csx** editor, clear (delete) the existing Hello World code
 
-10. When data is sent in a JSON document with name/value pairs, you can easily extract the values by reading the content as a dynamic object, taking advantage of C#'s [dynamic keyword](https://docs.microsoft.com/dotnet/csharp/programming-guide/types/using-type-dynamic/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn). Once a JSON payload is converted to a dynamic object, you can access the items in it as if they were properties of an object. The following code reads the HTTP request body into a dynamic variable, and extracts the `Photo` item as a `string`.
+11. In the **run.csx** editor, enter the following code to read the HTTP request body into a dynamic variable, and extracts the `Photo` field as a `string`:
 
     ```csharp
     dynamic data = await req.Content.ReadAsAsync<object>();
     string photo = data?.Photo;
     ```
 
-    > It is important to specify the type of the `photo` variable instead of using `var` otherwise a dynamic type is used. The explicit `string` variable type ensures the `Photo` property is read as a string.
+    > **Note:** It is important to specify the type of the `photo` variable instead of using `var` otherwise a dynamic type is used. The explicit `string` variable type ensures the `Photo` property is read as a string.
 
-6. The `photo` string can be converted back to binary data using the static `Convert.FromBase64String` method.
+    > **Note:** When data is sent in a JSON document using name/value pairs, we can extract the values by reading the content as a dynamic object, taking advantage of [C#'s `dynamic` keyword](https://docs.microsoft.com/dotnet/csharp/programming-guide/types/using-type-dynamic/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn). Once a JSON payload is converted to a dynamic object, we can access the items in it as if they were properties of an object.
+
+12. In the **run.csx** editor, enter the following code to convert `string photo` to `byte[] imageBytes` using the static `Convert.FromBase64String` method:
 
     ```csharp
     var imageBytes = Convert.FromBase64String(photo);
     ```
 
-7. To upload the image to Blob storage, you will need a connection to the relevant Blob storage resource using the connection string saved in your Function App settings. Add the following code to get the connection string. You will need to add a using directive to the top of the file for `System.Configuration`.
+13. In the **run.csx** editor, enter the following code to create a connection to our Azure Blob Storage resource using the connection string
 
     ```csharp
-    var connectionString = Environment.GetEnvironmentVariable("BlobStorageConnectionString");
+    var connectionString = System.Configuration.Environment.GetEnvironmentVariable("BlobStorageConnectionString");
     ```
 
-8. Next, add the following code to create a connection to Blob storage. You will also need to add using directives for `Microsoft.WindowsAzure.Storage` and `Microsoft.WindowsAzure.Storage.Blob` to the top of the script file.
+    > **Note:** `System.Configuration.Environment.GetEnvironmentVariable("BlobStorageConnectionString")` searches the Azure Function App's Application Settings for the **App Setting Name** `BlobStorageConnectionString` and returns returns its value
+
+14. In the **run.csx** editor, enter the following code to create a `CloudStorageAccount` object connected to our Azure Blob Storage resource:
 
     ```csharp
-    CloudStorageAccount.TryParse(connectionString, out var storageAccount);
+    Microsoft.WindowsAzure.Storage.CloudStorageAccount.TryParse(connectionString, out Microsoft.WindowsAzure.Storage.CloudStorageAccount storageAccount);
     ```
 
-    This code will create a new instance of the `CloudStorageAccount` class connected to your Blob storage account.
-
-9. Using the connection, you can get access to the "photos" container by creating a Blob client and accessing the container from there.
+15. In the **run.csx** editor, enter the following code to get access to the `photos` container by creating a Blob client and accessing its container:
 
     ```csharp
     var blobClient = storageAccount.CreateCloudBlobClient();
     var blobContainer = blobClient.GetContainerReference("photos");
     ```
 
-10. Create a new Blob reference inside the container that you can put the photo into. This reference needs a unique name so create a new Guid and use that as the blob name. The Blob can be configured to store JPEG data.
+16. In the **run.csx** editor, enter the following code to create a new BlockBlob inside the `photos` container and set its `ContentType` to `Jpeg`:
 
     ```csharp
     var blobName = Guid.NewGuid().ToString();
@@ -165,19 +168,23 @@ You'll actually implement the sending of this data later in this part, but for n
     blob.Properties.ContentType = "Jpeg";
     ```
 
-11. Upload the image bytes to the Blob.
+    > **Note:** The BlockBlob requires a unique name for which we generate a new Guid
+
+17. In the **run.csx** editor, enter the following code to upload `byte[] imageBytes` to the `photos` container in Azure Blob Storage:
 
     ```csharp
     await blockBlob.UploadFromByteArrayAsync(imageBytes, 0, imageBytes.Length);
     ```
 
-12. Finally return an HTTP result status of __201 - Created__. Click "Save" to save your changes to the function.
+18. In the **run.csx** editor, enter the following code to return an HTTP result status of **201 - Created**:
 
     ```csharp
     return new CreatedResult(blockBlob.Uri, blockBlob);
     ```
 
-    > Because the Function app uses authentication, you won't be able to test this function directly using the _Run_ option inside the portal, unless you turn authentication off at the Function app level. If you do this, remember to turn authentication back on once you are done.
+    > **Note:** Because the Function app uses authentication, you won't be able to test this function directly using the **Run** option inside the portal, unless you turn authentication off at the Function app level
+
+19. In the **run.csx** editor, click **Save**
 
 The full code of this function is below.
 
@@ -222,7 +229,11 @@ public static async Task<IActionResult> Run(HttpRequestMessage req, ILogger log)
 
 ## Calling the function from the mobile app
 
-When you create an Azure Function, the API end point for the function defaults to `https://<FunctionsAppName>.azurewebsites.net/api/<FunctionName>` or `https://<FunctionsAppName>.azurewebsites.net/api/{Route template}`, for example the photo upload function for a Function app called "happyxamdevs" would be `https://happyxamdevs.azurewebsites.net/api/UploadPhoto` or `https://<FunctionsAppName>.azurewebsites.net/api/photo`. To call this function you would need to make a POST to this end point passing a JSON payload with the photo encoded as Base64, and because it is behind authentication you would also need to pass an authentication token as an HTTP header.
+When you create an Azure Function, the API end point for the function defaults to `https://<FunctionsAppName>.azurewebsites.net/api/<FunctionName>` or `https://<FunctionsAppName>.azurewebsites.net/api/{Route template}`
+
+    > **E.g.** `https://HappyXamDevsFunction-Minnick.azurewebsites.net/api/UploadPhoto` or `https://HappyXamDevsFunction-Minnick.azurewebsites.net/api/photo`
+
+To call this function we will send a POST request to this end point passing a JSON payload with the photo encoded as a Base64 string, and because it is behind authentication you would also need to pass an authentication token as an HTTP header.
 
 To make it easier to use Azure Functions, the `MobileClient` class you used earlier to authenticate provides a way to call an API - essentially any function in the `api` path, and it will automatically pass the required authentication headers for you. All you have to do is call a method on the mobile client, passing the HTTP method you want to use, the function name and the payload.
 
