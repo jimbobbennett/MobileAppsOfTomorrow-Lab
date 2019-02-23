@@ -1,14 +1,14 @@
-﻿using HappyXamDevs.Services;
+﻿using System.Threading.Tasks;
+using HappyXamDevs.Services;
 using Microsoft.WindowsAzure.MobileServices;
-using System.Threading.Tasks;
 
 namespace HappyXamDevs.UWP.Services
 {
     public class AzureService : AzureServiceBase
     {
-        protected override async Task AuthenticateUser()
+        protected override Task AuthenticateUser()
         {
-            await Client.LoginAsync(MobileServiceAuthenticationProvider.Facebook,
+            return Client.LoginAsync(MobileServiceAuthenticationProvider.Facebook,
                                     AzureAppName);
         }
     }
