@@ -1,55 +1,65 @@
 # Implement an Android-specific version of the AzureService
 
-Due to a quirk with NuGet dependencies, the Mobile Client NuGet package will not work correctly in your Android app due to a dependency issue on some other Android packages. To stop this issue occurring you will need to install the latest version of the "Xamarin.Android.Support.CustomTabs" Android support library package first.
+> **Warning:** Complete steps in [3-CreateAnAzureServiceInTheMobileApp](./3-CreateAnAzureServiceInTheMobileApp.md) before beginning the steps below
 
-1. Add a new folder to the `HappyXamDevs.Android` project called `Services`, and add a new class to that folder called `AzureService`.
+## 1. Add NuGet Package, Plugin.CurrentActivity
 
-2. Make this class public and derive from `AzureServiceBase`. You'll need to add a using statement for the `HappyXamDevs.Services` namespace.
+1. (PC) In Visual Studio, right-click the `XamHappyDevs.Android` project > **Manage NuGet Packages For Solution..**
 
-    ```cs
-    public class AzureService : AzureServiceBase
-    ...
-    ```
+    - (Mac) In Visual Studio for Mac, right-click the `XamHappyDevs.Android` project > **Add** > **Add NuGet Packages**
 
-3. You next need to implement the abstract `AuthenticateUser` method. This method will call the `LoginAsync` method on the mobile service client, and this call needs the current Activity to be passed in. Activities represent full screen views inside your app, and the login method uses the current Activity to launch a web view to allow you to log in. You can easily get the current Activity using the "Plugin.CurrentActivity" plugin, so add the "Plugin.CurrentActivity" NuGet package to the `HappyXamDevs.Android` project.
+2. (PC) In the **NuGet Package Manager** window, select **Browse**
 
-    ![Install the Plugin.CurrentActivity NuGet package](.,./Images/VS2017AddCurrentActivityNuget.png)
+    - (Mac) _Skip this step_
 
-4. Once the NuGet package is added, open the `MainActivity` class, and add the following to the `OnCreate` method, just before the call to `LoadApplication`.
+3. In the **NuGet Package Manager** window, in the search bar, enter **Plugin.CurrentActivity**
 
-        ```cs
-        protected override void OnCreate(Bundle bundle)
-        {
-            ...
-            Plugin.CurrentActivity.CrossCurrentActivity.Current.Init(this, bundle);
-            LoadApplication(new App());
-        }
-        ```
+4. In the **NuGet Package Manager** window, in the search results, select **Plugin.CurrentActivity**
 
-5. Implement the `AuthenticateUser` method in the `AzureService` class, calling the `LoginAsync` method on the mobile service client, requesting a login using Facebook. You will need to add using statements for the `Plugin.CurrentActivity` and `Microsoft.WindowsAzure.MobileServices` namespaces. Note that we also declare this method `async` because of the use of the keyword `await` inside the method. The last `"happyxamdevs"` parameter is the name of the URL scheme to call back to - a name your app can register to tell the OS that any web requests to `happyxamdevs://<anything>` should be routed to your app.
+5. (PC) In the **NuGet Package Manager** window, select **Install**
 
-    ```cs
-    protected override async Task AuthenticateUser()
-    {
-        await Client.LoginAsync(CrossCurrentActivity.Current.Activity,
-                                MobileServiceAuthenticationProvider.Facebook,
-                                "happyxamdevs");
-    }
-    ```
+    - (Mac) In the **NuGet Package Manager** window, select **Add Package**
 
-## Register the Android-specific version with the Dependency Service
+6. In the Visual Studio Solution Explorer, open `XamHappyDevs.Android` > `MainActivity.cs` 
 
-Xamarin.Forms provides a [dependency service](https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/dependency-service/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn). This is a way to create platform specific implementations and access them via their interface from your cross-platform code. You register a type inside this service in your platform specific code, then request it by interface in your cross-platform code. The first time the interface is requested, a new instance of the platform specific class is created, and this is reused for subsequent calls.
+7. In the `MainActivity.cs` editor, in the `OnCreate` method before `LoadApplication(new App()`, add this line of code: 
 
-To register the platform-specific `AzureService`, add the following code to the `AzureService` class file, *before* the namespace declaration.
-
-```cs
-[assembly: Xamarin.Forms.Dependency(typeof(HappyXamDevs.Droid.Services.AzureService))]
+```csharp
+Plugin.CurrentActivity.CrossCurrentActivity.Current.Init(this, savedInstanceState);
 ```
 
-The completed `AzureService` class is shown below:
+8. In the `MainActivity.cs` editor, ensure the updated `OnCreate` method matches the following code:
 
 ```cs
+protected override void OnCreate(Bundle savedInstanceState)
+{
+    TabLayoutResource = Resource.Layout.Tabbar;
+    ToolbarResource = Resource.Layout.Toolbar;
+
+
+    base.OnCreate(savedInstanceState);
+
+    global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
+    Plugin.CurrentActivity.CrossCurrentActivity.Current.Init(this, savedInstanceState);
+    LoadApplication(new App());
+}
+```
+
+## 2. Create AzureService.cs
+
+1. In the Visual Studio Solution Explorer, right-click on the `HappyXamDevs.Android` project > **Add** > **New Folder**
+
+2. In the Visual Studio Solution Explorer, name the new folder `Services`
+
+3. In the Visual Studio Solution Explorer, right-click on the newly created `Services` folder > **Add** > **Class**
+
+    - (Mac) On Visual Studio for Mac, right-click on the newly created `Services` folder > **Add** > **New File**
+
+4. In the Add New Item window, name the new file `AzureService.cs`
+
+5. In the `AzureService.cs` editor, enter the following code:
+
+```csharp
 using System.Threading.Tasks;
 using HappyXamDevs.Services;
 using Microsoft.WindowsAzure.MobileServices;
@@ -60,9 +70,9 @@ namespace HappyXamDevs.Droid.Services
 {
     public class AzureService : AzureServiceBase
     {
-        protected override async Task AuthenticateUser()
+        protected override Task AuthenticateUser()
         {
-            await Client.LoginAsync(CrossCurrentActivity.Current.Activity,
+            return Client.LoginAsync(CrossCurrentActivity.Current.Activity,
                                     MobileServiceAuthenticationProvider.Facebook,
                                     "happyxamdevs");
         }
@@ -70,26 +80,45 @@ namespace HappyXamDevs.Droid.Services
 }
 ```
 
-## Configure the Manifest
+> **About the Code**
 
-The call to the login method will launch a webview that redirects to the Facebook login page, and from there you can enter your Facebook credentials. After logging in, you will need to return to your app, and this is something that a web view can't do directly. Instead your app needs to register a _URL scheme_ that it can handle, similar to how mail apps can handle `mailto://<email>` URLs. Apps can register custom URLs with the Android OS, so that when a web view loads these URLs, it is redirected to your app to handle.
+> `Task AuthenticateUser()` calls `LoginAsync` requesting a login using Facebook. The `"happyxamdevs"` parameter is the name of the URL scheme that we registered in the Facebook App's **ALLOWED EXTERNAL REDIRECT URLS** settings
 
-When you configured the Facebook authentication in your Function app you already set up a return URL - this is the value you set in the _Allowed external redirect URLs_ field when configuring authentication in the Function app. You now need to configure your Android app to be able to handle this URL. This configuration is done inside the app's `AndroidManifest.xml` file, so find this file inside the `Properties` folder in the Android app and open it.
+> `[assembly: Xamarin.Forms.Dependency(typeof(HappyXamDevs.Droid.Services.AzureService))]` is the [Xamarin.Forms dependency service](https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/dependency-service/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn). This is a way to create a platform-specific implementation and access them from the Xamarin.Forms project. This registers a Android implementation for `IAzureService`.
 
-Inside this XML file, find the `application` node. Add the following code inside this node.
+## 3. Configure the Android Manifest
+
+`AuthenticateUser()` will launch a WebView that redirects to the Facebook login page were we will enter our Facebook credentials. To automatically return to the app after logging in, the app needs to register a **URL scheme** that it can handle, similar to how mail apps can handle `mailto://<email>` URLs. Apps can register custom URLs with the Android OS, so that when a web view loads these URLs, it is redirected to your app to handle.
+
+We configured **Allowed external redirect URLs** in the Azure Function App as the return URL. We now need to configure our Android app to be able to handle this URL. This configuration is done in `XamHappyDevs.Android` > `Properties` > `AndroidManifest.xml`.
+
+1. In the Visual Studio Solution Explorer, open `XamHappyDevs.Android` > `Properties` > `AndroidManifest.xml`
+
+2. In the `AndroidManifest.xml` editor, at the botton, select the `Source` tab
+
+3. In the `Source` tab of the `AndroidManifest.xml` editor, enter the following code:
 
 ```xml
-<activity android:name="com.microsoft.windowsazure.mobileservices.authentication.RedirectUrlActivity" android:launchMode="singleTop" android:noHistory="true">
-  <intent-filter>
-    <action android:name="android.intent.action.VIEW" />
-    <category android:name="android.intent.category.DEFAULT" />
-    <category android:name="android.intent.category.BROWSABLE" />
-    <data android:scheme="happyxamdevs" android:host="easyauth.callback" />
-  </intent-filter>
-</activity>
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="1.0" package="com.companyname.HappyXamDevs" android:installLocation="auto">
+	<uses-sdk android:minSdkVersion="21" android:targetSdkVersion="28" />
+	<uses-permission android:name="android.permission.INTERNET" />
+	<application android:label="HappyXamDevs.Android">
+		<activity android:name="com.microsoft.windowsazure.mobileservices.authentication.RedirectUrlActivity" android:launchMode="singleTop" android:noHistory="true">
+			<intent-filter>
+				<action android:name="android.intent.action.VIEW" />
+				<category android:name="android.intent.category.DEFAULT" />
+				<category android:name="android.intent.category.BROWSABLE" />
+				<data android:scheme="happyxamdevs" android:host="easyauth.callback" />
+			</intent-filter>
+		</activity>
+	</application>
+</manifest>
 ```
 
-This code registers your app with the OS as responding to any calls from a website to `happyxamdevs://easyauth.callback`.
+> **About the Code**
+
+> `<data android:scheme="happyxamdevs" android:host="easyauth.callback" />`  registers your app with the OS as responding to any calls from a website to `happyxamdevs://easyauth.callback`.
 
 ## Next step
 

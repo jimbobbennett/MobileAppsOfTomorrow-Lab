@@ -1,5 +1,7 @@
 # Implement an iOS-specific version of the AzureService
 
+> **Warning:** Complete steps in [3-CreateAnAzureServiceInTheMobileApp](./3-CreateAnAzureServiceInTheMobileApp.md) before beginning the steps below
+
 1. Add a new folder to the `HappyXamDevs.iOS` project called `Services`, and add a new class to that folder called `AzureService`.
 2. Make this class derive from `AzureServiceBase`. You'll need to add a using statement for the `HappyXamDevs.Services` namespace.
 
