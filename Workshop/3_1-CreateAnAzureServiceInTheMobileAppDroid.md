@@ -4,9 +4,9 @@
 
 ## 1. Add NuGet Package, Plugin.CurrentActivity
 
-1. (PC) In Visual Studio, right-click the `XamHappyDevs.Android` project > **Manage NuGet Packages For Solution..**
+1. (PC) In Visual Studio, right-click the `HappyXamDevs.Android` project > **Manage NuGet Packages For Solution..**
 
-    - (Mac) In Visual Studio for Mac, right-click the `XamHappyDevs.Android` project > **Add** > **Add NuGet Packages**
+    - (Mac) In Visual Studio for Mac, right-click the `HappyXamDevs.Android` project > **Add** > **Add NuGet Packages**
 
 2. (PC) In the **NuGet Package Manager** window, select **Browse**
 
@@ -20,7 +20,7 @@
 
     - (Mac) In the **NuGet Package Manager** window, select **Add Package**
 
-6. In the Visual Studio Solution Explorer, open `XamHappyDevs.Android` > `MainActivity.cs` 
+6. In the Visual Studio Solution Explorer, open `HappyXamDevs.Android` > `MainActivity.cs` 
 
 7. In the `MainActivity.cs` editor, in the `OnCreate` method before `LoadApplication(new App()`, add this line of code: 
 
@@ -30,7 +30,7 @@ Plugin.CurrentActivity.CrossCurrentActivity.Current.Init(this, savedInstanceStat
 
 8. In the `MainActivity.cs` editor, ensure the updated `OnCreate` method matches the following code:
 
-```cs
+```csharp
 protected override void OnCreate(Bundle savedInstanceState)
 {
     TabLayoutResource = Resource.Layout.Tabbar;
@@ -90,9 +90,9 @@ namespace HappyXamDevs.Droid.Services
 
 `AuthenticateUser()` will launch a WebView that redirects to the Facebook login page were we will enter our Facebook credentials. To automatically return to the app after logging in, the app needs to register a **URL scheme** that it can handle, similar to how mail apps can handle `mailto://<email>` URLs. Apps can register custom URLs with the Android OS, so that when a web view loads these URLs, it is redirected to your app to handle.
 
-We configured **Allowed external redirect URLs** in the Azure Function App as the return URL. We now need to configure our Android app to be able to handle this URL. This configuration is done in `XamHappyDevs.Android` > `Properties` > `AndroidManifest.xml`.
+We configured **Allowed external redirect URLs** in the Azure Function App as the return URL. We now need to configure our Android app to be able to handle this URL. This configuration is done in `HappyXamDevs.Android` > `Properties` > `AndroidManifest.xml`.
 
-1. In the Visual Studio Solution Explorer, open `XamHappyDevs.Android` > `Properties` > `AndroidManifest.xml`
+1. In the Visual Studio Solution Explorer, open `HappyXamDevs.Android` > `Properties` > `AndroidManifest.xml`
 
 2. In the `AndroidManifest.xml` editor, at the botton, select the `Source` tab
 

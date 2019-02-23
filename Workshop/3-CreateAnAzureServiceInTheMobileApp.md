@@ -10,9 +10,9 @@ We'll be using the [Microsoft.Azure.Mobile.Client](https://www.nuget.org/package
 
     > **Note:** The completed app from Section 1 is available in **FinishedWorkshopSteps** > **1-CreateSolution**
 
-2. (PC) In Visual Studio, right-click the `XamHappyDevs` solution > **Manage NuGet Packages For Solution..**
+2. (PC) In Visual Studio, right-click the `HappyXamDevs` solution > **Manage NuGet Packages For Solution..**
 
-    - (Mac) In Visual Studio for Mac, right-click the `XamHappyDevs` project > **Add** > **Add NuGet Packages**
+    - (Mac) In Visual Studio for Mac, right-click the `HappyXamDevs` project > **Add** > **Add NuGet Packages**
 
 3. (PC) In the **NuGet Package Manager** window, select **Browse**
 
@@ -32,7 +32,7 @@ We'll be using the [Microsoft.Azure.Mobile.Client](https://www.nuget.org/package
 
 7. (PC) _Skip this step_
 
-    - (Mac) In Visual Studio for Mac, right-click the `XamHappyDevs.Android` project > **Add** > **Add NuGet Packages**
+    - (Mac) In Visual Studio for Mac, right-click the `HappyXamDevs.Android` project > **Add** > **Add NuGet Packages**
 
 8. (PC) _Skip this step_
 
@@ -45,7 +45,7 @@ We'll be using the [Microsoft.Azure.Mobile.Client](https://www.nuget.org/package
 
 10. (PC) _Skip this step_
 
-    - (Mac) In Visual Studio for Mac, right-click the `XamHappyDevs.iOS` project > **Add** > **Add NuGet Packages**
+    - (Mac) In Visual Studio for Mac, right-click the `HappyXamDevs.iOS` project > **Add** > **Add NuGet Packages**
 
 11. (PC) _Skip this step_
 
