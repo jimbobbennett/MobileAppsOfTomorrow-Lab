@@ -46,21 +46,6 @@ namespace HappyXamDevs.UWP
             deferral.Complete();
         }
 
-        protected override void OnActivated(IActivatedEventArgs args)
-        {
-            if (args.Kind == ActivationKind.Protocol)
-            {
-                var protocolArgs = args as ProtocolActivatedEventArgs;
-                var content = Window.Current.Content as Frame;
-                if (content.Content.GetType() == typeof(MainPage))
-                {
-                    content.Navigate(typeof(MainPage), protocolArgs.Uri);
-                }
-            }
-            Window.Current.Activate();
-            base.OnActivated(args);
-        }
-
         /// <summary>
         /// Invoked when the application is launched normally by the end user.  Other entry points
         /// will be used such as when the application is launched to open a specific file.

@@ -1,7 +1,4 @@
-﻿using HappyXamDevs.Services;
-using HappyXamDevs.UWP.Services;
-using Microsoft.WindowsAzure.MobileServices;
-using System;
+﻿using System;
 using Windows.UI.Xaml.Navigation;
 
 namespace HappyXamDevs.UWP
@@ -13,15 +10,6 @@ namespace HappyXamDevs.UWP
             InitializeComponent();
 
             LoadApplication(new HappyXamDevs.App());
-        }
-
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            if (e.Parameter is Uri)
-            {
-                var azureService = Xamarin.Forms.DependencyService.Get<IAzureService>() as AzureService;
-                azureService.Client.ResumeWithURL(e.Parameter as Uri);
-            }
         }
     }
 }
