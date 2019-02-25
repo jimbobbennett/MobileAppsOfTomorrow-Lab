@@ -1,149 +1,264 @@
 # Create a login page
 
-Now that you have an Azure service configured, it's time to add a login page. The app will have two pages - a main page that is the app proper, and a login page. The flow of the app is:
+Now that we have our AzureService configured, it's time to add a login page.
+
+The app will have two pages - the main page showing our Happy Xamarin Developers, and a login page.
 
 ![The flow of our mobile app](../Images/AppFlow.png)
 
 We'll be using the [MVVM design pattern](https://docs.microsoft.com/xamarin/xamarin-forms/enterprise-application-patterns/mvvm/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn) for these pages as it is a simple way to get started and is baked in to Xamarin.Forms.
 
-## Creating the page
+## 1. Create the Login Page
 
-The page we are going to create is a `ContentPage`, a Xamarin.Forms page control that contains some form of content, normally a layout control containing other controls.
+We are going to create a `ContentPage`, a Xamarin.Forms control that contains some form of content, normally a layout control containing other controls.
 
-1. Create a new XAML content page in the `HappyXamDevs` core project called `LoginPage`.
-   * For Visual Studio 2017 on Windows, right-click on the `HappyXamDevs` project and select _Add->New Item..._. Choose _Visual C#->Xamarin.Forms_ from the tree on the left, then select _Content Page_ (**NOT** _Content Page C#_). Set the name to be `LoginPage` and click "Add".
+1. (PC) In the Visual Studio Solution Explorer, right-click **HappyXamDevs** > **Add** > **New Item...**
+
+    - (Mac) In the Visual Studio Solution Explorer, right-click **HappyXamDevs** > **Add** > **New File**
+
+2. (PC) In the **Add New Item** window, select **Installed** > **Visual C# Items** > **Xamarin.Forms** > **Content Page*
+
+    > **Warning:** Select **Content Page**, _not_ **Content Page (C#)**
+    - (Mac) In the **New File** window, select **Forms** > **Forms ContentPage XAML**
+    > **Wanring:** Select Forms ContentPage XAML, _not_ **Forms ContentPage**
+
+3. (PC) In the **Add New Item** window, set the name to be `LoginPage.xaml`
+
+    - (Mac) In the **New File** set the name to be `LoginPage.xaml`
+
+4. (PC) In the **Add New Item** window, click **Add**
+
+    - (Mac) In the **New File** window, click **Add**
 
      ![Creating a content page using VS2017](../Images/VS2017CreateLoginPage.png)
 
-   * For Visual Studio for Mac, right-click on the `HappyXamDevs` project and select _Add->New File..._. Select _Forms_ on the left, then select _Forms ContentPage XAML_, set the name to be `LoginPage` and click "New".
-
      ![Creating a content page using VS2017](../Images/VSMCreateLoginPage.png)
 
-2. All pages need to work well on iPhone X devices, so add the following attributes to the `ContentPage` tag in the `LoginPage.xaml` file to [turn on the safe areas](https://blog.xamarin.com/making-ios-11-even-easier-xamarin-forms/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn).
+5. In the Visual Studio Solution Explorer, open **HappyXamDevs** > **LoginPage.xaml**
 
-    ```xml
-    xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
-    ios:Page.UseSafeArea="true"
-    ```
+6. In the `LoginPage.xaml` editor, replace the provided template with the following code:
 
-    After the change, this is how the opening tag should look like:
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage 
+    xmlns="http://xamarin.com/schemas/2014/forms" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+    xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core" 
+    ios:Page.UseSafeArea="true" 
+    x:Class="HappyXamDevs.LoginPage">
+</ContentPage>
+```
 
-    ```xml
-    <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                 xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
-                 ios:Page.UseSafeArea="true"
-                 x:Class="HappyXamDevs.LoginPage">
-    ```
+> **About the Code**
 
-3. Delete the `StackLayout` from the content page and add the following `Grid` and `Button`. This code creates a `Grid` that fills the page, with a `Button` inside it. Grid are a type of panel that that can be used to layout controls and other panels inside them using a grid of rows and columns. Buttons are button controls that users can tap to trigger an event.
+> `ios:Page.UseSafeArea="true"` enables [Safe Areas](https://blog.xamarin.com/making-ios-11-even-easier-xamarin-forms/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn) for iOS; this ensures that the UI will not overlap the iPhone notch
 
-    ```xml
-    <Grid>
-        <Button Margin="20,0"
-                Text="Log in with Facebook"/>
-    </Grid>
-    ```
+7. In the `LoginPage.xaml` editor, add the `ContentPage.Content`:
 
-    > The `Margin` property sets space around the control. Margins can have a single value, 2 values or 4. A single value puts an equal margin on all 4 sides. If you use 2 values, the first will be the margin on the left and right side, the second is the margin top and bottom. For 4 values, they are the margins for left, top, right then bottom. In this case the margin of "20,0" will put a margin of 20 points on the left and right-hand sides, and no margin top or bottom.
+```xml
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+             ios:Page.UseSafeArea="true"
+             x:Class="HappyXamDevs.LoginPage">
 
-The login page is a bit boring with a simple button on the screen, so you can make it look nicer by adding some colors and a cool image.
+    <ContentPage.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
 
-## Styling the login button
+            <Image Grid.Row="0"
+                   Source="Bit_Learning.png"
+                   Aspect="AspectFit"
+                   Margin="50" />
 
-1. Inside the `Application.Resources` node in the `App.xaml` XAML file, add a new resource dictionary defining a new color called "CoolPurple".
+            <Button Margin="20,0"
+                    Grid.Row="1"
+                    Text="Log in with Facebook"
+                    TextColor="White" />
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>  
+```
 
-    ```xml
-    <ResourceDictionary>
-        <Color x:Key="CoolPurple">#b2169c</Color>
-    </ResourceDictionary>
-    ```
+> **About the Code**
 
-    This defines a named color resource that can be used elsewhere in the app.
+> `Grid` is the layout for our ContentPage. `Grid` allows us to place UI controls into specified rows and columns on the page. We have created a `Grid` with 3 rows.
 
-2. Use this color as the background for the button on the login page, and set the text to be white so it is more visible against the purple. Inside `LoginPage.xaml` add the `BackgroundColor` and `TextColor` attributes to the button using the following code.
+> `Button` is a UI control that the user can tap on. We have placed our Button in. We have added our Button to Row 0.
 
-    ```xml
-     <Button Margin="20,0"
-             Text="Log in with Facebook"
-             BackgroundColor="{StaticResource CoolPurple}"
-             TextColor="White"/>
-    ```
+> `Image` allows us to display an image on the screen. The source for our image is a png file, `Bit_Learning.png` (which we will be importing to our project in the next section). We have added our Image to Row 1.
 
-    The `StaticResource` is a markup extension that tells the code to find a resource called `CoolPurple` and use that value for the property.
+## 2. Import Bit_Learning.png
 
-## Adding an image to the login page
+The image file must be added to each app project because iOS, Android and UWP handle images slightly differently.
 
-Before we can put an image on the login page, we need to add the image file to the app projects. iOS, Android and UWP all handle images differently, but the general principle is the same. Each image is provided in multiple resolutions as devices can have different screen densities. The aim being that an image will look the same physical size on all devices regardless of the screen density. You can read more about this [in the Xamarin docs](https://docs.microsoft.com/xamarin/xamarin-forms/user-interface/images?tabs=vswin&WT.mc_id=mobileappsoftomorrow-workshop-jabenn).
+The image is provided in multiple resolutions and, at runtime, each device will automatically select the correct image to display based on its screen density, ensuring the image is not pixelated, regardless of the screen density.
 
-### Adding the image on Android
+You can read more about this [in the Xamarin docs](https://docs.microsoft.com/xamarin/xamarin-forms/user-interface/images?tabs=vswin&WT.mc_id=mobileappsoftomorrow-workshop-jabenn).
+
+### 2a. Import Bit_Learning.png, Android
 
 Android stores images in the `Resources/drawable` folders, with different `drawable` folders for different device resolutions - so `drawable-hdpi` for high density screens, `drawable-xhdpi` for extra high density screens and so on. Images of different resolutions are put into these folders.
 
-You can find the images already provided in different sizes in the [__Assets__](../Assets/) folder in this GitHub repo. Open the `Android` folder, and add the `Bit_Learning.png` image from the various `drawable` folders into the matching `drawable` folders in the `HappyXamDevs.Android` app. Do this by right-clicking on the `drawable-hdpi` folder and selecting _Add->Existing Item..._ (Visual Studio 2017 on Windows) or _Add->Add Files..._ (Visual Studio for Mac), then navigate to the `Assets/Android/drawable-hdpi` folder in this repo and select the `Bit_Learning.png` file. Repeat this for all the drawable folders in the `Assets` folder.
+1. In the Visual Studio Solution Explorer, navigate to **HappyXamDevs.Android** > **Resources**
 
-### Adding the image on iOS
+2. In the Visual Studio Solution Explorer, note the many `drawable` folders
+    >  **Note:** The lowest-resolution image will be added to `drawable-hdpi` while the highest-resolution image will be added to `drawable-xxxhdpi`
 
-iOS uses asset catalogs to manage images. In these you can create a named image set with 3 different sizes - original size, 2x the resolution and 3x the resolution.
+3. (PC) In the Visual Studio Solution Explorer, right-click on the  **drawable-hdpi** folder > **Add** > **Existing Item...**
 
-* On Visual Studio 2017 on Windows, you can open the asset catalog by expanding the _Asset Catalogs_ node in the iOS app in the solution explorer and double clicking on the _Assets_ item inside. Click the _Add_ button on the top left (it is a box with a green plus) and select _Add Image Set_. Double click on the _Images_ item that has been created and rename it to "Bit_Learning"
+    - (Mac) In the Visual Studio Solution Explorer, right-click on  **drawable-hdpi** > **Add** > **Add Files...**
 
-  Once the image set has been created, click the ellipses (...) on the top of the _1X_ box and select `Bit_Learning@1x.png` from the `Assets/iOS` folder. Repeat this for the _2X_ and _3X_ images using the relevant image.
+4. In the file explorer window, navigate to **MobileAppsOfTomorrow-Lab** > **Assets** > **Android** > **drawable-hdpi**
 
-* For Visual Studio for Mac, double-click on _Assets.xcassets_ node in the iOS app, right click on the list of assets on the left and select _New Image Set_.  Double click on the _Image_ item that has been created and rename it to "Bit_Learning"
+5. In the file explorer window, double-click **Bit_Learning.png**
 
-  Once the image set has been created, click the _1X_ box and select `Bit_Learning@1x.png` from the `Assets/iOS` folder. Repeat this for the _2X_ and _3X_ images using the relevant image.
+6. (PC) _Skip this step_
+    - (Mac) In the confirmation popup, select **Copy the file to the directory** > **OK**
 
-### Adding the image on UWP
+7. (PC) In the Visual Studio Solution Explorer, right-click on the  **drawable-xhdpi** folder > **Add** > **Existing Item...**
 
-UWP projects only run on Windows so you will use Visual Studio 2017 to add the image.
+    - (Mac) In the Visual Studio Solution Explorer, right-click on  **drawable-xhdpi** > **Add** > **Add Files...**
 
-For UWP, images should be added straight to the root of the UWP project. Unfortunately it is not possible to add pictures to a sub-folder in Xamarin.Forms UWP.
+8. In the file explorer window, navigate to **MobileAppsOfTomorrow-Lab** > **Assets** > **Android** > **drawable-xhdpi**
 
-* Right click on the project _HappyXamDevs.UWP_ and select _Add -> Existing Item..._ from the context menu.
-* Navigate to the `Assets/UWP` folder in this repo.
-* Add the images `Bit_Learning.scale-100.png`, `Bit_Learning.scale-200.png` and `Bit_Learning.scale-300.png` and click on "Add".
+9. In the file explorer window, double-click **Bit_Learning.png**
+
+10. (PC) _Skip this step_
+    - (Mac) In the confirmation popup, select **Copy the file to the directory** > **OK**
+
+11. (PC) In the Visual Studio Solution Explorer, right-click on the  **drawable-xxhdpi** folder > **Add** > **Existing Item...**
+
+    - (Mac) In the Visual Studio Solution Explorer, right-click on  **drawable-xxhdpi** > **Add** > **Add Files...**
+
+12. In the file explorer window, navigate to **MobileAppsOfTomorrow-Lab** > **Assets** > **Android** > **drawable-xxhdpi**
+
+13. In the file explorer window, double-click **Bit_Learning.png**
+
+14. (PC) _Skip this step_
+    - (Mac) In the confirmation popup, select **Copy the file to the directory** > **OK**
+
+15. (PC) In the Visual Studio Solution Explorer, right-click on the  **drawable-xxxhdpi** folder > **Add** > **Existing Item...**
+
+    - (Mac) In the Visual Studio Solution Explorer, right-click on  **drawable-xxxhdpi** > **Add** > **Add Files...**
+
+16. In the file explorer window, navigate to **MobileAppsOfTomorrow-Lab** > **Assets** > **Android** > **drawable-xxxhdpi**
+
+17. In the file explorer window, double-click **Bit_Learning.png**
+
+18. (PC) _Skip this step_
+    - (Mac) In the confirmation popup, select **Copy the file to the directory** > **OK**
+
+### 2b. Import Bit_Learning.png, iOS
+
+iOS uses asset catalogs to manage images. For each image, we create a named image set with 3 different sizes - original size, 2x the resolution and 3x the resolution.
+
+At runtime, the iOS device will select the appropriate image based on its screen resolution.
+
+1. (PC) In the Visual Studio Solution Explorer, open **HappyXamDevs.iOS** >  **Asset Catalogs** > **Assets**
+    - (Mac) In the Visual Studio Solution Explorer, open **HappyXamDevs.iOS** >  **Assets.xcassets**
+
+2. (PC) In the **Assets.xcassets** window, select **Add** (box with green **+**) > **Add Image Set**
+    - (Mac) In the **Assets.xcassets** window, on the left-hand menu, right-click **AppIcon** > **New Image Set**
+
+3. In the **Assets.xcassets** window, rename the newly created Image set from **Images** to **Bit_Learning**
+    > **Note:** The name is case-sensitive and must contain the underscore
+
+4. In the **Bit_Learning** catalog, select the first **1x** box
+    > **Note:** (Mac) Be sure to select the top-most **1x** box, directly above **Universal**. We will not be using the rows below, marked **iOS** **iPad**, **Apple Watch** and **Car**.
+
+5. In the file explorer window, navigate to **MobileAppsOfTomorrow-Lab** > **Assets** > **iOS**
+
+6. In the file explorer, double-click **Bit_Learning@1x.png**
+
+7. In the **Bit_Learning** catalog, select the first **2x** box
+    > **Note:** (Mac) Be sure to select the top-most **2x** box, directly above **Universal**. We will not be using the rows below, marked **iOS** **iPad**, **Apple Watch** and **Car**.
+
+8. In the file explorer window, navigate to **MobileAppsOfTomorrow-Lab** > **Assets** > **iOS**
+
+9. In the file explorer, double-click **Bit_Learning@3x.png**
+
+10. In the **Bit_Learning** catalog, select the first **3x** box
+    > **Note:** (Mac) Be sure to select the top-most **3x** box, directly above **Universal**. We will not be using the rows below, marked **iOS** **iPad**, **Apple Watch** and **Car**.
+
+11. In the file explorer window, navigate to **MobileAppsOfTomorrow-Lab** > **Assets** > **iOS**
+
+12. In the file explorer, double-click **Bit_Learning@3x.png**
+
+13. In Visual Studio, save the **Assesst.xcassets** file by selecting **File** > **Save**
+
+### 2c. Import Bit_Learning.png, UWP
+
+Images are added to the root folder of the UWP project; it is not recommended to add pictures to a sub-folder for a Xamarin.Forms.UWP app.
 
 When the application runs, the UWP framework will automatically select the best looking resolution based on the screen.
 
-### Adding the image to the Login Page
+> **Note:** If using Visual Studio for Mac, skip this step
 
-Once the images have been added to the project, you can add it to the `LoginPage`.
+1. In the Visual Studio Solution Explorer, right-click **HappyXamDevs.UWP** > **Add** > **Existing Item...**
 
-1. Add some rows to the `Grid` on the page. The button should be in the center, with two equally sized rows, one above and one below. To do this, add the following `RowDefinitions` to the `Grid`, above the `Button` tag.
+2. In the file explorer, navigate to **MobileAppsOfTomorrow-Lab** > **Assets** > **UWP**
 
-    ```xml
-     <Grid.RowDefinitions>
-        <RowDefinition Height="*"/>
-        <RowDefinition Height="Auto"/>
-        <RowDefinition Height="*"/>
-    </Grid.RowDefinitions>
-    ```
+3. In the file explorer, double-click **Bit_Learning.scale-100**
 
-    This creates 3 rows. The center row is sized to fit its content (Auto), so will be the same height as the button. The other two rows are set to take up the remaining space and both be the same size. You can read more on these row sizings in the [Grid documentation](https://docs.microsoft.com/xamarin/xamarin-forms/user-interface/layouts/grid/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn).
+4. In the Visual Studio Solution Explorer, right-click **HappyXamDevs.UWP** > **Add** > **Existing Item...**
 
-2. Move the button to the second row. Rows are numbered from 0, so and a `Grid.Row="1"` attribute to the button to tell the grid to layout the button on the second row.
+5. In the file explorer, navigate to **MobileAppsOfTomorrow-Lab** > **Assets** > **UWP**
 
-    ```xml
-    <Button Grid.Row="1"
-            Margin="20,0"
-            Text="Log in with Facebook"
-            BackgroundColor="{StaticResource CoolPurple}"
-            TextColor="White" />
-    ```
+6. In the file explorer, double-click **Bit_Learning.scale-200**
 
-3. Add an `Image` inside the `Grid` above the `Button`. Set the source to be `Bit_Learning.png` and the aspect to be `AspectFit`. In the code below the `Grid.Row` is set to 0, but you can leave this out as the default is row 0.
+7. In the Visual Studio Solution Explorer, right-click **HappyXamDevs.UWP** > **Add** > **Existing Item...**
 
-    > The order of elements declared inside the `Grid` has no affect on their positioning in different rows. The element on row 0 can come before or after the element on row 1 and they wil still end up in the right place. The only time the order does matter is if elements are in the same row, then the Z order is controlled by the element position inside the `Grid`, where elements are stacked up in the order in which they are declared.
+8. In the file explorer, navigate to **MobileAppsOfTomorrow-Lab** > **Assets** > **UWP**
 
-    ```xml
-    <Image Grid.Row="0"
-           Source="Bit_Learning.png"
-           Aspect="AspectFit"
-           Margin="50"/>
-    ```
+9. In the file explorer, double-click **Bit_Learning.scale-300**
 
-## Creating the view model
+## 3. Styling the Login Button
+
+1. In the Visual Studio Solution Explorer, open **HappyXamDevs** > **App.xaml**
+
+2. In the **App.xaml** editor, enter the following code to define a new color, `CoolPurple`:
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<Application
+    xmlns="http://xamarin.com/schemas/2014/forms" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+    x:Class="HappyXamDevs.App">
+    <Application.Resources>
+        <ResourceDictionary>
+            <Color x:Key="CoolPurple">#b2169c</Color>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>
+```
+
+> **About the Code**
+
+> `ResourceDictionary` is a static dictionary where we can define run-time constants to be used anywhere in our Xamarin.Forms project
+
+3. In the Visual Studio Solution Explorer, open **HappyXamDevs** > **LoginPage.xaml**
+
+4. In the **LoginPage.xaml** editor, add the `BackgroundColor` using the `StaticResource` we created in the `ResourceDictionary`:
+
+```xml
+<Button Margin="20,0"
+        Grid.Row="1"
+        Text="Log in with Facebook"
+        BackgroundColor="{StaticResource CoolPurple}"
+        TextColor="White"/>
+```
+
+> **About the Code**
+
+> `StaticResource` is a markup extension that tells the code to lookin the `ResourceDictionary` for a resource called `CoolPurple`, and use that value for the property
+
+## 4. Creating the ViewModel
 
 Xamarin.Forms supports data binding, allowing you to wire a page up to a view model and synchronize data back and forth. To make data binding work, the view model must implement the `INotifyPropertyChanged` interface, an interface that contains an event to notify when data changes. The view will detect these changes and update what is displayed. For interactive controls such as buttons, there is a `Command` property on the control that can be bound to a command on the view model - a command being a property of type `ICommand` which is a wrapper for code you can execute.
 
