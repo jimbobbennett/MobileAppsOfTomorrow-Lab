@@ -130,16 +130,52 @@ We will configure the callback URL scheme in `info.plist`.
 
     > **Note:** The URL Scheme `happyxamdevs` matches the settings configured for the Facebook App's  **Allowed external redirect URLs**
 
+13. In the Visual Studio Solution Explorer, open **HappyXamDevs.iOS** > **AppDelegate.cs**
 
-3. After this is configured, you will need to tell your iOS app what to do when it is called using the URL scheme. Open the `AppDelegate` class and add the following method along with appropriate using directives for the `Xamarin.Forms`, `HappyXamDevs.Services`, `HappyXamDevs.iOS.Services` and `Microsoft.WindowsAzure.MobileServices` namespaces.
+14. In the **AppDelegate.cs** editor, add the following method:
 
-    ```cs
-    public override bool OpenUrl(UIApplication app, NSUrl url, NSDictionary options)
+```csharp
+public override bool OpenUrl(UIApplication app, NSUrl url, NSDictionary options)
+{
+    var azureService = DependencyService.Get<IAzureService>() as AzureService;
+    return azureService.Client.ResumeWithURL(url);
+}
+```
+
+15. In the **AppDelegate.cs** editor, verify the completed `AppDelegate.cs`:
+
+```csharp
+using Foundation;
+using HappyXamDevs.iOS.Services;
+using HappyXamDevs.Services;
+using Microsoft.WindowsAzure.MobileServices;
+using UIKit;
+
+namespace HappyXamDevs.iOS
+{
+    [Register(nameof(AppDelegate))]
+    public partial class AppDelegate : global::Xamarin.Forms.Platform.iOS.FormsApplicationDelegate
     {
-        var azureService = DependencyService.Get<IAzureService>() as AzureService;
-        return azureService.Client.ResumeWithURL(url);
+        public override bool OpenUrl(UIApplication app, NSUrl url, NSDictionary options)
+        {
+            var azureService = Xamarin.Forms.DependencyService.Get<IAzureService>() as AzureService;
+            return azureService.Client.ResumeWithURL(url);
+        }
+
+        public override bool FinishedLaunching(UIApplication app, NSDictionary options)
+        {
+            global::Xamarin.Forms.Forms.Init();
+            LoadApplication(new App());
+
+            return base.FinishedLaunching(app, options);
+        }
     }
-    ```
+}
+```
+
+> **About The Code**
+
+>  `bool AppDelegate.OpenUrl` allows us to instruct the iOS app how to handle the `NSUrl` provided when our app is launched using its its URL scheme, `happyxamdecs`
 
 ## Next step
 
