@@ -111,7 +111,7 @@ The [Xamarin Media Plugin](https://www.nuget.org/packages/Xam.Plugin.Media/) pro
 </manifest>
 ```
 
-> ** About the Code**
+> **About the Code**
 >
 > `<provider> android:name="android.support.v4.content.FileProvider" ` allows our app to access the Android File Provider
 
@@ -536,11 +536,11 @@ namespace HappyXamDevs.ViewModels
 > `Command="{Binding TakePhotoCommand}"` will trigger `MainViewModel.TakePhotoCommand` any time the TakePhoto ToolbarItem is tapped
 > `Command="{Binding SelectFromLibraryCommand}"` will trigger `MainViewModel.SelectFromLibraryCommand` any time the SelectFromLibrary ToolbarItem is tapped
 
-### 8. Test Camera & Photo Library Functionality
+## 8. Test Camera & Photo Library Functionality
 
 > The iOS Simulator does not have support for the camera, so if you use the take photo button your app will crash. In a production-quality app you would need to handle this. The media plugin had methods to check to see if the camera and photo library is supported and you could show or hide the buttons based off these values.
 
-## 8a. Test Camera & Photo Library Functionality, Android
+### 8a. Test Camera & Photo Library Functionality, Android
 
 1. In Visual Studio, right-click on **HappyXamDevs.Android** > **Set as Startup Project**
 
@@ -563,7 +563,7 @@ namespace HappyXamDevs.ViewModels
 
 9. On the Android device, on **MainPage**, ensure the photos library appears
 
-## 8b. Test Camera & Photo Library Functionality, UWP
+### 8b. Test Camera & Photo Library Functionality, UWP
 
 1. In Visual Studio, right-click on **HappyXamDevs.UWP** > **Set as Startup Project**
 

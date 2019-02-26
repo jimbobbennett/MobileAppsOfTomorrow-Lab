@@ -190,7 +190,7 @@ At runtime, the iOS device will select the appropriate image based on its screen
 
 12. In the file explorer, double-click **Bit_Learning@3x.png**
 
-13. In Visual Studio, save the **Assesst.xcassets** file by selecting **File** > **Save**
+13. In Visual Studio, save the **Assesst.xcassets** file by selecting **File** > **Save All**
 
 ### 2c. Import Bit_Learning.png, UWP
 

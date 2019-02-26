@@ -143,7 +143,7 @@ Now that you have your Facebook app configured, head back to the Azure portal to
 
 8. On the **Facebook Authentication Settings** page, click **OK**
 
-9. On the **Authentication / Authorization** page, click **Save**
+9. On the **Authentication / Authorization** page, click **Save All**
 
 ![The final auth setup](../Images/PortalFinalAuthSetup.png)
 

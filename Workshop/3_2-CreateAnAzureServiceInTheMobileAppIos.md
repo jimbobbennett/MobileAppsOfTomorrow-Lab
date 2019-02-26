@@ -101,7 +101,7 @@ We will configure the callback URL scheme in `info.plist`.
 
     - (Mac) On the keyboard, press **Return**
 
-7. (PC) In Visual Studio, save the changes to `Info.plist` by selecting **File** > **Save**
+7. (PC) In Visual Studio, save the changes to `Info.plist` by selecting **File** > **Save All**
     - (Mac) In the **Document Role** drop-down, select **URL Identifier**
 
 8. (PC) _Skip this step_
@@ -121,7 +121,7 @@ We will configure the callback URL scheme in `info.plist`.
     - (Mac) In the empty `string` field right + below **URL Schemes**, enter `happyxamdevs`
 
 12. (PC) _Skip this step_
-    - (Mac) In Visual Studio for Mac, save the changes to `Info.plist` by selecting **File** > **Save**
+    - (Mac) In Visual Studio for Mac, save the changes to `Info.plist` by selecting **File** > **Save All**
 
     ![Setting the URL scheme, VS2017](../Images/VS2017AddUriScheme.png)
     ![Setting the URL scheme, VS for Mac](../Images/InfoPListVSMac.png)

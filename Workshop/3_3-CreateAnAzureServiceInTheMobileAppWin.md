@@ -108,7 +108,7 @@ protected override void OnNavigatedTo(NavigationEventArgs e)
 
     ![Configuring the UWP protocol](../Images/VS2017ConfigureUWPProtocol.PNG)
 
-13. In Visual Studio, save the **Package.appxmanifest** by selecting **File** > **Save**
+13. In Visual Studio, save the **Package.appxmanifest** by selecting **File** > **Save All**
 
 ## Next step
 
