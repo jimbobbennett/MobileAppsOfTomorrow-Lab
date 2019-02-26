@@ -150,7 +150,7 @@ namespace HappyXamDevs.Services
             {
                 await AuthenticateUser();
             }
-            catch (InvalidOperationException e)
+            catch (InvalidOperationException)
             {
                 return false;
             }

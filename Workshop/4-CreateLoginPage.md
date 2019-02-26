@@ -424,7 +424,7 @@ The Blank Forms App template just contained a static page.
 
 We will wrap the page in a `NavigationPage` which is a page that provides page level navigation allowing the user to navigate back and forth. You can read more on navigation pages in the [Xamarin docs](https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/navigation/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn).
 
-1. In the Visual Studio Solution Explorer, open **HappyXamDevs** > **App.xaml.cs** 
+1. In the Visual Studio Solution Explorer, open **HappyXamDevs** > **App.xaml.cs**
 
 2. In the **App.xaml.cs** editor, enter the following code:
 
@@ -459,7 +459,7 @@ namespace HappyXamDevs
 
 > **About the Code**
 >
-> `navigationPage.BarBackgroundColor` sets the Navigation Bar's Background Color 
+> `navigationPage.BarBackgroundColor` sets the Navigation Bar's Background Color
 >
 > `navigationPage.BarTextColor` sets the Navigation Bar's Text Color
 >
@@ -469,7 +469,7 @@ namespace HappyXamDevs
 >
 > `MainPage = navigationPage` sets the `MainPage`, also known as the "Root Page", of the Xamarin.Forms application to use a `NavigationPage`
 
-3. In the Visual Studio Solution Explorer, open **HappyXamDevs** > **MainPage.xaml.cs** 
+3. In the Visual Studio Solution Explorer, open **HappyXamDevs** > **MainPage.xaml.cs**
 
 4. In the **MainPage.xaml.cs** editor, enter the following code:
 
@@ -581,36 +581,37 @@ namespace HappyXamDevs
     - (Mac) On the iOS device, ensure **LoginPage** disappears and you are returned to **MainPage**
     > **Note:** **MainPage** should say **Welcome to Xamarin.Forms**
 
-
 ## 8. Persist the login between sessions
 
-If you run the app more than once, you will see that you have to log in each time. When you log in, you will get an authorization token and a user id from the Azure Function app authentication, and these values can be persisted to the mobile device. That way, the next time the apps is launched, these token and id can be loaded and used to instantiate a user instead of having to log in again.
+When we run the app more than once, we are required to log in each time. 
 
-For the sake of simplicity during this workshop you will be persisting these using un-encrypted Xamarin.Forms [Application properties](https://docs.microsoft.com/dotnet/api/xamarin.forms.application.properties/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn). These exist as a dictionary of strings to objects and is a property on the `Application` instance, available using the `Application.Current` static property.
+After completing the login flow, `MobileServicesClient.LoginAsync()` returns an authorization token and a user id from the Azure Function app authentication; these values can be persisted to the mobile device. By reusing the authorization token the user does not need to log in each time the app launches.
 
-> __IMPORTANT__ In a production app you should NOT store these values un-encrypted. Instead you should use secure storage, such as the [Secure Storage](https://docs.microsoft.com/xamarin/essentials/secure-storage/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn) capability of the [Xamarin Essentials](https://www.nuget.org/packages/Xamarin.Essentials) NuGet package. You will not be using this here because on iOS this requires a valid provisioning profile, even on the simulator, and setting this up is outside the scope of this workshop.
+For the sake of simplicity during this workshop we will be persisting these using un-encrypted Xamarin.Forms [Application properties](https://docs.microsoft.com/dotnet/api/xamarin.forms.application.properties/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn). These exist as a dictionary of strings to objects and is a property on the `Application` instance, available using the `Application.Current` static property.
 
-Open the `AzureServiceBase` class (in the _HappyXamDevs_ project, in the _Services_ folder), as the user will be persisted in this class.
+> **Important:** In a production app you should NOT store these values without encryption. Instead encrypt the values using [Xamarin.Essentials.SecureStorage](https://docs.microsoft.com/xamarin/essentials/secure-storage/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn).
 
-1. Storage is based off key-value pairs, so define two constants as keys to use to store the authorization token and user id.
+1. In Visual Studio Solution Explorer, open **HappyXamDevs** > **Services** > **AzureServiceBase.cs**
 
-    ```cs
-    const string AuthTokenKey = "auth-token";
-    const string UserIdKey = "user-id";
-    ```
+1. In the **AzureServiceBase.cs** editor, define two constants:
 
-2. Add a new method that will eventually load the user. This will check to see if there is a current user, and if there is return immediately.
+```csharp
+const string AuthTokenKey = "auth-token";
+const string UserIdKey = "user-id";
+```
 
-    ```cs
-    void TryLoadUserDetails()
-    {
-        if (Client.CurrentUser != null) return;
-    }
-    ```
+> **About the Code**
+>
+> `AuthTokenKey` and `UserIdKey` are unique keys that will be used to store/retrieve a key-value
 
-3. Add code to this method to load the user id and authentication token from the application properties. You will need to add a using directive for the `Xamarin.Forms` namespace (note that Intellisense might propose other namespaces for this class, do not get confused!). If the values are present in the application properties, use these to create a user and assign it to the current user property of the mobile service client. These properties are stored as objects, so you will need to call `ToString()` to get them as strings.
+2. In the **AzureServiceBase.cs** editor, add the following method:
 
-    ```cs
+```csharp
+void TryLoadUserDetails()
+{
+    if (Client.CurrentUser != null)
+        return;
+
     if (Application.Current.Properties.TryGetValue(AuthTokenKey, out var authToken) &&
         Application.Current.Properties.TryGetValue(UserIdKey, out var userId))
     {
@@ -619,38 +620,55 @@ Open the `AzureServiceBase` class (in the _HappyXamDevs_ project, in the _Servic
             MobileServiceAuthenticationToken = authToken.ToString()
         };
     }
-    ```
+}
+```
 
-4. The `IsLoggedIn` method needs to call `TryLoadUserDetails` before checking if the user is logged in.
+> **About the Code**
+>
+> In `TryLoadUserDetails()`, if a user's `AuthTokenKey` and `UserIdKey` exist, use them to initialize `MobileServicesClient.CurrentUser`
 
-    ```cs
-    public bool IsLoggedIn()
-    {
-        TryLoadUserDetails();
-        return Client.CurrentUser != null;
-    }
-    ```
+4. In the **AzureServiceBase.cs** editor, update `bool IsLoggedIn()`:
+
+```csharp
+public bool IsLoggedIn()
+{
+    TryLoadUserDetails();
+    return Client.CurrentUser != null;
+}
+```
+
+> **About the Code**
+>
+>`bool IsLoggedIn()` will first try to initialize `MobileServicesClient.CurrentUser` using `TryLoadUserDetails()` before checking `CurrentUser`
 
 5. In the `Authenticate` method, after tha successful call to `AuthenticateUser` the authentication token and user id will need to be saved to the application properties. You will also need to call `SavePropertiesAsync` on the current application to save these property values.
 
-    ```cs
-    public async Task<bool> Authenticate()
+```csharp
+public async Task<bool> Authenticate()
+{
+    if (IsLoggedIn())
+        return true;
+
+    try
     {
-        if (IsLoggedIn()) return true;
         await AuthenticateUser();
-
-        if (Client.CurrentUser != null)
-        {
-            Application.Current.Properties[AuthTokenKey] = Client.CurrentUser.MobileServiceAuthenticationToken;
-            Application.Current.Properties[UserIdKey] = Client.CurrentUser.UserId;
-            await Application.Current.SavePropertiesAsync();
-        }
-
-        return IsLoggedIn();
     }
-    ```
+    catch (InvalidOperationException)
+    {
+        return false;
+    }
 
-If you now run the app and log in, then restart the app you will no longer need to log in again. Verify this on one platform.
+    if (Client.CurrentUser != null)
+    {
+        Application.Current.Properties[AuthTokenKey] = Client.CurrentUser.MobileServiceAuthenticationToken;
+        Application.Current.Properties[UserIdKey] = Client.CurrentUser.UserId;
+
+        await Application.Current.SavePropertiesAsync();
+    }
+
+    return IsLoggedIn();
+}
+```
 
 ## Next step
 

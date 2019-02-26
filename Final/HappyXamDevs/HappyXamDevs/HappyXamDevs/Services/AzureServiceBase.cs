@@ -42,7 +42,8 @@ namespace HappyXamDevs.Services
 
         private void TryLoadUserDetails()
         {
-            if (Client.CurrentUser != null) return;
+            if (Client.CurrentUser != null) 
+                return;
 
             if (Application.Current.Properties.TryGetValue(AuthTokenKey, out var authToken) &&
                 Application.Current.Properties.TryGetValue(UserIdKey, out var userId))
@@ -67,11 +68,10 @@ namespace HappyXamDevs.Services
             {
                 await AuthenticateUser();
             }
-            catch (InvalidOperationException e) when (e.Message.ToLower().Contains("authentication was cancelled by the user"))
+            catch (InvalidOperationException)
             {
                 return false;
             }
-
 
             if (Client.CurrentUser != null)
             {
