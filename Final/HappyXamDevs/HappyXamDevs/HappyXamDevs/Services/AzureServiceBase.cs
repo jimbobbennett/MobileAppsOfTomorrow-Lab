@@ -60,15 +60,16 @@ namespace HappyXamDevs.Services
 
         public async Task<bool> Authenticate()
         {
-            if (IsLoggedIn()) return true;
-            await AuthenticateUser();
+            if (IsLoggedIn())
+                return true;
 
-            if (Client.CurrentUser != null)
+            try
             {
-                MessagingCenter.Send<IAzureService>(this, "LoggedIn");
-                Application.Current.Properties[AuthTokenKey] = Client.CurrentUser.MobileServiceAuthenticationToken;
-                Application.Current.Properties[UserIdKey] = Client.CurrentUser.UserId;
-                await Application.Current.SavePropertiesAsync();
+                await AuthenticateUser();
+            }
+            catch (InvalidOperationException e) when (e.Message.ToLower().Contains("authentication was cancelled by the user"))
+            {
+                return false;
             }
 
             return IsLoggedIn();
