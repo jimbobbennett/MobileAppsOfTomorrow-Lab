@@ -26,7 +26,7 @@ We'll be using the [Microsoft.Azure.Mobile.Client](https://www.nuget.org/package
 
   ![Adding the Microsoft.Azure.Mobile.Client NuGet package on PC](../Images/VS2017AddMobileClientNuget.png)
 
-- (Mac) In the **NuGet Package Manager** window, select **Add Package**
+    - (Mac) In the **NuGet Package Manager** window, select **Add Package**
 
   ![Adding the Microsoft.Azure.Mobile.Client NuGet package on Mac](../Images/VSMacAddMobileClientNuget.png)
 
@@ -51,27 +51,9 @@ We'll be using the [Microsoft.Azure.Mobile.Client](https://www.nuget.org/package
 
     - (Mac) In the **NuGet Package Manager** window, in the search results, select **Microsoft.Azure.Mobile.Client**
 
-
 12. (PC) _Skip this step_
 
     - (Mac) In the **NuGet Package Manager** window, select **Add Package**
-
-# TODO - Delete The `System.Net.Http` Reference Steps?
-This NuGet package has a dependency on `System.Net.Http`, so you will need to reference this in your iOS and Android apps (UWP doesn't need this reference).
-
-* For Visual Studio 2017 on Windows, expand the `HappyXamDevs.iOS` project, right-click on the _References_ node and select _Add Reference..._. Select _Assemblies->Framework_ on the tree on the left and find `System.Net.Http` in the list and check the box next to it, then click "OK".
-
-   ![Adding a reference to System.Net.Http](../Images/VS2017AddRefHttp.png)
-
-* For Visual Studio for Mac, expand the `HappyXamDevs.iOS` project, right-click on the _References_ node and select _Edit References..._. Select the _Pacxkages_ tab and find `System.Net.Http` in the list and check the box next to it, then click "OK".
-
-   ![Adding a reference to System.Net.Http](../Images/VSMAddRefHttp.png)
-
-Repeat these steps for the `HappyXamDevs.Android` project.
-
-To help keep all back-end code in one place, you'll be creating a single `AzureService` that will wrap all interactions with the back end. The majority of this code will be cross-platform, but the authentication part will need some platform-specific code as it will launch a web view to authenticate with Facebook.
-
-<!-- TODO - add a diagram of login flow with a description. Mention about web view best practice as it hides credentials from the app, also can be used for saved passwords -->
 
 ## 2. Create a cross-platform Azure service
 

@@ -512,6 +512,8 @@ namespace HappyXamDevs
 
 ## 7. Test the Login Flow
 
+## 7a. Test the Login Flow, Web Browser
+
 1. Open a web browser and navigate to your Azure Functions App url
     - E.g. https://happyxamdevsfunction-minnick.azurewebsites.net
 
@@ -522,62 +524,68 @@ namespace HappyXamDevs
 4. After completing the Facebook login, ensure you are redirected to your Azure Functions App url
     - E.g. https://happyxamdevsfunction-minnick.azurewebsites.net
 
-5. In Visual Studio, right-click on **HappyXamDevs.Android** > **Set as Startup Project**
+## 7b. Test the Login Flow, Android
 
-6. (PC) In Visual Studio, select **Debug** > **Start Debugging**
+1. In Visual Studio, right-click on **HappyXamDevs.Android** > **Set as Startup Project**
+
+2. (PC) In Visual Studio, select **Debug** > **Start Debugging**
     - (Mac) In Visual Studio for Mac, select **Run** > **Start Debugging**
 
-7. On the Android device, when the app launches, ensure the **LoginPage** appears
+3. On the Android device, when the app launches, ensure the **LoginPage** appears
 
-8. On the Android device, on the **LoginPage**, select **Login**
+4. On the Android device, on the **LoginPage**, select **Login**
 
-9. On the Android device, ensure the Facebook login flow appears
+5. On the Android device, ensure the Facebook login flow appears
 
-10. On the Android device, complete the Facebook login flow
+6. On the Android device, complete the Facebook login flow
 
-11. On the Android device, ensure **LoginPage** disappears and you are returned to **MainPage**
+7. On the Android device, ensure **LoginPage** disappears and you are returned to **MainPage**
     > **Note:** **MainPage** should say **Welcome to Xamarin.Forms**
 
-12. (PC) In Visual Studio, right-click on **HappyXamDevs.UWP** > **Set as Startup Project**
+## 7b. Test the Login Flow, UWP
+
+1. (PC) In Visual Studio, right-click on **HappyXamDevs.UWP** > **Set as Startup Project**
     - (Mac) _Skip this step_
 
-13. (PC) In Visual Studio, select **Debug** > **Start Debugging**
+2. (PC) In Visual Studio, select **Debug** > **Start Debugging**
     - (Mac) _Skip this step_
 
-14. (PC) On the UWP window, when the app launches, ensure the **LoginPage** appears
+3. (PC) On the UWP window, when the app launches, ensure the **LoginPage** appears
 
-15. (PC) On the UWP window, on the **LoginPage**, select **Login**
+4. (PC) On the UWP window, on the **LoginPage**, select **Login**
     - (Mac) _Skip this step_
 
-16. (PC) On the UWP window, ensure the Facebook login flow appears
+5. (PC) On the UWP window, ensure the Facebook login flow appears
     - (Mac) _Skip this step_
 
-17. (PC) On the UWP window, complete the Facebook login flow
+6. (PC) On the UWP window, complete the Facebook login flow
     - (Mac) _Skip this step_
 
-18. (PC) On the UWP window, ensure **LoginPage** disappears and you are returned to **MainPage**
+7. (PC) On the UWP window, ensure **LoginPage** disappears and you are returned to **MainPage**
     > **Note:** **MainPage** should say **Welcome to Xamarin.Forms**
     - (Mac) _Skip this step_
 
-19. (PC) _Skip this step_
+## 7b. Test the Login Flow, iOS
+
+1. (PC) _Skip this step_
     - (Mac) In Visual Studio, right-click on **HappyXamDevs.iOS** > **Set as Startup Project**
 
-20. (PC) _Skip this step_
+2. (PC) _Skip this step_
     - (Mac) In Visual Studio for Mac, select **Run** > **Start Debugging**
 
-21. (PC) _Skip this step_
+3. (PC) _Skip this step_
     - (Mac) On the iOS device, when the app launches, ensure the **LoginPage** appears
 
-22. (PC) _Skip this step_
+4. (PC) _Skip this step_
     - (Mac) On the iOS device, on the **LoginPage**, select **Login**
 
-23. (PC) _Skip this step_
+5. (PC) _Skip this step_
     - (Mac) On the iOS device, ensure the Facebook login flow appears
 
-24. (PC) _Skip this step_
+6. (PC) _Skip this step_
     - (Mac) On the iOS device, complete the Facebook login flow
 
-25. (PC) _Skip this step_
+7. (PC) _Skip this step_
     - (Mac) On the iOS device, ensure **LoginPage** disappears and you are returned to **MainPage**
     > **Note:** **MainPage** should say **Welcome to Xamarin.Forms**
 
