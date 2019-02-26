@@ -118,6 +118,7 @@ namespace HappyXamDevs.Services
 10. In the `AzureServiceBase.cs` editor, add the following code:
 
 ```csharp
+using System;
 using System.Threading.Tasks;
 using Microsoft.WindowsAzure.MobileServices;
 
@@ -142,8 +143,18 @@ namespace HappyXamDevs.Services
 
         public async Task<bool> Authenticate()
         {
-            if (IsLoggedIn()) return true;
-            await AuthenticateUser();
+            if (IsLoggedIn())
+                return true;
+
+            try
+            {
+                await AuthenticateUser();
+            }
+            catch (InvalidOperationException e)
+            {
+                return false;
+            }
+
             return IsLoggedIn();
         }
 

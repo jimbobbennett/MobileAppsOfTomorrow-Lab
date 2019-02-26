@@ -260,11 +260,26 @@ When the application runs, the UWP framework will automatically select the best 
 
 ## 4. Creating the ViewModel
 
-Xamarin.Forms supports data binding, allowing you to wire a page up to a view model and synchronize data back and forth. To make data binding work, the view model must implement the `INotifyPropertyChanged` interface, an interface that contains an event to notify when data changes. The view will detect these changes and update what is displayed. For interactive controls such as buttons, there is a `Command` property on the control that can be bound to a command on the view model - a command being a property of type `ICommand` which is a wrapper for code you can execute.
+Xamarin.Forms supports data binding, allowing you to wire a page up to a view model and synchronize data back and forth. To make data binding work, the ViewModel must implement `INotifyPropertyChanged`, an interface that contains an event to notify when data changes. The view will detect these changes and update what is displayed. For interactive controls such as buttons, there is a `Command` property on the control that can be bound to a command on the view model - a command being a property of type `ICommand` which is a wrapper for code you can execute.
 
 To provide functionality to the Login page, you will need to create a `LoginViewModel` and bind this to the page.
 
 To help with creating view models, you can create a `BaseViewModel` that provides an implementation of `INotifyPropertyChanged`. Add a folder called `ViewModels` to the core `HappyXamDevs` project, and add a class in that folder called `BaseViewModel`. The code for this class is below.
+
+1. In the Visual Studio Solution Explorer, right-click on the `HappyXamDevs` project > **Add** > **New Folder**
+
+2. In the Visual Studio Solution Explorer, name the new folder `ViewModels`
+
+3. In the Visual Studio Solution Explorer, right-click on the newly created `ViewModels` folder > **Add** > **Class**
+
+    - (Mac) On Visual Studio for Mac, right-click on the newly created `ViewModels` folder > **Add** > **New File**
+
+4. In the **Add New Item** window, name the file `BaseViewModel.cs`
+
+5. (PC) In the **Add New Item** window, click **Add**
+    - (Mac) In the **Add New Item** window, click **New**
+
+6. In the **BaseViewModel.cs** editor, enter the following code
 
 ```cs
 using System.ComponentModel;
@@ -272,157 +287,302 @@ using System.Runtime.CompilerServices;
 
 namespace HappyXamDevs.ViewModels
 {
+
     public abstract class BaseViewModel : INotifyPropertyChanged
     {
-        public bool Set<T>(ref T field, T value, [CallerMemberName] string propertyName = null)
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected bool Set<T>(ref T field, T value, [CallerMemberName] string propertyName = null)
         {
-            if (Equals(field, value)) return false;
+            if (EqualityComparer<T>.Default.Equals(field, value))
+                return false;
 
             field = value;
+
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+
             return true;
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
     }
 }
 ```
 
-This abstract base class implements the `INotifyPropertyChanged` interface which contains a single member - the `PropertyChanged` event. It also has a helper method to allow you to update a field and if the value of the field changes, the `PropertyChanged` event is raised. The `CallerMemberName` attribute on the `propertyName` parameter means you don't have to pass a value to this parameter and the compiler will pass the name of the calling method or property in for you. This is incredibly useful, you can call `Set` from a property setter and the compiler will automatically pass the property name in so that the property change notification is raised for the correct property.
+> **About the Code** 
 
-Now you can implement the `LoginViewModel`.
+> This abstract base class implements the `INotifyPropertyChanged` interface which contains a single member - the `PropertyChanged` event. 
 
-1. Create the `LoginViewModel` class in the `ViewModels` folder, deriving from `BaseViewModel`.
+> `Set` is a helper method to allow you to update a field and if the value of the field changes, raise the `PropertyChanged` event. The `CallerMemberName` attribute on the `propertyName` parameter means the compiler will pass the name of the calling method or property in for you. This is allows us to call `Set` from a property setter and the compiler will automatically pass in the property name, ensuring the change notification is raised for the correct property.
 
-    ```cs
-    namespace HappyXamDevs.ViewModels
+3. In the Visual Studio Solution Explorer, right-click on the `ViewModels` folder > **Add** > **Class**
+
+    - (Mac) On Visual Studio for Mac, right-click on the  `ViewModels` folder > **Add** > **New File**
+
+4. In the **Add New Item** window, name the file `LoginViewModel.cs`
+
+5. (PC) In the **Add New Item** window, click **Add**
+    - (Mac) In the **Add New Item** window, click **New**
+
+6. In the **BaseViewModel.cs** editor, enter the following code:
+
+```csharp
+using System.Threading.Tasks;
+using System.Windows.Input;
+using HappyXamDevs.Services;
+using Xamarin.Forms;
+
+namespace HappyXamDevs.ViewModels
+{
+    public class LoginViewModel : BaseViewModel
     {
-        public class LoginViewModel : BaseViewModel
+        public ICommand LoginCommand { get; }
+
+        public LoginViewModel()
         {
+            LoginCommand = new Command(async () => await Login());
+        }
+
+        private async Task Login()
+        {
+            var azureService = DependencyService.Get<IAzureService>();
+            if (await azureService.Authenticate())
+            {
+                await Application.Current.MainPage.Navigation.PopModalAsync();
+            }
         }
     }
-    ```
+}
+```
 
-2. The login page has one button that starts the login process, so we need to expose a property of type `ICommand` that implements the login flow. Create a read-only `ICommand` property called `LoginCommand`, adding a using directive for `System.Windows.Input`.
+> **About the Code**
+>
+> `LoginViewModel` inherits from `BaseViewModel
+>
+> `LoginCommand` will be used when the user taps the `LoginButton` (We will wire `LoginCommand` to `LoginButton` in the next step)
+>
+> `Task Login()` uses the Xamarin.Forms Dependency Service to call the platform-specific implementation of `IAzureService` and authenticate the user.
 
-    ```cs
-    public ICommand LoginCommand { get; }
-    ```
-
-3. Add a constructor to the view model that sets the command using the Xamarin.Forms `Command` class, an implementation of `ICommand` that executes an action when the command is executed, along with the relevant using directives.
-
-    ```cs
-    public LoginViewModel()
-    {
-        LoginCommand = new Command(async () => await Login());
-    }
-    ```
-
-4. Implement the `Login` method with a call to authenticate the user using the Azure service. If this succeeds, close the current page. You will need to add a using directive for the `HappyXamDevs.Services` namespace.
-
-    ```cs
-    private async Task Login()
-    {
-        var azureService = DependencyService.Get<IAzureService>();
-        if (await azureService.Authenticate())
-        {
-            await Application.Current.MainPage.Navigation.PopModalAsync();
-        }
-    }
-    ```
-
-    > In a production app you wouldn't access the `MainPage` and it's navigation service directly. Instead you would abstract away navigation and use something like the dependency service to resolve it, so that you can unit test your view model.
-
-## Binding the view model
+## 5. Binding the View to the ViewModel
 
 Now you have a view model, it needs to be set as the binding context of the page, and the login button needs to be wired up to the command.
 
-1. Open the `LoginPage.xaml`, and add an XML namespace to the top level `ContentPage` for the `HappyXamDevs.ViewModels` namespace.
+1. In the Visual Studio Solution Explorer, open **HappyXamDevs** > **LoginPage.xaml**
 
-    ```xml
-    xmlns:viewModels="clr-namespace:HappyXamDevs.ViewModels"
-    ```
+2. In the `LoginPage.xaml` editor, update the code to match the following:
 
-2. Set the binding context on the top level `ContentPage`, before the `ContentPage.Content` tag.
+```xml
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+             ios:Page.UseSafeArea="true"
+             xmlns:viewModels="clr-namespace:HappyXamDevs.ViewModels"
+             x:Class="HappyXamDevs.LoginPage">
 
-    ```xml
     <ContentPage.BindingContext>
-        <viewModels:LoginViewModel/>
+        <viewModels:LoginViewModel />
     </ContentPage.BindingContext>
-    ```
 
-3. Bind the button to the command on the view model.
+    <ContentPage.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
 
-    ```xml
-    <Button Grid.Row="1"
-            Margin="20,0"
-            Command="{Binding LoginCommand}"
-            Text="Log in with Facebook"
-            BackgroundColor="{StaticResource CoolPurple}"
-            TextColor="White" />
-    ```
+            <Image Grid.Row="0"
+                   Source="Bit_Learning.png"
+                   Aspect="AspectFit"
+                   Margin="50" />
 
-## Launch the login page if the user is not logged in
+            <Button Margin="20,0"
+                    Grid.Row="1"
+                    Command="{Binding LoginCommand}"
+                    Text="Log in with Facebook"
+                    BackgroundColor="{StaticResource CoolPurple}"
+                    TextColor="White" />
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>
+```
 
-The blank app created when you created the solution just contained a static page. You will need to change this to wrap the page in a `NavigationPage`. This is a page that provides page level navigation - using pages that can navigate back and forth, or by bringing another navigation stack over the top as a modal page. You can read more on navigation pages in the [Xamarin docs](https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/navigation/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn).
+```xml
+xmlns:viewModels="clr-namespace:HappyXamDevs.ViewModels"
+```
 
-1. When your app starts up, the main page is loaded from inside the `App` class. If you open the `App.xaml.cs` file in the `HappyXamDevs` project, you will see the following line in the constructor:
+> **About the Code
+>
+> `xmlns:viewModels` adds the XML Namespace `viewModels`
+>
+> `ContentPage.BindingContext` tells the Content Page to bind to `LoginViewModel`
+>
+> `Command="{Binding LoginCommand}"` allows button taps to trigger `LoginViewModel.LoginCommand`
 
-    ```cs
-    MainPage = new MainPage();
-    ```
+## 6. Launch the login page if the user is not logged in
 
-    This sets the main page of the application to be a new instance of the `MainPage` class.
+The Blank Forms App template just contained a static page.
 
-2. Change this to wrap the page inside a `NavigationPage` using the code below.
+We will wrap the page in a `NavigationPage` which is a page that provides page level navigation allowing the user to navigate back and forth. You can read more on navigation pages in the [Xamarin docs](https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/navigation/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn).
 
-    ```cs
-    var navigationPage = new Xamarin.Forms.NavigationPage(new MainPage());
-    MainPage = navigationPage;
-    ```
+1. In the Visual Studio Solution Explorer, open **HappyXamDevs** > **App.xaml.cs** 
 
-3. Add some styling to the navigation page to give a nice purple navigation bar with white text.
+2. In the **App.xaml.cs** editor, enter the following code:
 
-    ```cs
-    navigationPage.BarBackgroundColor = (Color)Resources["CoolPurple"];
-    navigationPage.BarTextColor = Color.White;
-    ```
+```csharp
+using Xamarin.Forms;
+using Xamarin.Forms.PlatformConfiguration;
+using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
+using Xamarin.Forms.Xaml;
 
-4. Make the navigation page look nice on the iPhoneX by turning on the safe areas. You will need to add using directives for the `Xamarin.Forms.PlatformConfiguration` and `Xamarin.Forms.PlatformConfiguration.iOSSpecific` namespaces.
-
-    ```cs
-    navigationPage.On<iOS>().SetPrefersLargeTitles(true);
-    navigationPage.On<iOS>().SetUseSafeArea(true);
-    ```
-
-5. Inside the `MainPage`, if the app has been launched for the first time check to see if the user is logged in, and if not navigate to the `LoginPage`. Open `MainPage.xaml.cs` and override the `OnAppearing` method with the code below. You will need to add a using directive for the `HappyXamDevs.Services` namespace.
-
-    ```cs
-    bool firstAppear = true;
-
-    protected override async void OnAppearing()
+[assembly: XamlCompilation(XamlCompilationOptions.Compile)]
+namespace HappyXamDevs
+{
+    public partial class App : Xamarin.Forms.Application
     {
-        base.OnAppearing();
-
-        if (!firstAppear) return;
-        firstAppear = false;
-
-        var azureService = DependencyService.Get<IAzureService>();
-
-        if (!azureService.IsLoggedIn())
+        public App()
         {
-            await Navigation.PushModalAsync(new LoginPage(), false);
+            InitializeComponent();
+
+            var navigationPage = new Xamarin.Forms.NavigationPage(new MainPage());
+
+            navigationPage.BarBackgroundColor = (Color)Resources["CoolPurple"];
+            navigationPage.BarTextColor = Color.White;
+
+            navigationPage.On<iOS>().SetPrefersLargeTitles(true);
+            navigationPage.On<iOS>().SetUseSafeArea(true);
+
+            MainPage = navigationPage;
         }
     }
-    ```
+}
+```
 
-    The `firstAppear` field is used to ensure this check only happens once, when the app is opened. The code then uses the `AzureService` resolved from the dependency service to check to see if the user is logged in. If not, a new `LoginPage` is pushed to the modal navigation stack, covering the main page.
+> **About the Code**
+>
+> `navigationPage.BarBackgroundColor` sets the Navigation Bar's Background Color 
+>
+> `navigationPage.BarTextColor` sets the Navigation Bar's Text Color
+>
+> `navigationPage.On<iOS>().SetPrefersLargeTitles(true);` ensures [Large Titles](https://developer.apple.com/documentation/uikit/uinavigationbar/2908999-preferslargetitles) are used on iOS
+>
+> `navigationPage.On<iOS>().SetUseSafeArea(true);` ensures the UI doesn't get clipped by the iPhone notch
+>
+> `MainPage = navigationPage` sets the `MainPage`, also known as the "Root Page", of the Xamarin.Forms application to use a `NavigationPage`
 
-## Test the login flow
+3. In the Visual Studio Solution Explorer, open **HappyXamDevs** > **MainPage.xaml.cs** 
 
-Run the app on each platform you are supporting. Click the "Log in with Facebook" button and log in with your Facebook account. Once you authorize access you should be returned to the app and the login page should close.
+4. In the **MainPage.xaml.cs** editor, enter the following code:
 
-## Persist the login between sessions
+```csharp
+using HappyXamDevs.Services;
+using Xamarin.Forms;
+
+namespace HappyXamDevs
+{
+    public partial class MainPage : ContentPage
+    {
+        public MainPage()
+        {
+            InitializeComponent();
+        }
+
+        protected override async void OnAppearing()
+        {
+            base.OnAppearing();
+
+            if (!firstAppear)
+                return;
+
+            var azureService = DependencyService.Get<IAzureService>();
+
+            if (!azureService.IsLoggedIn())
+            {
+                await Navigation.PushModalAsync(new LoginPage(), false);
+            }
+        }
+    }
+}
+```
+
+> **About the Code**
+>
+> `void OnAppearing()` is triggered every time the `ContentPage` appears on the screen when the app is running
+>
+> If the user has not logged in, they will be presented the `LoginPage`
+
+## 7. Test the Login Flow
+
+1. Open a web browser and navigate to your Azure Functions App url
+    - E.g. https://happyxamdevsfunction-minnick.azurewebsites.net
+
+2. Ensure you are redirected to the Facebook login
+
+3. At the Facebook login page, log into your facebook account
+
+4. After completing the Facebook login, ensure you are redirected to your Azure Functions App url
+    - E.g. https://happyxamdevsfunction-minnick.azurewebsites.net
+
+5. In Visual Studio, right-click on **HappyXamDevs.Android** > **Set as Startup Project**
+
+6. (PC) In Visual Studio, select **Debug** > **Start Debugging**
+    - (Mac) In Visual Studio for Mac, select **Run** > **Start Debugging**
+
+7. On the Android device, when the app launches, ensure the **LoginPage** appears
+
+8. On the Android device, on the **LoginPage**, select **Login**
+
+9. On the Android device, ensure the Facebook login flow appears
+
+10. On the Android device, complete the Facebook login flow
+
+11. On the Android device, ensure **LoginPage** disappears and you are returned to **MainPage**
+    > **Note:** **MainPage** should say **Welcome to Xamarin.Forms**
+
+12. (PC) In Visual Studio, right-click on **HappyXamDevs.UWP** > **Set as Startup Project**
+    - (Mac) _Skip this step_
+
+13. (PC) In Visual Studio, select **Debug** > **Start Debugging**
+    - (Mac) _Skip this step_
+
+14. (PC) On the UWP window, when the app launches, ensure the **LoginPage** appears
+
+15. (PC) On the UWP window, on the **LoginPage**, select **Login**
+    - (Mac) _Skip this step_
+
+16. (PC) On the UWP window, ensure the Facebook login flow appears
+    - (Mac) _Skip this step_
+
+17. (PC) On the UWP window, complete the Facebook login flow
+    - (Mac) _Skip this step_
+
+18. (PC) On the UWP window, ensure **LoginPage** disappears and you are returned to **MainPage**
+    > **Note:** **MainPage** should say **Welcome to Xamarin.Forms**
+    - (Mac) _Skip this step_
+
+19. (PC) _Skip this step_
+    - (Mac) In Visual Studio, right-click on **HappyXamDevs.iOS** > **Set as Startup Project**
+
+20. (PC) _Skip this step_
+    - (Mac) In Visual Studio for Mac, select **Run** > **Start Debugging**
+
+21. (PC) _Skip this step_
+    - (Mac) On the iOS device, when the app launches, ensure the **LoginPage** appears
+
+22. (PC) _Skip this step_
+    - (Mac) On the iOS device, on the **LoginPage**, select **Login**
+
+23. (PC) _Skip this step_
+    - (Mac) On the iOS device, ensure the Facebook login flow appears
+
+24. (PC) _Skip this step_
+    - (Mac) On the iOS device, complete the Facebook login flow
+
+25. (PC) _Skip this step_
+    - (Mac) On the iOS device, ensure **LoginPage** disappears and you are returned to **MainPage**
+    > **Note:** **MainPage** should say **Welcome to Xamarin.Forms**
+
+
+## 8. Persist the login between sessions
 
 If you run the app more than once, you will see that you have to log in each time. When you log in, you will get an authorization token and a user id from the Azure Function app authentication, and these values can be persisted to the mobile device. That way, the next time the apps is launched, these token and id can be loaded and used to instantiate a user instead of having to log in again.
 

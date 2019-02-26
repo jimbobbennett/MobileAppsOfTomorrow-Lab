@@ -20,7 +20,7 @@ namespace HappyXamDevs.Services
         private const string UserIdKey = "user-id";
 #error REPLACE [YOUR FACE API BASE URL]
         private const string FaceApiBaseUrl = "[YOUR FACE API BASE URL]";
-        private readonly FaceClient faceApiClient;  
+        private readonly FaceClient faceApiClient;
 
 #error REPLACE [YOUR AZURE APP NAME HERE]
         protected const string AzureAppName = "[YOUR AZURE APP NAME HERE]";
@@ -70,6 +70,15 @@ namespace HappyXamDevs.Services
             catch (InvalidOperationException e) when (e.Message.ToLower().Contains("authentication was cancelled by the user"))
             {
                 return false;
+            }
+
+
+            if (Client.CurrentUser != null)
+            {
+                MessagingCenter.Send<IAzureService>(this, "LoggedIn");
+                Application.Current.Properties[AuthTokenKey] = Client.CurrentUser.MobileServiceAuthenticationToken;
+                Application.Current.Properties[UserIdKey] = Client.CurrentUser.UserId;
+                await Application.Current.SavePropertiesAsync();
             }
 
             return IsLoggedIn();

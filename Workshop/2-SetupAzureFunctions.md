@@ -74,27 +74,29 @@ To set up authentication using Facebook, you will need to create an app in Faceb
     
     > **Note:** If you are already logged into Facebook, skip this step
 
-3. On the login page, enter your Facebook username & password
+3. If you have not already registered as a Facebook Developer, click **Apps** > **Register as a Developer**, then accept the policy and follow the registration steps.
+
+4. On the login page, enter your Facebook username & password
 
     > **Note:** If you are already logged into Facebook, skip this step
 
-4. On the **Facebook for Developers** page, expand the browser until the **≡** menu disappears
+5. On the **Facebook for Developers** page, expand the browser until the **≡** menu disappears
 
-5. On the **Facebook for Developers** page, select **My Apps** > **Add new app**
+6. On the **Facebook for Developers** page, select **My Apps** > **Add new app**
 
-6. In the **Create a New App ID** prompt, enter the following: 
+7. In the **Create a New App ID** prompt, enter the following: 
     - **App Name**: HappyXamDevs
     - **Contact Email**: [Your email address]
 
-7. Click **Create App Id**
+8. Click **Create App Id**
 
-8. If prompted, completed the **Security Check**
+9. If prompted, completed the **Security Check**
 
-9. On the **Facebook For Developers Dashboard**, select **Integrate Facebook Login** > **Confirm**
+10. On the **Facebook For Developers Dashboard**, select **Integrate Facebook Login** > **Confirm**
 
-10. On the left-hand menu, select **Facebook Login** > **Settings**
+11. On the left-hand menu, select **Facebook Login** > **Settings**
 
-11. On the **Client OAuth Settings** menu, make the following sections:
+12. On the **Client OAuth Settings** menu, make the following sections:
 
     - **Client OAuth Login**: Yes
     - **Web OAuth Login**: Yes
@@ -103,20 +105,20 @@ To set up authentication using Facebook, you will need to create an app in Faceb
     - **Embedded Browser OAuth Login**: No
     - **Use Strict Mode for Redirect URIs**: Yes
     - **Valid OAuth Redirect URIs**: https://[Your Azure Function Domain]/.auth/login/facebook/callback
-        - E.g. `https://xamarainhappydevsfunction_bennett/.auth/login/facebook/callback`
+        - E.g. `https://happyxamdevsfunction-minnick.azurewebsites.net/.auth/login/facebook/callback`
 
-12. Click **Save Changes**
+13. Click **Save Changes**
 
 ![Facebook Login Settings](../Images/FacebookLoginSettings.png)
 
-13. On the **Facebook For Developers Dashboard**, select **Settings** > **Basic**
+14. On the **Facebook For Developers Dashboard**, select **Settings** > **Basic**
 
-14. Copy the **App Id** and **App Secret**
+15. Copy the **App Id** and **App Secret**
     - We will use these values later when configuring the Azure Functions Authentication
 
 ### 4. Setup Function App Authentication
 
-Now that you have your app configured in Facebook, head back to the Azure portal to configure your Function app.
+Now that you have your Facebook app configured, head back to the Azure portal to configure your Function app.
 
 1. In your browser, navigate to the [Azure portal](https://portal.azure.com/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn)
 

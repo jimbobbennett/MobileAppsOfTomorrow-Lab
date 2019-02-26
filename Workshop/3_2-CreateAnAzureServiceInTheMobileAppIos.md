@@ -24,7 +24,6 @@ using Microsoft.WindowsAzure.MobileServices;
 using UIKit;
 
 [assembly: Xamarin.Forms.Dependency(typeof(HappyXamDevs.iOS.Services.AzureService))]
-
 namespace HappyXamDevs.iOS.Services
 {
     public class AzureService : AzureServiceBase
@@ -35,7 +34,7 @@ namespace HappyXamDevs.iOS.Services
 
             await Client.LoginAsync(currentViewController,
                                     MobileServiceAuthenticationProvider.Facebook,
-                                    AzureAppName);
+                                    "happyxamdevs");
         }
 
         private static Task<UIViewController> GetCurrentViewController()
