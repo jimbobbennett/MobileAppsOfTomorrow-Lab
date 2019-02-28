@@ -1,4 +1,4 @@
-# Create an Azure Function to save photos to blob storage
+# Create an Azure Function to Save Photos to Azure Blob Storage
 
 Now that we have Azure Blob Storage configured, we need a way to put images into this storage.
 
@@ -6,7 +6,7 @@ Although it is possible to make your blob storage publicly writable from your ap
 
 In this section you will be creating and configuring Azure Functions from inside the portal as this is the quickest way to get going. In a real world app you would develop these functions using [Visual Studio](https://docs.microsoft.com/azure/azure-functions/functions-develop-vs/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn), or [Visual Studio Code](https://code.visualstudio.com/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn) using the [Azure Functions Extension](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-azurefunctions&WT.mc_id=mobileappsoftomorrow-workshop-jabenn).
 
-## Creating your first Azure Function
+## 1. Creating your first Azure Function
 
 Azure Functions are started by [triggers](https://docs.microsoft.com/azure/azure-functions/functions-triggers-bindings/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn). These include timer triggers (scheduler), HTTP triggers that are invoked when a request is made to a web endpoint, Blog triggers and more.
 
@@ -20,7 +20,7 @@ In this step you will be implementing the POST method.
 
 Azure Functions are named functions, so you would name them based off a naming convention that makes sense to you. You can then set up a [_Route Template_](https://docs.microsoft.com/en-gb/azure/azure-functions/functions-bindings-http-webhook?WT.mc_id=mobileappsoftomorrow-workshop-jabenn#customize-the-http-endpoint) to assign a REST resource and HTTP method combination to a function. For example you can create a function called "GetPhotos" and assign this to all GET requests made to `/api/photo`.
 
-### 1. Creating the Azure Function
+### 1a. Creating the Azure Function
 
 1. In your browser, navigate to the [Azure portal](https://portal.azure.com/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn)
 2. In the Azure Portal, navigate to your Function App, **HappyXamDevsFunction-[Your Last Name]**
@@ -34,7 +34,7 @@ Azure Functions are named functions, so you would name them based off a naming c
 
     ![Creating a new C# HTTP Triggered Azure Function](../Images/PortalnewHttpTrigger.png)
 
-### 2. Configuring the Azure function
+### 1b. Configuring the Azure function
 
 By default, HTTP triggers support GET and POST methods. This function will only need to support POST. It will also be configured using the `photo` resource.
 
@@ -50,7 +50,7 @@ By default, HTTP triggers support GET and POST methods. This function will only 
 
     ![Configuring the HTTP method and route for the UploadPhoto function](../Images/PortalUploadPhotoIntegrate.png)
 
-### 3. Add Connection String to Function App Settings
+### 1c. Add Connection String to Function App Settings
 
 To connect to blob storage, the function needs a connection string. Rather than hard-coding this, it can be configured as an application setting.
 
@@ -77,7 +77,7 @@ To connect to blob storage, the function needs a connection string. Rather than 
 
     ![Adding the blob storage connection string as an application setting](../Images/PortalAddingBlobConnectionSetting.png)
 
-### Writing the code
+### 1d. Writing the code
 
 The mobile app will need to send the photo to this function. One easy way to do it is to Base64 encode the binary image data (so that it becomes a `string`), then send this as part of a JSON payload. This method allows you in the future to extend the data being set by adding more fields.
 
@@ -91,7 +91,7 @@ The JSON document you will send will be a list of name/value pairs and will have
 
 You'll actually implement the sending of this data later in this part, but for now you can set up the function to be ready to receive it. The `"photo"` value will be retrieved from the HTTP request, converted back to binary data and saved into Blob storage. To access Blob storage, you will need to add a NuGet package to the function.
 
-1. On the left-hand side of the Azure Functions Dashboard, select **UploadPhoto** 
+1. On the left-hand side of the Azure Functions Dashboard, select **UploadPhoto**
 2. In the **UploadPhoto**, scroll to right-to-left until the right-hand menu is visible
 3. On the right-hand menu, select **View Files** 
 4. In the **View Files** window, click the **+ Add**
@@ -122,71 +122,7 @@ You'll actually implement the sending of this data later in this part, but for n
 
 10. In the **run.csx** editor, clear (delete) the existing Hello World code
 
-11. In the **run.csx** editor, enter the following code to read the HTTP request body into a dynamic variable, and extracts the `Photo` field as a `string`:
-
-    ```csharp
-    dynamic data = await req.Content.ReadAsAsync<object>();
-    string photo = data?.Photo;
-    ```
-
-    > **Note:** It is important to specify the type of the `photo` variable instead of using `var` otherwise a dynamic type is used. The explicit `string` variable type ensures the `Photo` property is read as a string.
-
-    > **Note:** When data is sent in a JSON document using name/value pairs, we can extract the values by reading the content as a dynamic object, taking advantage of [C#'s `dynamic` keyword](https://docs.microsoft.com/dotnet/csharp/programming-guide/types/using-type-dynamic/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn). Once a JSON payload is converted to a dynamic object, we can access the items in it as if they were properties of an object.
-
-12. In the **run.csx** editor, enter the following code to convert `string photo` to `byte[] imageBytes` using the static `Convert.FromBase64String` method:
-
-    ```csharp
-    var imageBytes = Convert.FromBase64String(photo);
-    ```
-
-13. In the **run.csx** editor, enter the following code to create a connection to our Azure Blob Storage resource using the connection string
-
-    ```csharp
-    var connectionString = System.Configuration.Environment.GetEnvironmentVariable("BlobStorageConnectionString");
-    ```
-
-    > **Note:** `System.Configuration.Environment.GetEnvironmentVariable("BlobStorageConnectionString")` searches the Azure Function App's Application Settings for the **App Setting Name** `BlobStorageConnectionString` and returns returns its value
-
-14. In the **run.csx** editor, enter the following code to create a `CloudStorageAccount` object connected to our Azure Blob Storage resource:
-
-    ```csharp
-    Microsoft.WindowsAzure.Storage.CloudStorageAccount.TryParse(connectionString, out Microsoft.WindowsAzure.Storage.CloudStorageAccount storageAccount);
-    ```
-
-15. In the **run.csx** editor, enter the following code to get access to the `photos` container by creating a Blob client and accessing its container:
-
-    ```csharp
-    var blobClient = storageAccount.CreateCloudBlobClient();
-    var blobContainer = blobClient.GetContainerReference("photos");
-    ```
-
-16. In the **run.csx** editor, enter the following code to create a new BlockBlob inside the `photos` container and set its `ContentType` to `Jpeg`:
-
-    ```csharp
-    var blobName = Guid.NewGuid().ToString();
-    var blockBlob = blobContainer.GetBlockBlobReference(blobName);
-    blob.Properties.ContentType = "Jpeg";
-    ```
-
-    > **Note:** The BlockBlob requires a unique name for which we generate a new Guid
-
-17. In the **run.csx** editor, enter the following code to upload `byte[] imageBytes` to the `photos` container in Azure Blob Storage:
-
-    ```csharp
-    await blockBlob.UploadFromByteArrayAsync(imageBytes, 0, imageBytes.Length);
-    ```
-
-18. In the **run.csx** editor, enter the following code to return an HTTP result status of **201 - Created**:
-
-    ```csharp
-    return new CreatedResult(blockBlob.Uri, blockBlob);
-    ```
-
-    > **Note:** Because the Function app uses authentication, you won't be able to test this function directly using the **Run** option inside the portal, unless you turn authentication off at the Function app level
-
-19. In the **run.csx** editor, click **Save**
-
-The full code of this function is below.
+11. In the **run.csx** editor, enter the following code:
 
 ```csharp
 using System;
@@ -227,7 +163,25 @@ public static async Task<IActionResult> Run(HttpRequestMessage req, ILogger log)
 }
 ```
 
-## Calling the function from the mobile app
+> **About the Code**
+>
+> `dynamic data = await req.Content.ReadAsAsync<object>();` reads the HTTP request body into a dynamic variable, and extracts the `Photo` field as a `string`
+>
+> `var imageBytes = Convert.FromBase64String(photo);` converts `string photo` to `byte[] imageBytes` using the static `Convert.FromBase64String` method
+>
+> `var connectionString = System.Configuration.Environment.GetEnvironmentVariable("BlobStorageConnectionString");` creates a connection to our Azure Blob Storage resource
+>
+> `var blobContainer = blobClient.GetContainerReference("photos");` gets access to the `photos` container via a Blob Client
+>
+> `var blockBlob = blobContainer.GetBlockBlobReference(blobName);` creates a new BlockBlob inside the `photos` container
+>
+> `await blockBlob.UploadFromByteArrayAsync(imageBytes, 0, imageBytes.Length);`  uploads the photo to the `photos` container in Azure Blob Storage
+>
+> `return new CreatedResult(blockBlob.Uri, blockBlob);` returns an HTTP result status of **201 - Created**
+
+19. In the **run.csx** editor, click **Save**
+
+## 2. Calling the Azure Function from the Mobile App
 
 When you create an Azure Function, the API end point for the function defaults to `https://<FunctionsAppName>.azurewebsites.net/api/<FunctionName>` or `https://<FunctionsAppName>.azurewebsites.net/api/{Route template}`
 
@@ -237,70 +191,50 @@ To call this function we will send a POST request to this end point passing a JS
 
 To make it easier to use Azure Functions, the `MobileClient` class you used earlier to authenticate provides a way to call an API - essentially any function in the `api` path, and it will automatically pass the required authentication headers for you. All you have to do is call a method on the mobile client, passing the HTTP method you want to use, the function name and the payload.
 
-### Adding a method to the Azure Service to upload a photo
+### 2a. Adding `UploadPhoto(MediaFile photo)` to BaseAzureService.cs
 
-1. Head back to the Xamarin app and open the `IAzureService` interface. Add a new method to this interface to upload a photo.
+1. In the Visual Studio Solution explorer, open **HappyXamDevs** > **Services** > **IAzureService.cs**
 
-    ```csharp
-    Task UploadPhoto(MediaFile photo);
-    ```
+2. In the **IAzureService.cs** editor, enter the following code:
 
-2. Open the `AzureServiceBase` implementation of this interface and add a constant to this class for the name of the photo REST resource.
+```csharp
+using System.Threading.Tasks;
+using Plugin.Media.Abstractions;
 
-    ```csharp
-    const string PhotoResource = "photo";
-    ```
-
-3. Add a skeleton for the new `UploadPhoto` method.
-
-    ```csharp
-    public async Task UploadPhoto(MediaFile photo)
+namespace HappyXamDevs.Services
+{
+    public interface IAzureService
     {
+        bool IsLoggedIn();
+        Task<bool> Authenticate();
+        Task<bool> VerifyHappyFace(MediaFile photo);
     }
-    ```
+}
+```
 
-4. In this method, get the image from the `MediaFile` as a stream, and extract the image as bytes.
+3. In the Visual Studio Solution explorer, open **HappyXamDevs** > **Services** > **AzureServiceBase.cs**
 
-    ```csharp
-    using (var s = photo.GetStream())
-    {
-        var bytes = new byte[s.Length];
-        await s.ReadAsync(bytes, 0, Convert.ToInt32(s.Length));
-    }
-    ```
+4. In the **AzureServiceBase.cs** editor, add the following `using` statement:
 
-5. To create the JSON payload, you can create an [anonymous type](https://docs.microsoft.com/dotnet/csharp/programming-guide/classes-and-structs/anonymous-types/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn) with a field called `photo`.
+```csharp
+using Newtonsoft.Json.Linq;
+```
 
-    ```csharp
-    var content = new
-    {
-        Photo = Convert.ToBase64String(bytes)
-    };
-    ```
+5. In the **AzureServiceBase.cs** editor, add the following constant field:
 
-6. Next you need to serialize this to JSON. The best tool to handle JSON is the [Newtonsoft.Json](https://www.nuget.org/packages/Newtonsoft.Json/) NuGet package, and this is already installed for you as a dependency of the Azure mobile client package. You will need to add a using directive for the `Newtonsoft.Json.Linq` namespace.
+```csharp
+private const string PhotoResource = "photo";
+```
 
-    ```csharp
-    var json = JToken.FromObject(content);
-    ```
-
-7. Finally, use the mobile client to make an authenticated call to the Azure Function, passing the JSON payload. The `InvokeApiAsync` method is used to invoke methods in the `/api/` path, so only needs the resource name.
-
-    ```csharp
-    await Client.InvokeApiAsync(PhotoResource, json);
-    ```
-
-    > By default when you use this overload that calls a function and passes data, the HTTP call is always a POST so there is no need to specify the method. If you did want to use a different method (for example a PUT to update a resource), you can add this as an additional parameter.
-
-The full code for this method is shown below.
+6. In the **AzureServiceBase.cs** editor, add the following method:
 
 ```csharp
 public async Task UploadPhoto(MediaFile photo)
 {
-    using (var s = photo.GetStream())
+    using (var photoStream = photo.GetStream())
     {
-        var bytes = new byte[s.Length];
-        await s.ReadAsync(bytes, 0, Convert.ToInt32(s.Length));
+        var bytes = new byte[photoStream.Length];
+        await photoStream.ReadAsync(bytes, 0, Convert.ToInt32(photoStream.Length));
 
         var content = new
         {
@@ -308,30 +242,137 @@ public async Task UploadPhoto(MediaFile photo)
         };
 
         var json = JToken.FromObject(content);
+
         await Client.InvokeApiAsync(PhotoResource, json);
     }
 }
 ```
 
-### Using this method to upload a photo
+> **About the Code**
+>
+> `await photoStream.ReadAsync(bytes, 0, Convert.ToInt32(photoStream.Length));` extracts image into a `byte[]`
+>
+> `var content = new { Photo = Convert.ToBase64String(bytes) };` creates an anonymous object containing the property `string Photo` which contains our image as a Base64 string
+>
+> `var json = JToken.FromObject(content);` serializes `content` into JSON
+>
+> `await Client.InvokeApiAsync(PhotoResource, json);` makes an authenticated call to our Azure Functions and uploads our photo
 
-1. Open the `MainViewModel`. Add a call to the new `UploadPhoto` method to the end of both the `TakePhoto` and `SelectFromLibrary` methods, after the validation check.
+### 2b. Use `UploadPhoto` in `MainViewModel`
 
-    ```csharp
-    await azureService.UploadPhoto(photo);
-    ```
+1. In the Visual Studio Solution Explorer, open **HappyXamDevs** > **ViewModels** > **MainViewModel.cs**
 
-## Test it out
+2. In the **MainViewModel.cs** editor, update `SelectFromLibrary()`
 
-Run the app on your platform of choice and take a photograph or select one from your library (ensuring of course it has happy Xamarin developers in it). You can see the function being called by opening the function in the Azure Portal and expanding the _Log_ tab before the Azure Function is called - this will show a live log of calls being made.
+```csharp
+private async Task SelectFromLibrary()
+{
+    var options = new PickMediaOptions { PhotoSize = PhotoSize.Medium };
+    var photo = await CrossMedia.Current.PickPhotoAsync(options);
 
-> If you want more details on what the function is doing you can add log statements. Every function is passed a `TraceWriter log` parameter, and this `log` parameter has methods to log out `Debug`, `Info` or `Error` messages. If you want more detail on what your function is doing add some log statements and save the function, before running you app again.
+    if (await ValidatePhoto(photo))
+        await azureService.UploadPhoto(photo);
+}
+```
 
-Once a photo has been uploaded you can see it by selecting the Blob storage resource, selecting _Browse blobs_, and selecting the _photos_ collection.
+3. In the **MainViewModel.cs** editor, update `TakePhoto()`
+
+```csharp
+private async Task TakePhoto()
+{
+    var options = new StoreCameraMediaOptions { PhotoSize = PhotoSize.Medium };
+    var photo = await CrossMedia.Current.TakePhotoAsync(options);
+
+    if (await ValidatePhoto(photo))
+        await azureService.UploadPhoto(photo);
+}
+```
+
+## 3. Test Azure Storage
+
+## 3a. Test Azure Storage, Android
+
+1. In Visual Studio, right-click on **HappyXamDevs.Android** > **Set as Startup Project**
+
+2. (PC) In Visual Studio, select **Debug** > **Start Debugging**
+    - (Mac) In Visual Studio for Mac, select **Run** > **Start Debugging**
+
+3. On the Android device, if the **LoginPage** complete the login flow
+
+4. On the Android device, on the **MainPage**, tap the Camera icon
+
+5. On the Android device, if prompted for permission, tap **Allow**
+
+6. On the Android device, ensure the Camera appears
+
+7. On the Android device, take a happy-looking selfie
+
+8. In the [Azure portal](https://portal.azure.com/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn), navigate to the Azure Blob Storage instance **xamhappydevsstorage[Your initials]**
+    - E.g., xamhappydevsstoragebrm
+
+9. In the **Storage Account** dashboard, on the left-hand menu, select **Blobs**
+
+10. On the **Blobs** page, select **photos**
+
+11. On the **Photos** page, ensure a blob has been added
 
 ![A blob saved in blob storage](../Images/PortalPhotoSavedAsBlob.png)
 
-> This app doesn't include any feedback whilst the photo is being uploaded. In a production quality app you should provide feedback during the upload and once it has completed (and show any errors if it fails, such as due to connection issues).
+## 3b. Test Azure Storage, iOS
+
+1. In Visual Studio, right-click on **HappyXamDevs.iOS** > **Set as Startup Project**
+
+2. (PC) In Visual Studio, select **Debug** > **Start Debugging**
+    - (Mac) In Visual Studio for Mac, select **Run** > **Start Debugging**
+
+3. On the iOS device, if the **LoginPage** complete the login flow
+
+4. On the iOS device, on the **MainPage**, tap the Camera icon
+
+5. On the iOS device, if prompted for permission, tap **Allow**
+
+6. On the iOS device, ensure the Camera appears
+
+7. On the iOS device, take a happy-looking selfie
+
+8. In the [Azure portal](https://portal.azure.com/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn), navigate to the Azure Blob Storage instance **xamhappydevsstorage[Your initials]**
+    - E.g., xamhappydevsstoragebrm
+
+9. In the **Storage Account** dashboard, on the left-hand menu, select **Blobs**
+
+10. On the **Blobs** page, select **photos**
+
+11. On the **Photos** page, ensure a blob has been added
+
+![A blob saved in blob storage](../Images/PortalPhotoSavedAsBlob.png)
+
+## 3c. Test Azure Storage, UWP
+
+1. In Visual Studio, right-click on **HappyXamDevs.UWP** > **Set as Startup Project**
+
+2. (PC) In Visual Studio, select **Debug** > **Start Debugging**
+    - (Mac) In Visual Studio for Mac, select **Run** > **Start Debugging**
+
+3. On the UWP device, if the **LoginPage** complete the login flow
+
+4. On the UWP device, on the **MainPage**, tap the Camera icon
+
+5. On the UWP device, if prompted for permission, tap **Allow**
+
+6. On the UWP device, ensure the Camera appears
+
+7. On the UWP device, take a happy-looking selfie
+
+8. In the [Azure portal](https://portal.azure.com/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn), navigate to the Azure Blob Storage instance **xamhappydevsstorage[Your initials]**
+    - E.g., xamhappydevsstoragebrm
+
+9. In the **Storage Account** dashboard, on the left-hand menu, select **Blobs**
+
+10. On the **Blobs** page, select **photos**
+
+11. On the **Photos** page, ensure a blob has been added
+
+![A blob saved in blob storage](../Images/PortalPhotoSavedAsBlob.png)
 
 ## Next step
 
