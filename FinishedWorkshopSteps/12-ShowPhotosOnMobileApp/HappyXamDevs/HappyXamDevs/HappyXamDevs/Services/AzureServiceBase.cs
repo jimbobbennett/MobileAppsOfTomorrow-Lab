@@ -23,6 +23,7 @@ namespace HappyXamDevs.Services
         private readonly FaceClient faceApiClient = new FaceClient(new ApiKeyServiceClientCredentials("[YOUR API KEY HERE]"))
         {
             Endpoint = "[YOUR FACE API BASE URL]"
+            //Example Face API Base Url: "https://westus.api.cognitive.microsoft.com/"
         };
 
 #error REPLACE [YOUR AZURE APP NAME HERE]
