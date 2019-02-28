@@ -1,74 +1,110 @@
-# Configure storage
+# Configure Azure Storage
 
-We now have an app that can take a photograph and check for happy faces. You now need to be able to upload this photo to Azure so it can be shared with other users of your app. For this you will be using two types of storage that you will configure from the Azure portal - [blob storage](https://docs.microsoft.com/azure/storage/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn) to store the actual photos as raw binary blobs (Binary Large OBject), and [Cosmos DB](https://docs.microsoft.com/azure/cosmos-db/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn) to save metadata about each image.
+We now have an app that can take a photograph and check for happy faces.
 
-## Setting up blob storage
+We now need to be able to upload this photo to Azure so it can be shared with other users of our app. For this we will be using two types of storage that you will configure from the Azure portal - [blob storage](https://docs.microsoft.com/azure/storage/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn) to store the actual photos as raw binary blobs (Binary Large OBject), and [Cosmos DB](https://docs.microsoft.com/azure/cosmos-db/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn) to save metadata about each image.
+
+## 1. Azure Blob Storage
 
 The first type of storage to set up is blob storage to store photos.
 
-### Creating the blob storage resource
+### 1a. Creating the Azure Blob Storage Resource
 
-1. Head to the [Azure Portal](https://portal.azure.com/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn) and click the _Create Resource_ button (the green + if your sidebar is collapsed).
-2. Search for "storage account", select _Storage account - blob, file, table, queue_, then click "Create".
+1. In a browser, navigate to the  [Azure Portal](https://portal.azure.com/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn)
+
+2. On the Azure Portal, click the **+ Create Resource** button
+    > **Note:** The **+ Create Resource** button will be a green **+** if the sidebar is collapsed
+
+3. In the **New** page, in the search bar, enter **storage account**
+
+4. On the keyboard, press the **Return** key
+
+5. In the search results, select **Storage account - blob, file, table, queue**
 
     ![Searching for storage account in the Azure portal](../Images/PortalNewBlob.png)
 
-3. Enter a name for your blob storage. This will need to be unique across the whole of Azure as this will become an actual sub-domain of `core.windows.net`. The edit control has a built in validator-if the app name is unique you will see a green tick on the right.
-4. Leave the _Deployment model_ as "Resource manager".
-5. Set the _Account Kind_ to "Blob Storage".
-6. Set the location to be the closest region to you.
-7. Leave the _Replication_, _Performance_, _Access tier_, and _Secure Transfer Required_ fields as the default value.
-8. Select your subscription.
-9. Set the _Resource Group_ to use the existing resource group you set up for the Azure Functions app.
-10. Check the _Pin to dashboard_ checkbox.
-11. Click "Create".
+6. In the **Storage account** panel, **Create**
 
-    ![Configuring the Azure storage resource](../Images/PortalConfigureStorage.png)
+7. In the **Create storage account** page, enter the following:
+    - **Subscription**: [Select Your Azure Subscription]
+    - **Resource Group**: HappyXamDevs
+    - **Storage Account Name**: happyxamdevsstorage[Your Initials]
+        - E.g. happyxamdevsstoragebrm
+    > **Note:** The Storage Account Name must be unique because it is  used as the subdomain for our Azure Storage url
+    - **Location:** West US
+    - **Performance:** Standard
+    - **Account Kind:** BlobStorage
+    - **Replication:** Read-access geo-redundant storage (RA_GRS)
+    - **Access tier:** Hot
 
-### Configure a container
+8. In the **Create storage account** page, click **Review + Create**
+9. In the **Create storage account** page, click **Create**
 
-Blob storage has a concept of named containers that blobs can be stored in. Containers can be created in code, but during this workshop it will be easier to create one in the portal.
+### 3b. Create a Container in Azure Blob Storage
 
-1. Open the new storage account from the Azure portal dashboard.
-2. Select _Blob Service->Browse blobs_ from the left-hand menu.
-3. Click _+ Container_ from the top menu.
-4. Set the _Name_ as "photos", and leave the _Public access level_ as "Private (no anonymous access)", then click "OK".
+In Azure Blob Storage, blobs are stored in containers, similar to how a folder holds files on a PC. We will be creating our container using the Azure Portal UI, but containers can also be created in code.
+
+1. In the [Azure Portal](https://portal.azure.com/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn), navigate to the newly created Azure Blob Storage resource, **xamhappydevsstorage[Your Initials]**
+
+2. On the **Azure Storage** page, on the left-hand menu, select **Blobs**
+3. On the **Blobs** page, select **+ Container**
+4. In the **New Container** window, enter the following"
+
+    - **Name**: photos
+    - **Public access level**: Private (no anonymous access)
+
+5. In the **New Container** window, click **OK**
 
     ![Creating the photos blob container](../Images/PortalBlobCreateContainer.png)
 
-## Setting up Cosmos DB
+## 2. Create Azure Cosmos DB Instance
 
-The second type of storage to configure is Cosmos DB. This is a NoSql database that you can use to store metadata about the photos being uploaded.
+The second type of storage to configure is Cosmos DB. This is a NoSQL database that we will use to store metadata about the uploaded photos.
 
-1. Create a new resource in the Azure portal.
-2. Search for "Cosmos DB", select _Azure Cosmos DB_ then click "Create".
+1. On the Azure Portal, click the **+ Create Resource** button
+    > **Note:** The **+ Create Resource** button will be a green **+** if the sidebar is collapsed
+
+2. In the **New** page, in the search bar, enter **Cosmos Db**
+3. On the keyboard, press the **Return** key
+4. In the search results, select **Azure Cosmos DB**
 
     ![Searching for CosmosCD in the Azure portal](../Images/PortalSearchCosmos.png)
 
-3. Enter a name for your Cosmos DB. This will need to be unique across the whole of Azure as this will become an actual sub-domain of `documents.azure.com`. The edit control has a built in validator-if the app name is unique you will see a green tick on the right.
+5. In the **Azure Cosmos Db** pane, click **Create**
+6. In the **Create Azure Cosmos DB Account** page, enter the following:
+    - **Subscription:** [Select Your Azure Subscription]
+    - **Resource Group:** HappyXamDevs
+    - **Account Name:** happyxamdevs-[Your Last Name]
+        - E.g. happyxamdevs-minnick
+    > **Note:** The Storage Account Name must be unique because it is  used as the subdomain for our Azure Cosmos Db url
+    - **API:** Core (SQL)
+    > **Note:** The different APIs have different ways for you to access and query your data, and have different capabilities. The SQL API allows us to query our data using SQL, and supports binding to Azure Functions which we will do in a later section
+    - **Location:** WestUS
+    - **GeoRedundancy** Disable
+    - **Multi-region Writes** Disable
 
-4. For the _API_, select "SQL".
+7. In the **Create Azure Cosmos DB Account** page, click **Review + create**
+8. In the **Create Azure Cosmos DB Account** page, click **Create**
 
-    > The different APIs have different ways for you to access and query your data, and have different capabilities. The SQL API allows you to query your data using SQL, and supports binding to Azure Functions, something you will do in later parts.
+## 3. Configure CosmosDb
 
-5. Select your subscription, set the resource group to the existing one you are already using, and set the location to the closest region to you. Leave the rest of the options as their defaults.
-6. Check the _Pin to dashboard_ checkbox, then click "Create". This resource may take a few minutes to provision.
+We will create a database that contains a collection in which we will add our photos metadata.
 
-    ![Configuring the Azure Cosmos DB resource](../Images/PortalConfigureCosmos.png)
+We will create a database and container now in the Azure portal.
 
-### Configure the database
+1. In the [Azure Portal](https://portal.azure.com/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn), navigate to the newly created Cosmos Db resource, **happyxamdevs-[Your Last Name]**
+    - E.g. happyxamdevs-minnick
 
-The SQL API for Cosmos DB allows you to create databases, and inside a database create a collection to put documents into. You will need to create a database and container now in the portal.
+2. On the **CosmosDb** page, on the left-hand menu, select **Data Explorer**
+3. In the **Data Explorer** page, click **New Collection**
+4. In the **New Collection** pane, enter the following:
+    - **Database id:** Create New
+    - **Type a new database id:** Photos
+    - **Collection Id:** PhotoMetadata
+    - **Partition Key:** /
+    - **Throughput:** 400
 
-1. Open the Cosmos DB resource from the Azure Portal.
-2. Select _Data Explorer_ from the left-hand menu.
-3. Click the "New Collection" button.
-4. For the _Database_, select "Create new" and set the database name to be "Photos".
-5. For the _Collection ID_ use "PhotoMetadata".
-6. Set the storage as fixed, and set the _Throughput_ to 400, the minimum value (this is to reduce the cost of running this collection).
-7. Click "OK".
-
-    ![Creating the Photos Cosmos DB database](../Images/PortalAddCosmos.png)
+5. In the **New Collection** pane, click **OK**
 
 ## Next step
 
