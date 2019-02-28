@@ -27,10 +27,8 @@ namespace HappyXamDevs.ViewModels
             
             var photo = await CrossMedia.Current.PickPhotoAsync(options);
             
-            if (!await ValidatePhoto(photo)) 
-                return;
-            
-            await azureService.UploadPhoto(photo);
+            if (await ValidatePhoto(photo))
+                await azureService.UploadPhoto(photo);
         }
 
         private async Task TakePhoto()
@@ -39,10 +37,8 @@ namespace HappyXamDevs.ViewModels
             
             var photo = await CrossMedia.Current.TakePhotoAsync(options);
             
-            if (!await ValidatePhoto(photo)) 
-                return;
-            
-            await azureService.UploadPhoto(photo);
+            if (await ValidatePhoto(photo))            
+                await azureService.UploadPhoto(photo);
         }
 
         private async Task<bool> ValidatePhoto(MediaFile photo)

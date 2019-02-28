@@ -71,11 +71,11 @@ namespace HappyXamDevs.Services
 
         public async Task<bool> VerifyHappyFace(MediaFile photo)
         {
-            using (var s = photo.GetStream())
+            using (var photoStream = photo.GetStream())
             {
                 var faceAttributes = new List<FaceAttributeType> { FaceAttributeType.Emotion };
 
-                var faces = await faceApiClient.Face.DetectWithStreamAsync(s, returnFaceAttributes: faceAttributes);
+                var faces = await faceApiClient.Face.DetectWithStreamAsync(photoStream, returnFaceAttributes: faceAttributes);
 
                 var areHappyFacesDetected = faces.Any(f => f.FaceAttributes.Emotion.Happiness > 0.75);
                 return areHappyFacesDetected;

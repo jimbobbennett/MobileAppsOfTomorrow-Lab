@@ -50,7 +50,7 @@ namespace HappyXamDevs.ViewModels
             else
             {
                 var latest = Photos[0].Timestamp;
-                
+
                 foreach (var photo in photos.Where(p => p.Timestamp > latest).OrderBy(p => p.Timestamp))
                 {
                     Photos.Insert(0, new PhotoViewModel(photo));
@@ -63,35 +63,31 @@ namespace HappyXamDevs.ViewModels
         private async Task SelectFromLibrary()
         {
             var options = new PickMediaOptions { PhotoSize = PhotoSize.Medium };
-            
-            var photo = await CrossMedia.Current.PickPhotoAsync(options);
-            
-            if (!await ValidatePhoto(photo)) 
-                return;
 
-            await azureService.UploadPhoto(photo);
+            var photo = await CrossMedia.Current.PickPhotoAsync(options);
+
+            if (await ValidatePhoto(photo))
+                await azureService.UploadPhoto(photo);
         }
 
         private async Task TakePhoto()
         {
             var options = new StoreCameraMediaOptions { PhotoSize = PhotoSize.Medium };
-            
+
             var photo = await CrossMedia.Current.TakePhotoAsync(options);
-            
-            if (!await ValidatePhoto(photo)) 
-                return;
-            
-            await azureService.UploadPhoto(photo);
+
+            if (await ValidatePhoto(photo))
+                await azureService.UploadPhoto(photo);
         }
 
         private async Task<bool> ValidatePhoto(MediaFile photo)
         {
-            if (photo is null) 
+            if (photo is null)
                 return false;
 
             var isHappy = await azureService.VerifyHappyFace(photo);
-            
-            if (isHappy) 
+
+            if (isHappy)
                 return true;
 
             await Application.Current.MainPage.DisplayAlert("Sad panda",
