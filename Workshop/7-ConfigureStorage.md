@@ -101,9 +101,9 @@ We will create a database and container now in the Azure portal.
     - **Database id:** Create New
     - **Type a new database id:** Photos
     - **Collection Id:** PhotoMetadata
-    - **Partition Key:** /
+    - **Partition Key:** /name
     - **Throughput:** 400
-
+ 
 5. In the **New Collection** pane, click **OK**
 
 ## Next step
