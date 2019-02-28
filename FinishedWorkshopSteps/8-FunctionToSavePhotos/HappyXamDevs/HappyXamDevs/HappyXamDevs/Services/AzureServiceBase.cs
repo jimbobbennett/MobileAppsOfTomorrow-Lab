@@ -16,9 +16,12 @@ namespace HappyXamDevs.Services
         private const string AuthTokenKey = "auth-token";
         private const string PhotoResource = "photo";
         private const string UserIdKey = "user-id";
+#error REPLACE [YOUR API KEY HERE]
 #error REPLACE [YOUR FACE API BASE URL]
-        private const string FaceApiBaseUrl = "[YOUR FACE API BASE URL]";
-        private readonly FaceClient faceApiClient;  
+        private readonly FaceClient faceApiClient = new FaceClient(new ApiKeyServiceClientCredentials("[YOUR API KEY HERE]"))
+        {
+            Endpoint = "[YOUR FACE API BASE URL]"
+        };
 
 #error REPLACE [YOUR AZURE APP NAME HERE]
         protected const string AzureAppName = "[YOUR AZURE APP NAME HERE]";
@@ -29,13 +32,6 @@ namespace HappyXamDevs.Services
         protected AzureServiceBase()
         {
             Client = new MobileServiceClient(FunctionAppUrl);
-
-#error REPLACE [YOUR API KEY HERE]
-            var creds = new ApiKeyServiceClientCredentials("[YOUR API KEY HERE]");
-            faceApiClient = new FaceClient(creds)
-            {
-                Endpoint = FaceApiBaseUrl
-            };
         }
 
         private void TryLoadUserDetails()
@@ -98,8 +94,11 @@ namespace HappyXamDevs.Services
             using (var s = photo.GetStream())
             {
                 var faceAttributes = new List<FaceAttributeType> { FaceAttributeType.Emotion };
+
                 var faces = await faceApiClient.Face.DetectWithStreamAsync(s, returnFaceAttributes: faceAttributes);
-                return faces.Any() && faces.All(f => f.FaceAttributes.Emotion.Happiness > 0.75);
+
+                var areHappyFacesDetected = faces.Any(f => f.FaceAttributes.Emotion.Happiness > 0.75);
+                return areHappyFacesDetected;
             }
         }
     }

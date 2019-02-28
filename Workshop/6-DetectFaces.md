@@ -1,97 +1,186 @@
 # Detect happy faces
 
-For this app, only happy faces are allowed to be shared, so you will need to check that the photo taken or selected by the user contains faces and that they are all happy. You can do this using the power of artificial intelligence (AI), thanks to [Azure Cognitive Services FaceAPI](https://docs.microsoft.com/azure/cognitive-services/face/overview/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn).
+For this app, only happy faces are allowed to be shared, so we will check that each photo contains happy faces.
 
-## Configuring the Face API in the Azure portal
+We will use the power of artificial intelligence (AI), thanks to [Azure Cognitive Services FaceAPI](https://docs.microsoft.com/azure/cognitive-services/face/overview/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn).
 
-1. In the [Azure Portal](https://portal.azure.com/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn), add a new resource. Search for "Face" and select _Face_ from the _AI + Machine Learning_ category. Then click "Create".
+## 1. Configuring the Face API, Azure portal
+
+1. In a browser, navigate to the [Azure Portal](https://portal.azure.com/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn)
+
+2. In the Azure Portal, navigate to the Resource Group **HappyXamDevs**
+
+3. On the **HappyXamDevs** resource group dashboard, click **+ Add**
+
+4. In the **Everything**, in the search bar, enter **Face**
+
+5. On the keyboard, press the **Enter** key
+
+6. In the search results, select **Face** from the **AI + Machine Learning**
+
+7. In the **Face** window, click **Create**
 
     ![Searching for Face in the Azure portal](../Images/PortalSearchFace.png)
 
-2. In the _Create_ blade, enter a name for the service, such as "HappyXamDevs-Face", select your Azure subscription, and select the Azure region closest to you. For the _Pricing tier_, set this to "F0", a free tier with limited calls but well within what we need for this workshop (at the time of writing this is limited to 20 calls per minute, and 30,000 per month). For the _Resource Group_, select "Use Existing" and choose the resource group you created when setting up your function app. Then check _Pin to Dashboard_ to make this easy to find and click "Create".
+8. In the **Create** window, enter the following:
 
-    ![Setting up the Face service resource](../Images/PortalNewFace.png)
+    - **Name:** HappyXamDevs-Face
+    - **Subscription:** [Select your subscription]
+    - **Location:** West Us
+    - **Pricing tier** F0
+    - **Resource Group** HappyXamDevs
 
-    > You can only have one F0 price tier resource per Cognitive Service per subscription - so one for Face, one for Computer Vision and so on. If you've already got a Face resource configured as F0 you will not be able to provision another one, so either use S0 (which at the time of writing is $0.75 per 1000 calls) or re-use your existing resource.
+> **Note:** **Pricing tier** "F0" is a free tier with a limited number of API calls; it is limited to 20 calls per minute, and 30,000 per month
 
-3. Select the "HappyXamDevs-Face" service that you just created in the portal, and click on Keys.
+    ![Setting up the Face service resource](../Imagews/PortalNewFace.png)
+
+9. In the Azure Portal, navigate to the Resource Group **HappyXamDevs**
+
+10. On the **XamHappyDevs** Resource Group dashboard, select the newly created **HappyXamDevs-Face**
+
+11. In the **XamHappyDevs-Face** dashboard, on the left-hand menu, select **Keys**
+
     ![Keys resource management](../Images/PortalFaceKeys.png)
 
-4. Copy the `KEY 1` from the portal. You will use it later in the Xamarin application.
+12. On the **Keys** window, copy the value of `KEY 1` 
+    > **Note:** We will use this value in our mobile app
 
-## Looking for faces in the mobile app
+13. In the **XamHappyDevs-Face** dashboard, on the left-hand menu, select **Overview**
+
+14. In the **Overview** window, copy the base url of **Endpoint**
+    - E.g. If the **Endpoint** is `https://westus.api.cognitive.microsoft.com/face/v1.0`, copy the base url, `https://westus.api.cognitive.microsoft.com/`
+    > **Note:** We will use this value in our mobile app
+
+## 2. Add Microsoft.Azure.CognitiveServices.Vision.Face NuGet Package
 
 The Azure Cognitive Services FaceAPI is accessible from a NuGet package that provides wrappers around the available services. This can be used to detect faces in your photo.
 
-1. Install the ["Microsoft.Azure.CognitiveServices.Vision.Face"](https://www.nuget.org/packages/Microsoft.Azure.CognitiveServices.Vision.Face) NuGet package into all the projects in your Xamarin app. At the time of writing this is pre-release, so check the _Pre-release_ (or _Include prerelease_) checkbox.
+1. Open the Xamarin.Forms app in Visual Studio
 
-### Adding happy face detection to the Azure service
+    > **Note:** The completed app from Section 1 is available in **FinishedWorkshopSteps** > **1-CreateSolution**
 
-1. In the `IAzureService` interface (in the Services folder), add a method signature to look for happy faces in a photo, called `VerifyHappyFace`. This should be an asynchronous method that takes a `MediaFile`, the type returned by the media plugin when you take or select a photo, and return a boolean. The value `true` means that the image contains faces that are all happy. The value `false` means either that no faces were detected, or that the faces were not happy. You will need to add a using directive for the `Plugin.Media.Abstractions` namespace.
+2. (PC) In Visual Studio, right-click the `HappyXamDevs` solution > **Manage NuGet Packages For Solution..**
 
-    ```cs
-    Task<bool> VerifyHappyFace(MediaFile photo);
-    ```
+    - (Mac) In Visual Studio for Mac, right-click the `HappyXamDevs` project > **Add** > **Add NuGet Packages**
 
-2. In the `AzureServiceBase` class, declare a field of type `FaceAPI`. You will need to add a using statement for the `Microsoft.Azure.CognitiveServices.Vision.Face` namespace.
+3. (PC) In the **NuGet Package Manager** window, select **Browse**
 
-    ```cs
-    FaceAPI faceApi;
-    ```
+    - (Mac) _Skip this step_
 
-3. In the constructor for the `AzureServiceBase` class, create some API key credentials using the API key of your Face service that you copied earlierfrom the Azure portal. Use these credentials to initialize the `FaceAPI` field, and set the region property on this object to match the region you selected when setting up the service. The code below shows this using a made up key and assuming the region is West Europe. You will need to add a using directive for the `Microsoft.Azure.CognitiveServices.Vision.Face.Models` namespace.
+4. (PC) In the **NuGet Package Manager** window, check **Include prerelease**
 
-    ```cs
-    var creds = new ApiKeyServiceClientCredentials("YourAPIKeyHere");
-    faceApi = new FaceAPI(creds)
-    {
-        AzureRegion = AzureRegions.Westeurope
-    };
-    ```
+    - (Mac) In the **NuGet Package Manager**, check **Show pre-release packages**
 
-    > In a production app you wouldn't hard code the key inside the app. Instead you would use something like [Azure Key Vault](https://docs.microsoft.com/azure/key-vault/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn), or at the very least use an authenticated Azure Function to retrieve the key.
+5. In the **NuGet Package Manager** window, in the search bar, enter **Microsoft.Azure.CognitiveServices.Vision.Face**
 
-4. Implement the `VerifyHappyFace` method as an async method. You will need to add a using directive for the `Plugin.Media.Abstractions` namespace.
+6. In the **NuGet Package Manager** window, in the search results, select **Microsoft.Azure.CognitiveServices.Vision.Face**
 
-    ```cs
-    public async Task<bool> VerifyHappyFace(MediaFile photo)
-    {
-    }
-    ```
+6. (PC) In the **NuGet Package Manager** window, select **Install**
 
-5. In this method, get a stream from the photo and pass it to the `DetectWithStreamAsync` method. This method takes a `Stream` containing an image and returns any detected faces. You can also pass a list of attributes on the face you are interested in to the `returnFaceAttributes` parameter, for example the angle of the face, the age of the face, if the face has make up or glasses on. The attribute we want is the emotion shown by the face, so you will need to pass a list of `FaceAttributeType` containing just `FaceAttributeType.Emotion`.
+    - (Mac) In the **NuGet Package Manager** window, select **Add Package**
 
-    ```cs
-    using (var s = photo.GetStream())
-    {
-        var faceAttributes = new List<FaceAttributeType> { FaceAttributeType.Emotion };
-        var faces = await faceApi.Face.DetectWithStreamAsync(s, returnFaceAttributes: faceAttributes);
-    }
-    ```
+7. (PC) _Skip this step_
 
-6. The call to `DetectWithStreamAsync` returns an `IList<DetectedFace>`, a list of detected face. Each `DetectedFace` will have a `FaceAttributes` collection containing the attributes requested, so in your case it will have the emotion as a `double` value. This value is between 0 and 1 and corresponds to a percentage from 0% to 100%. In your case, the `Emotion` attribute will have values for each emotion on a scale of 0 to 1 showing the percentage chance that the face is showing that emotion. You will need to check that faces have been found, and all faces have a happiness value over a certain threshold - such as 75%. The `System.Linq` namespace has extension methods to help with this, so add the appropriate using directive.
+    - (Mac) In Visual Studio for Mac, right-click the `HappyXamDevs.Android` project > **Add** > **Add NuGet Packages**
 
-    ```cs
-    return faces.Any() && faces.All(f => f.FaceAttributes.Emotion.Happiness > 0.75);
-    ```
+8. (PC) _Skip this step_
 
-The final code for this function in the service is shown below.
+    - (Mac) In the **NuGet Package Manager** window, in the search results, select **Microsoft.Azure.CognitiveServices.Vision.Face**
 
-```cs
-public async Task<bool> VerifyHappyFace(MediaFile photo)
+
+9. (PC) _Skip this step_
+
+    - (Mac) In the **NuGet Package Manager** window, select **Add Package**
+
+10. (PC) _Skip this step_
+
+    - (Mac) In Visual Studio for Mac, right-click the `HappyXamDevs.iOS` project > **Add** > **Add NuGet Packages**
+
+11. (PC) _Skip this step_
+
+    - (Mac) In the **NuGet Package Manager** window, in the search results, select **Microsoft.Azure.CognitiveServices.Vision.Face**
+
+12. (PC) _Skip this step_
+
+    - (Mac) In the **NuGet Package Manager** window, select **Add Package**
+
+### 3. Create `VerifyHappyFace`
+
+1. In the Visual Studio Solution Explorer, open **HappyXamDevs** > **Services** > **IAzureService.cs**
+
+2. In the **IAzureService.cs** editor, enter the following code:
+
+```csharp
+using System.Threading.Tasks;
+using Plugin.Media.Abstractions;
+
+namespace HappyXamDevs.Services
 {
-    using (var s = photo.GetStream())
+    public interface IAzureService
     {
-        var faceAttributes = new List<FaceAttributeType> { FaceAttributeType.Emotion };
-        var faces = await faceApi.Face.DetectWithStreamAsync(s, returnFaceAttributes: faceAttributes);
-        return faces.Any() && faces.All(f => f.FaceAttributes.Emotion.Happiness > 0.75);
+        bool IsLoggedIn();
+        Task<bool> Authenticate();
+        Task<bool> VerifyHappyFace(MediaFile photo);
     }
 }
 ```
 
-### Detecting happy faces from the view model
+3. In the Visual Studio Solution Explorer, open **HappyXamDevs** > **Services** > **AzureServiceBase.cs**
+
+4. In the **AzureServiceBase.cs** editor, add the following using statements:
+
+```csharp
+using System.Linq;
+using System.Collections.Generic;
+using Microsoft.Azure.CognitiveServices.Vision.Face;
+using Microsoft.Azure.CognitiveServices.Vision.Face.Models;
+using Plugin.Media.Abstractions;
+```
+
+5. In the **AzureServiceBase.cs** editor, add the following `readonly` field:
+
+```csharp
+private readonly FaceClient faceApiClient = new FaceClient(new ApiKeyServiceClientCredentials("[YOUR API KEY HERE]"))
+{
+    Endpoint = "[YOUR FACE API BASE URL]"
+};
+```
+> **Note:** Replace `[Your API Key]` with the value from `KEY 1`
+>
+> **Note:** Replace `[Your Face API Base Url]` with the base url of the **Face API** **Overview** `Endpoint`
+- **Warning:** Do not use the full URL; only use the base url
+    - **Correct Example:** `https://westus.api.cognitive.microsoft.com/`
+    - **Incorrect Example:** `https://westus.api.cognitive.microsoft.com/face/v1.0`
+
+6. In the **AzureServiceBase.cs** editor, add the following method:
+
+```csharp
+public async Task<bool> VerifyHappyFace(MediaFile photo)
+{
+    using (var photoStream = photo.GetStream())
+    {
+        var faceAttributes = new List<FaceAttributeType> { FaceAttributeType.Emotion };
+
+        var faces = await faceApiClient.Face.DetectWithStreamAsync(photoStream, returnFaceAttributes: faceAttributes);
+
+        return faces.Any(f => f.FaceAttributes.Emotion.Happiness > 0.75);
+    }
+}
+```
+
+> ** About the Code**
+>
+> `using (var photoStream = photo.GetStream())` creates an object, `photoStream`, using the photo from the user
+>
+> `faceApi.Face.DetectWithStreamAsync` returns the emotion results from the Face API
+>
+> `faces.Any(f => f.FaceAttributes.Emotion.Happiness > 0.75)` searches the Face API results for `Happiness` value above 0.75; 0.75 is a confidence interval indicating that there is a 75% chance a happy face was found in the photo
+
+### Add Face Detection to `MainViewModel.cs`
 
 Now that you have a method on your Azure service to detect a happy face, you can call this in your main view model to validate that the photo contains happy faces. Open the `MainViewModel` class.
+
+1. In the Visual Studio Solution Explorer, open **HappyXamDevs** > **ViewModels** > **MainViewModel**
 
 1. Add a field of type `IAzureService`. You will need to add a using directive for the `HappyXamDevs.Services` namespace.
 
