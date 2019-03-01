@@ -8,16 +8,18 @@ using Microsoft.Azure.CognitiveServices.Vision.ComputerVision;
 using Microsoft.Azure.CognitiveServices.Vision.ComputerVision.Models;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
+using Microsoft.WindowsAzure.Storage.Blob;
 
 namespace HappyXamDevs.Functions
 {
     public static class ProcessPhotoFromBlob
     {
         [FunctionName(nameof(ProcessPhotoFromBlob))]
-        public static async Task Run(ILogger log, [BlobTrigger("photos/{name}")] Stream myBlob, string name,
+        public static async Task Run([BlobTrigger("photos/{name}")] Stream myBlob, string name,
                                         [CosmosDB(databaseName: "Photos",
                                                     collectionName: "PhotoMetadata",
-                                                    ConnectionStringSetting = AzureConstants.CosmosDbConnectionString)]IAsyncCollector<dynamic> documentCollector)
+                                                    ConnectionStringSetting = AzureConstants.CosmosDbConnectionString)]IAsyncCollector<dynamic> documentCollector,
+                                        ILogger log)
         {
             var apiKey = Environment.GetEnvironmentVariable("ComputerVisionApiKey");
             var creds = new ApiKeyServiceClientCredentials(apiKey);

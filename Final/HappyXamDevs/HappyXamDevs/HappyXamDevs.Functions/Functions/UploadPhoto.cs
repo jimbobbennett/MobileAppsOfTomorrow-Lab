@@ -22,7 +22,7 @@ namespace HappyXamDevs.Functions
 
             log.LogInformation($"Image Parsed");
 
-            var connectionString = Environment.GetEnvironmentVariable("BlobStorageConnectionString");
+            var connectionString = Environment.GetEnvironmentVariable("AzureWebJobsStorage");
 
             CloudStorageAccount.TryParse(connectionString, out var storageAccount);
 
@@ -31,7 +31,7 @@ namespace HappyXamDevs.Functions
 
             var blobName = Guid.NewGuid().ToString();
             var blockBlob = blobContainer.GetBlockBlobReference(blobName);
-            blockBlob.Properties.ContentType = "Jpeg";
+            blockBlob.Properties.ContentType = "image/jpeg";
 
             await blockBlob.UploadFromByteArrayAsync(imageBytes, 0, imageBytes.Length);
 
