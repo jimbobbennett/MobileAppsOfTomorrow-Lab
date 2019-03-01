@@ -2,34 +2,60 @@
 
 In the previous step we uploaded an image to Blob Storage using an Azure Function.
 
-In this step we will create a new Azure Function with a Blob Storage trigger that runs every time a new Blob is added or an existing Blob is updated.
+In this step we will create another Azure Function that uses a Blob Storage trigger making it run every time a new Blob is added or an existing Blob is updated.
 
-The new Azure Function will use the [Azure Cognitive Services Computer Vision API](https://docs.microsoft.com/azure/cognitive-services/computer-vision/home/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn) to generate an image description and some tags around what is in the photo, then upload this data to Cosmos DB.
+The new Azure Function will use the [Azure Cognitive Services Computer Vision API](https://docs.microsoft.com/azure/cognitive-services/computer-vision/home/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn) to generate an image description and some tags around what is in the photo, then upload its metadata to Cosmos DB.
 
-## Configuring Computer Vision in the Azure portal
+## 1.Configuring Computer Vision API in the Azure portal
 
 Before you can use the Computer Vision API, you will need an API key. You can get this by creating a resource in the Azure portal.
 
-1. From the [Azure Portal](https://portal.azure.com/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn), add a new resource. Search for "Computer Vision" and select _Computer Vision_ from the _AI + Machine Learning_ category. Then click "Create".
+1. In the browser, navigate to the [Azure Portal](https://portal.azure.com/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn)
+
+2. On the left-hand toolbar, click **Create a resource**  
+
+> **Note:** If the toolbar is collapsed, it will be shown as a green **+**
+
+2. In the **New** dashboard, in the search bar, enter **Computer Vision**
+
+3. On the keyboard, select the **Return** key
+
+4. In th search results, select **Computer Vision**
 
     ![Searching for Computer Vision in the Azure portal](../Images/PortalSearchComputerVision.png)
 
-2. In the _Create_ blade, enter a name for the service, such as "HappyXamDevs-ComputerVision", select your Azure subscription, and select the Azure region closest to you. For the _Pricing tier_, set this to "F0", a free tier with limited calls but well within what we need for this workshop (at the time of writing this is limited to 20 per minute, and 5,000 per month). For the _Resource Group_, select "Use Existing" and choose the resource group you created when setting up your function app. Then check _Pin to Dashboard_ to make this easy to find and click "Create".
+5. In the **Computer Vision** window, click **Create**
 
-    ![Setting up the Computer Vision service resource](../Images/PortalNewComputerVision.png)
+6. In the **Create** window, enter the following:
+    - **Name:** HappyXamDevs-ComputerVision
+    - **Subscription:** [Your Azure Subscription]
+    - **Location:** West US
+    - **Pricing Tier:** F0
+    - **Resource group:** HappyXamDevs
 
-3. Once the Computer Vision resource has been created, head to it and select _Resource Management->Keys_ from the left-hand menu. Copy one of the API keys.
-4. Head your Azure Functions app, open the _Application Settings_ from the link on the _Overview_ page and add a new application setting called "ComputerVisionApiKey", and set the value to be the Computer Vision resource API key. The Click "Save" on top of the page.
+7. On the **Create** window, click **Create** 
 
-5. ALSO ADD ComputerVisionBaseUrl
+8. In the Azure Portal, navigate to the newly created resource, **HappyXamDevs-ComputerVision**
 
-## Creating a Blob trigger Azure Function
+9. On the **HappyXamDevs-ComputerVision** dashboard, on the left-hand menu, select **Keys**
 
-In a previous part, you created an Azure Function with an HTTP trigger - a call to an HTTP end point would invoke that function. You can also create functions that are triggered when blobs are [saved into blob storage](https://docs.microsoft.com/azure/azure-functions/functions-create-storage-blob-triggered-function/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn), just like the way a database trigger is fired on an INSERT in a traditional relational database like SQL Server.
+10. On the **Keys** page, copy the value of **KEY 1**
+    > **Note:** We will add the key to our Azure Functions' Application Settings later
+
+9. On the **HappyXamDevs-ComputerVision** dashboard, on the left-hand menu, select **Overview**
+
+10. On the **Overview** page, copy the base url of **Endpoint**
+    > **Important:** Only copy the base url of the API endpoint
+    >    - Correct Endopint Example: `https://westus.api.cognitive.microsoft.com/`
+    >    - Incorrect Endopint Example: `https://westus.api.cognitive.microsoft.com/vision/v1.0`
+
+    > **Note:** We will add the base url to our Azure Functions' Application Settings later
+
+## 2. Creating a Blob Trigger Azure Function
+
+In a previous part, we created an Azure Function with an HTTP Trigger - an Azure Function invoked by call to its HTTP end point. We can also create functions that are triggered when blobs are [saved into Azure Blob Storage](https://docs.microsoft.com/azure/azure-functions/functions-create-storage-blob-triggered-function/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn), similar to how a database trigger is fired on an INSERT in a traditional relational database like SQL Server.
 
 Functions can also have bindings to other Azure resources such as storage and Cosmos DB. These bindings can be input bindings so that data from the resource is passed to the function as an input parameter, or output bindings so that data returned from the function or passed as an `out` parameter can be sent to a resource. For example, you can bind the return value of a function to a Cosmos DB database and have the returned value inserted as a document into the database once the function completes, simply by configuring the bindings.
-
-## To Do: Everything ABOVE here
 
 ### Creating the Blob trigger
 
@@ -38,33 +64,50 @@ Functions can also have bindings to other Azure resources such as storage and Co
 
 2. On the **Azure Functions** dashboard, on the lef-hand menu, click **Functions**
 
-3. On the **Functions** page, click **+ Add New Function**
+4. On the **Overview** page, click **Application settings**
 
-4. On the **Choose a template...** page, select **Azure Blob Storage Trigger** panel and click on _C#_.
+5. On the **Application settings** page, in the **Application settings** frame, click **+ Add new setting**
 
-5. On the **Azure Blob Storage Trigger** popout, if prompted to install extensions, select **Install**
+6. On the **Application settings** page, in the **Application settings** frame, enter the following:
+    - **App Setting:** ComputerVisionApiKey
+    - **Value:** [Your Computer Vision API Key]
 
-6. On the **Azure Blob Storage Trigger** popout, if prompted to install extensions, select **Continue**
+5. On the **Application settings** page, in the **Application settings** frame, click **+ Add new setting**
 
-7. On the **Azure Blob Storage Trigger** popout, enter the following:
+6. On the **Application settings** page, in the **Application settings** frame, enter the following:
+    - **App Setting:** ComputerVisionBaseUrl
+    - **Value:** [Your Computer Vision Base Url]
+
+7. On the **Application settings** page, at the top, click **Save**
+
+8. On the **Functions** page, click **HappyXamDevsFunction-[Your Last Name]**
+
+9. On the **Functions** page, click **+ Add New Function**
+
+10. On the **Choose a template...** page, select **Azure Blob Storage Trigger** panel and click on _C#_.
+
+11. On the **Azure Blob Storage Trigger** popout, if prompted to install extensions, select **Install**
+
+11. On the **Azure Blob Storage Trigger** popout, if prompted to install extensions, select **Continue**
+
+12. On the **Azure Blob Storage Trigger** popout, enter the following:
     - **Name:** ProcessPhotoFromBlob
     - **Path:** photos/{name}
         > **Note:** `photos/{name}` tells the trigger to listen on any inserted or updated blobs in the `photos` collection, and pass the blob file name into the function as a parameter called `name`
     - **Storage account connection:** AzureWebJobStorage
 
-8. On the **Azure Blob Storage Trigger** popout, click **Create**
+13. On the **Azure Blob Storage Trigger** popout, click **Create**
 
-9. In the **ProcessPhotoFromBlob** Function page, scroll to the right until **View files** is visible
+14. In the **ProcessPhotoFromBlob** Function page, scroll to the right until **View files** is visible
 
-10. In the **ProcessPhotoFromBlob** Function page, select **View files**
+15. In the **ProcessPhotoFromBlob** Function page, select **View files**
 
-11. In the **View Files** window, click the **+ Add**
-12. In the **file name** entry, enter `function.proj`
-13. Press the **Return** key on the keyboard to save the new file
+16. In the **View Files** window, click the **+ Add**
+17. In the **file name** entry, enter `function.proj`
+18. Press the **Return** key on the keyboard to save the new file
 
-    ![Adding a new file to the Azure Function](../Images/PortalAddFileToFunction.png)
-
-14. In the **function.proj** text editor, enter the following:
+    ![Adding a new file to the Azure Function](../Images/PortalAddFileToFunction.png)8
+19. In the **function.proj** text editor, enter the following:
 
 ```xml
 <Project Sdk="Microsoft.NET.Sdk">
@@ -79,77 +122,11 @@ Functions can also have bindings to other Azure resources such as storage and Co
 </Project>
 ```
 
-15. In the **function.proj** text editor, click **Save**
+20. In the **function.proj** text editor, click **Save**
 
-16. In the the **View Files** window, select **run.csx**
+21. In the the **View Files** window, select **run.csx**
 
-17. In the **run.csx** editor, enter the following code:
-
-```cs
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Azure.CognitiveServices.Vision.ComputerVision;
-using Microsoft.Azure.CognitiveServices.Vision.ComputerVision.Models;
-using Microsoft.Azure.WebJobs;
-using Microsoft.Extensions.Logging;
-
-public static async Task Run(Stream myBlob, string name, IAsyncCollector<dynamic> documentCollector, ILogger log)
-{
-    var apiKey = Environment.GetEnvironmentVariable("ComputerVisionApiKey");
-    var creds = new ApiKeyServiceClientCredentials(apiKey);
-
-    var visionApi = new ComputerVisionClient(creds)
-    {
-        Endpoint = Environment.GetEnvironmentVariable("ComputerVisionBaseUrl")
-    };
-
-    var features = new List<VisualFeatureTypes>
-    {
-        VisualFeatureTypes.Description,
-        VisualFeatureTypes.Tags
-    };
-    var analysis = await visionApi.AnalyzeImageInStreamWithHttpMessagesAsync(myBlob, features);
-
-    await documentCollector.AddAsync(new
-    {
-        Name = name,
-        Tags = analysis.Body.Tags.Select(t => t.Name).ToArray(),
-        Caption = analysis.Body.Description.Captions.FirstOrDefault()?.Text ?? ""
-    });
-}
-```
-
-> **About the Code**
->
-> `await visionApi.AnalyzeImageInStreamWithHttpMessagesAsync(myBlob, features);` retrieves the machine learning results from the Vision API
-
-7. The API to analyze an image can return multiple pieces of information about the image. For this app, you only want to get a description and some tags for the photo, so create a list of the features you want and pass them to the `AnalyzeImageInStreamWithHttpMessagesAsync` method on the Computer Vision API, along with the blob data. You will need to add a using directive for the `Microsoft.Azure.CognitiveServices.Vision.ComputerVision.Models` namespace.
-
-    ```cs
-    var features = new List<VisualFeatureTypes>
-    {
-        VisualFeatureTypes.Description,
-        VisualFeatureTypes.Tags
-    };
-    var analysis = await visionApi.AnalyzeImageInStreamWithHttpMessagesAsync(myBlob, features);
-    ```
-
-8. Return an new anonymous type containing the blob name, the description and the tags from the Computer Vision analysis. You will need to add a using directive for the `using System.Linq;` namespace.  Then save the function.
-
-    ```cs
-    return new
-    {
-        Name = name,
-        Tags = analysis.Body.Tags.Select(t => t.Name).ToArray(),
-        Caption = analysis.Body.Description.Captions.FirstOrDefault()?.Text ?? ""
-    };
-    ```
-
-The full code for this function script file is shown below.
+22. In the **run.csx** editor, enter the following code:
 
 ```cs
 #r "Microsoft.WindowsAzure.Storage"
@@ -203,7 +180,11 @@ public static async Task Run(CloudBlockBlob myBlob, string name, IAsyncCollector
 }
 ```
 
-### Setting up an output binding to Cosmos DB
+> **About the Code**
+>
+> `await visionApi.AnalyzeImageInStreamWithHttpMessagesAsync(myBlob, features);` retrieves the the image's `Description` and `Tags` from the machine learning results using the Vision API
+
+## 3. Setting up an output binding to Cosmos DB
 
 Now that you have a function that returns an object with the results of the vision analysis, you will need to bind this output to your Cosmos DB database. Once this binding is set up, every time this trigger runs the returned object will be saved as a JSON document inside your Cosmos DB instance.
 
