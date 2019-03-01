@@ -9,6 +9,9 @@
         <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="1.0.24" />
         <PackageReference Include="WindowsAzure.Storage" Version="9.3.3" />
         <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
+        <PackageReference Include="Microsoft.Azure.CognitiveServices.Vision.ComputerVision" Version="3.3.0" />
+        <PackageReference Include="Microsoft.Azure.WebJobs.Extensions.Storage" Version="3.0.3" />
+        <PackageReference Include="Microsoft.Azure.WebJobs.Extensions.CosmosDB" Version="3.0.3" />
     </ItemGroup>
     <ItemGroup>
         <None Include="**/*" />
@@ -24,5 +27,6 @@
     </ItemGroup>
     <ItemGroup>
         <Folder Include="Functions\" />
+        <Folder Include="Constants\" />
     </ItemGroup>
 </Project>

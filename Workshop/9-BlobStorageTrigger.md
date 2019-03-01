@@ -1,6 +1,10 @@
-# Creating a Blob storage trigger to create metadata about the image
+# Creating an Azure Function with a Blob Storage Trigger
 
-In the previous step you uploaded an image to Blob storage using an Azure Function. In this step you will create a trigger against the Blob storage that runs every time a new Blob is added or an existing Blob is updated, and this trigger will use the [Azure Cognitive Services Computer Vision API](https://docs.microsoft.com/azure/cognitive-services/computer-vision/home/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn) to generate an image description and some tags around what is in the photo, then upload this data to Cosmos DB.
+In the previous step we uploaded an image to Blob Storage using an Azure Function.
+
+In this step we will create a new Azure Function with a Blob Storage trigger that runs every time a new Blob is added or an existing Blob is updated.
+
+The new Azure Function will use the [Azure Cognitive Services Computer Vision API](https://docs.microsoft.com/azure/cognitive-services/computer-vision/home/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn) to generate an image description and some tags around what is in the photo, then upload this data to Cosmos DB.
 
 ## Configuring Computer Vision in the Azure portal
 
@@ -48,7 +52,7 @@ The purpose of this function is to analyze the photo uploaded to blob storage us
         "frameworks": {
             "net46":{
                 "dependencies": {
-                    "Microsoft.Azure.CognitiveServices.Vision.ComputerVision": "1.0.2-preview"
+                    "Microsoft.Azure.CognitiveServices.Vision.ComputerVision": "3.3.0   "
                 }
             }
         }
@@ -103,18 +107,25 @@ The purpose of this function is to analyze the photo uploaded to blob storage us
 The full code for this function script file is shown below.
 
 ```cs
-using System.Configuration;
+using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.CognitiveServices.Vision.ComputerVision;
 using Microsoft.Azure.CognitiveServices.Vision.ComputerVision.Models;
+using Microsoft.Azure.WebJobs;
+using Microsoft.Extensions.Logging;
 
-public static async Task<object> Run(Stream myBlob, string name, TraceWriter log)
+public static async Task Run(Stream myBlob, string name, IAsyncCollector<dynamic> documentCollector, ILogger log)
 {
-    var apiKey = ConfigurationManager.AppSettings["ComputerVisionApiKey"];
+    var apiKey = Environment.GetEnvironmentVariable("ComputerVisionApiKey");
     var creds = new ApiKeyServiceClientCredentials(apiKey);
-    var visionApi = new ComputerVisionAPI(creds)
+
+    var visionApi = new ComputerVisionClient(creds)
     {
-        AzureRegion = AzureRegions.Westeurope
+        Endpoint = Environment.GetEnvironmentVariable("ComputerVisionBaseUrl")
     };
 
     var features = new List<VisualFeatureTypes>
@@ -124,12 +135,12 @@ public static async Task<object> Run(Stream myBlob, string name, TraceWriter log
     };
     var analysis = await visionApi.AnalyzeImageInStreamWithHttpMessagesAsync(myBlob, features);
 
-    return new
+    await documentCollector.AddAsync(new
     {
         Name = name,
         Tags = analysis.Body.Tags.Select(t => t.Name).ToArray(),
         Caption = analysis.Body.Description.Captions.FirstOrDefault()?.Text ?? ""
-    };
+    });
 }
 ```
 

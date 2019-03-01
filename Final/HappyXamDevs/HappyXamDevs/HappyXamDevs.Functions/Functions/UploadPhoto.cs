@@ -9,7 +9,7 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.WindowsAzure.Storage;
 
-namespace UploadPhoto
+namespace HappyXamDevs.Functions
 {
     public static class UploadPhoto
     {
