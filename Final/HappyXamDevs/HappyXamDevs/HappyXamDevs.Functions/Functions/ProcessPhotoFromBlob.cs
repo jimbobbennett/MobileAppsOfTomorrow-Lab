@@ -27,12 +27,16 @@ namespace HappyXamDevs.Functions
                 Endpoint = Environment.GetEnvironmentVariable("ComputerVisionBaseUrl")
             };
 
+            log.LogInformation("Created Vision API Client");
+
             var features = new List<VisualFeatureTypes>
             {
                 VisualFeatureTypes.Description,
                 VisualFeatureTypes.Tags
             };
             var analysis = await visionApi.AnalyzeImageInStreamWithHttpMessagesAsync(myBlob, features);
+
+            log.LogInformation("Completed Vision Analysis");
 
             await documentCollector.AddAsync(new
             {

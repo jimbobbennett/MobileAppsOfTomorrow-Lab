@@ -14,7 +14,7 @@ namespace HappyXamDevs.Functions
     public static class UploadPhoto
     {
         [FunctionName(nameof(UploadPhoto))]
-        public static async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = null)] HttpRequestMessage req, ILogger log)
+        public static async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "photo")] HttpRequestMessage req, ILogger log)
         {
             dynamic data = await req.Content.ReadAsAsync<object>();
             string photo = data?.Photo;
