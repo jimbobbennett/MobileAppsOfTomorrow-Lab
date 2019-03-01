@@ -38,10 +38,13 @@ Azure Functions are named functions, so you would name them based off a naming c
 
 By default, HTTP triggers support GET and POST methods. This function will only need to support POST. It will also be configured using the `photo` resource.
 
-1. On the left-hand menu, expand the **UploadPhoto** drop-down 
+1. On the left-hand menu, expand the **UploadPhoto** drop-down
 2. On the left-hand menu, under **UploadPhoto**, select the **Integrate** node
 3. In the **Integrate** dashboard, make the following selections:
+    - **Allowed Http methods:** Selected methods
+    - **Request parameter name:** req
     - **Route Template**: photo
+    - **Authorization level:** Anonymous
     - **Selected HTTP methods**: Post
 
     > Note: Uncheck all other **Selected HTTP methods**
@@ -79,12 +82,12 @@ You'll actually implement the sending of this data later in this part, but for n
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.Azure.CognitiveServices.Vision.ComputerVision" Version="3.3.0" />
+        <PackageReference Include="WindowsAzure.Storage" Version="9.3.3" />
     </ItemGroup>
 </Project>
 ```
 
-8. In the **project.json** text editor, click **Save**
+8. In the **function.proj** text editor, click **Save**
 
 9. In the **View Files** pane on the right-hand menu, select **run.csx**
 

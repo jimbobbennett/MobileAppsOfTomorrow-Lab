@@ -37,7 +37,12 @@ This back-end will use Facebook authentication, meaning that any calls to Functi
         - **Create new**
         - **Name:** HappyXamDevs
     - **OS:** Windows
-    - **Hosting Plan:** Consumption Plan
+    - **Hosting Plan:** App Service Plan
+    - **App Service Plan/Location:** > **Create New**
+        - **App Service Plan Name:** HappyXamDevsAppServicePlan
+        - **Location:** West US
+        - **Pricing Tier:** S1 Standard
+        - Click **OK**
     - **Location:** West US
     - **Runtime Stack**: .NET
     - **Storage** 

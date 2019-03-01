@@ -44,25 +44,27 @@ Functions can also have bindings to other Azure resources such as storage and Co
 
 5. On the **Azure Blob Storage Trigger** popout, if prompted to install extensions, select **Install**
 
-6. On the **Azure Blob Storage Trigger** popout, enter the following:
+6. On the **Azure Blob Storage Trigger** popout, if prompted to install extensions, select **Continue**
+
+7. On the **Azure Blob Storage Trigger** popout, enter the following:
     - **Name:** ProcessPhotoFromBlob
     - **Path:** photos/{name}
         > **Note:** `photos/{name}` tells the trigger to listen on any inserted or updated blobs in the `photos` collection, and pass the blob file name into the function as a parameter called `name`
     - **Storage account connection:** AzureWebJobStorage
 
-7. On the **Azure Blob Storage Trigger** popout, click **Create**
+8. On the **Azure Blob Storage Trigger** popout, click **Create**
 
-8. In the **ProcessPhotoFromBlob** Function page, scroll to the right until **View files** is visible
+9. In the **ProcessPhotoFromBlob** Function page, scroll to the right until **View files** is visible
 
-9. In the **ProcessPhotoFromBlob** Function page, select **View files**
+10. In the **ProcessPhotoFromBlob** Function page, select **View files**
 
-10. In the **View Files** window, click the **+ Add**
-11. In the **file name** entry, enter `function.proj`
-12. Press the **Return** key on the keyboard to save the new file
+11. In the **View Files** window, click the **+ Add**
+12. In the **file name** entry, enter `function.proj`
+13. Press the **Return** key on the keyboard to save the new file
 
     ![Adding a new file to the Azure Function](../Images/PortalAddFileToFunction.png)
 
-13. In the **function.proj** text editor, enter the following:
+14. In the **function.proj** text editor, enter the following:
 
 ```xml
 <Project Sdk="Microsoft.NET.Sdk">
@@ -72,15 +74,16 @@ Functions can also have bindings to other Azure resources such as storage and Co
 
     <ItemGroup>
         <PackageReference Include="Microsoft.Azure.CognitiveServices.Vision.ComputerVision" Version="3.3.0" />
+        <PackageReference Include="WindowsAzure.Storage" Version="9.3.3" />
     </ItemGroup>
 </Project>
 ```
 
-14. In the **project.json** text editor, click **Save**
+15. In the **function.proj** text editor, click **Save**
 
-14. In the the **View Files** window, select **run.csx**
+16. In the the **View Files** window, select **run.csx**
 
-15. In the **run.csx** editor, enter the following code:
+17. In the **run.csx** editor, enter the following code:
 
 ```cs
 using System;
@@ -120,28 +123,9 @@ public static async Task Run(Stream myBlob, string name, IAsyncCollector<dynamic
 }
 ```
 
- file. You will see a `Run` method with three parameters:
-    * `myBlob` - this is the newly inserted or updated blob that caused the trigger to be fired.
-    * `name` - this is the file name of the blob.
-    * `log` - a logger.
-
-4. This `Run` method needs to be async and return an object that you can eventually bind to Cosmos DB, so change the return type in the signature from `void` to `async Task<object>`.
-
-5. Start by adding code to this function to retrieve the API key from the application configuration. You will need to add a using directive to the top of the file for the `System.Configuration` namespace.
-
-    ```cs
-    var apiKey = ConfigurationManager.AppSettings["ComputerVisionApiKey"];
-    ```
-
-6. Create some API key credentials using this api key, and use these credentials to instantiate the Computer Vision API. Set the `AzureRegion` to match the one you used when you created the resource. You will need to add a using directive for the `Microsoft.Azure.CognitiveServices.Vision.ComputerVision` namespace.
-
-    ```cs
-    var creds = new ApiKeyServiceClientCredentials(apiKey);
-    var visionApi = new ComputerVisionAPI(creds)
-    {
-        AzureRegion = AzureRegions.Westeurope
-    };
-    ```
+> **About the Code**
+>
+> `await visionApi.AnalyzeImageInStreamWithHttpMessagesAsync(myBlob, features);` retrieves the machine learning results from the Vision API
 
 7. The API to analyze an image can return multiple pieces of information about the image. For this app, you only want to get a description and some tags for the photo, so create a list of the features you want and pass them to the `AnalyzeImageInStreamWithHttpMessagesAsync` method on the Computer Vision API, along with the blob data. You will need to add a using directive for the `Microsoft.Azure.CognitiveServices.Vision.ComputerVision.Models` namespace.
 
@@ -168,6 +152,8 @@ public static async Task Run(Stream myBlob, string name, IAsyncCollector<dynamic
 The full code for this function script file is shown below.
 
 ```cs
+#r "Microsoft.WindowsAzure.Storage"
+
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -178,8 +164,9 @@ using Microsoft.Azure.CognitiveServices.Vision.ComputerVision;
 using Microsoft.Azure.CognitiveServices.Vision.ComputerVision.Models;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
+using Microsoft.WindowsAzure.Storage.Blob;
 
-public static async Task Run(Stream myBlob, string name, IAsyncCollector<dynamic> documentCollector, ILogger log)
+public static async Task Run(CloudBlockBlob myBlob, string name, IAsyncCollector<dynamic> documentCollector, ILogger log)
 {
     var apiKey = Environment.GetEnvironmentVariable("ComputerVisionApiKey");
     var creds = new ApiKeyServiceClientCredentials(apiKey);
@@ -189,19 +176,30 @@ public static async Task Run(Stream myBlob, string name, IAsyncCollector<dynamic
         Endpoint = Environment.GetEnvironmentVariable("ComputerVisionBaseUrl")
     };
 
-    var features = new List<VisualFeatureTypes>
-    {
-        VisualFeatureTypes.Description,
-        VisualFeatureTypes.Tags
-    };
-    var analysis = await visionApi.AnalyzeImageInStreamWithHttpMessagesAsync(myBlob, features);
+    log.LogInformation("Created Vision API Client");
 
-    await documentCollector.AddAsync(new
+    using (var stream = new MemoryStream())
     {
-        Name = name,
-        Tags = analysis.Body.Tags.Select(t => t.Name).ToArray(),
-        Caption = analysis.Body.Description.Captions.FirstOrDefault()?.Text ?? ""
-    });
+        await myBlob.DownloadToStreamAsync(stream);
+
+        var features = new List<VisualFeatureTypes>
+        {
+            VisualFeatureTypes.Description,
+            VisualFeatureTypes.Tags
+        };
+        var analysis = await visionApi.AnalyzeImageInStreamWithHttpMessagesAsync(stream, features);
+
+        log.LogInformation("Completed Vision Analysis");
+
+        await documentCollector.AddAsync(new
+        {
+            Name = name,
+            Tags = analysis.Body.Tags.Select(t => t.Name).ToArray(),
+            Caption = analysis.Body.Description.Captions.FirstOrDefault()?.Text ?? ""
+        });
+    }
+
+    log.LogInformation("Saved Analysis to Cosmos Db");
 }
 ```
 
