@@ -46,6 +46,8 @@ namespace HappyXamDevs.Functions
                 Tags = analysis.Body.Tags.Select(t => t.Name).ToArray(),
                 Caption = analysis.Body.Description.Captions.FirstOrDefault()?.Text ?? ""
             });
+
+            log.LogInformation("Saved Analysis to Cosmos Db");
         }
     }
 }
