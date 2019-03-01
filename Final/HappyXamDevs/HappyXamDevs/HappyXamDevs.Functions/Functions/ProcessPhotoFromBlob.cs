@@ -15,7 +15,7 @@ namespace HappyXamDevs.Functions
     public static class ProcessPhotoFromBlob
     {
         [FunctionName(nameof(ProcessPhotoFromBlob))]
-        public static async Task Run([BlobTrigger("photos/{name}")] Stream myBlob, string name,
+        public static async Task Run([BlobTrigger("photos/{name}")] CloudBlockBlob myBlob, string name,
                                         [CosmosDB(databaseName: "Photos",
                                                     collectionName: "PhotoMetadata",
                                                     ConnectionStringSetting = AzureConstants.CosmosDbConnectionString)]IAsyncCollector<dynamic> documentCollector,
@@ -31,21 +31,26 @@ namespace HappyXamDevs.Functions
 
             log.LogInformation("Created Vision API Client");
 
-            var features = new List<VisualFeatureTypes>
+            using (var stream = new MemoryStream())
             {
-                VisualFeatureTypes.Description,
-                VisualFeatureTypes.Tags
-            };
-            var analysis = await visionApi.AnalyzeImageInStreamWithHttpMessagesAsync(myBlob, features);
+                await myBlob.DownloadToStreamAsync(stream);
 
-            log.LogInformation("Completed Vision Analysis");
+                var features = new List<VisualFeatureTypes>
+                {
+                    VisualFeatureTypes.Description,
+                    VisualFeatureTypes.Tags
+                };
+                var analysis = await visionApi.AnalyzeImageInStreamWithHttpMessagesAsync(stream, features);
 
-            await documentCollector.AddAsync(new
-            {
-                Name = name,
-                Tags = analysis.Body.Tags.Select(t => t.Name).ToArray(),
-                Caption = analysis.Body.Description.Captions.FirstOrDefault()?.Text ?? ""
-            });
+                log.LogInformation("Completed Vision Analysis");
+
+                await documentCollector.AddAsync(new
+                {
+                    Name = name,
+                    Tags = analysis.Body.Tags.Select(t => t.Name).ToArray(),
+                    Caption = analysis.Body.Description.Captions.FirstOrDefault()?.Text ?? ""
+                });
+            }
 
             log.LogInformation("Saved Analysis to Cosmos Db");
         }
