@@ -50,34 +50,7 @@ By default, HTTP triggers support GET and POST methods. This function will only 
 
     ![Configuring the HTTP method and route for the UploadPhoto function](../Images/PortalUploadPhotoIntegrate.png)
 
-### 1c. Add Connection String to Function App Settings
-
-To connect to blob storage, the function needs a connection string. Rather than hard-coding this, it can be configured as an application setting.
-
-1. In the [Azure portal](https://portal.azure.com/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn), navigate to the Blob Storage, **happyxamdevsstorage**
-2. On the left-hand menu of the Blob Storage dashboard, select **Access Keys**
-3. In the **Access Keys** window, copy **key1** **Connection String**
-4. In the [Azure portal](https://portal.azure.com/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn), navigate to the Functions App, **HappyXamDevsFunction-[LastName]**
-5. On the **Functions** down-down, select **UploadPhoto**
-6. On the **Overview** tab, click **Application Settings**
-
-    ![Clicking the Application settings in the Function app](../Images/PortalSelectFunctionAppSettings.png)
-
-5. In the **Application Settings** tab, scroll down to the section marked **Application settings**  
-
-6. In the **Application Settings** section, select **+ Add new setting**
-
-7. For the new setting, set the following values:
-    - **App Setting Name**: BlobStorageConnectionString
-    - **Value**: [Your Blob Storage Connection String]
-
-8. In the **Application Settings** tab, scroll to the top of the page
-
-9. In the **Application Settings** tab, select **Save**
-
-    ![Adding the blob storage connection string as an application setting](../Images/PortalAddingBlobConnectionSetting.png)
-
-### 1d. Writing the code
+### 1c. Writing the code
 
 The mobile app will need to send the photo to this function. One easy way to do it is to Base64 encode the binary image data (so that it becomes a `string`), then send this as part of a JSON payload. This method allows you in the future to extend the data being set by adding more fields.
 
@@ -95,23 +68,20 @@ You'll actually implement the sending of this data later in this part, but for n
 2. In the **UploadPhoto**, scroll to right-to-left until the right-hand menu is visible
 3. On the right-hand menu, select **View Files** 
 4. In the **View Files** window, click the **+ Add**
-5. In the **file name** entry, enter `project.json`
+5. In the **file name** entry, enter `function.proj`
 6. Press the **Return** key on the keyboard to save the new file
+7. In the **function.proj** text editor, This file will open in the editor, enter the following:
 
-    ![Adding a new file to the Azure Function](../Images/PortalAddFileToFunction.png)
+```xml
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+    </PropertyGroup>
 
-7. In the **project.json** text editor, This file will open in the editor, enter the following:
-
-```json
-{
-    "frameworks": {
-        "net46":{
-            "dependencies": {
-                "WindowsAzure.Storage": "9.3.3"
-            }
-        }
-    }
-}
+    <ItemGroup>
+        <PackageReference Include="Microsoft.Azure.CognitiveServices.Vision.ComputerVision" Version="3.3.0" />
+    </ItemGroup>
+</Project>
 ```
 
 8. In the **project.json** text editor, click **Save**
@@ -125,6 +95,8 @@ You'll actually implement the sending of this data later in this part, but for n
 11. In the **run.csx** editor, enter the following code:
 
 ```csharp
+#r "Microsoft.WindowsAzure.Storage"
+
 using System;
 using System.Configuration;
 using System.Net;
@@ -132,7 +104,6 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.WindowsAzure.Storage;
 
@@ -144,7 +115,7 @@ public static async Task<IActionResult> Run(HttpRequestMessage req, ILogger log)
 
     log.LogInformation($"Image Parsed");
 
-    var connectionString = Environment.GetEnvironmentVariable("BlobStorageConnectionString");
+    var connectionString = Environment.GetEnvironmentVariable("AzureWebJobsStorage");
 
     CloudStorageAccount.TryParse(connectionString, out var storageAccount);
 
@@ -153,7 +124,7 @@ public static async Task<IActionResult> Run(HttpRequestMessage req, ILogger log)
 
     var blobName = Guid.NewGuid().ToString();
     var blockBlob = blobContainer.GetBlockBlobReference(blobName);
-    blockBlob.Properties.ContentType = "Jpeg";
+    blockBlob.Properties.ContentType = "image/jpeg";
 
     await blockBlob.UploadFromByteArrayAsync(imageBytes, 0, imageBytes.Length);
 
@@ -169,7 +140,7 @@ public static async Task<IActionResult> Run(HttpRequestMessage req, ILogger log)
 >
 > `var imageBytes = Convert.FromBase64String(photo);` converts `string photo` to `byte[] imageBytes` using the static `Convert.FromBase64String` method
 >
-> `var connectionString = System.Configuration.Environment.GetEnvironmentVariable("BlobStorageConnectionString");` creates a connection to our Azure Blob Storage resource
+> `var connectionString = System.Configuration.Environment.GetEnvironmentVariable("AzureWebJobs");` creates a connection to our Azure Blob Storage resource
 >
 > `var blobContainer = blobClient.GetContainerReference("photos");` gets access to the `photos` container via a Blob Client
 >
