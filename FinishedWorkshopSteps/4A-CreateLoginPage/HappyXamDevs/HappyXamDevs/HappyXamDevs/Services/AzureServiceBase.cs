@@ -16,8 +16,6 @@ namespace HappyXamDevs.Services
 
         public MobileServiceClient Client { get; }
 
-        protected abstract Task AuthenticateUser();
-
         public async Task<bool> Authenticate()
         {
             if (IsLoggedIn())
@@ -39,5 +37,7 @@ namespace HappyXamDevs.Services
         {
             return Client.CurrentUser != null;
         }
+
+        protected abstract Task AuthenticateUser();
     }
 }
