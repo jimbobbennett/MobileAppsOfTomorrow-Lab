@@ -50,8 +50,6 @@ namespace HappyXamDevs.Services
                 {
                     MobileServiceAuthenticationToken = authToken.ToString()
                 };
-
-                MessagingCenter.Send<IAzureService>(this, "LoggedIn");
             }
         }
 
@@ -73,7 +71,6 @@ namespace HappyXamDevs.Services
 
             if (Client.CurrentUser != null)
             {
-                MessagingCenter.Send<IAzureService>(this, "LoggedIn");
                 Application.Current.Properties[AuthTokenKey] = Client.CurrentUser.MobileServiceAuthenticationToken;
                 Application.Current.Properties[UserIdKey] = Client.CurrentUser.UserId;
                 await Application.Current.SavePropertiesAsync();

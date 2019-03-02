@@ -14,10 +14,10 @@ namespace HappyXamDevs.ViewModels
     {
         private readonly IAzureService azureService;
 
+        private bool isRefreshing;
+
         public MainViewModel()
         {
-            MessagingCenter.Subscribe<IAzureService>(this, "LoggedIn", async s => await Refresh());
-
             TakePhotoCommand = new Command(async () => await TakePhoto());
             SelectFromLibraryCommand = new Command(async () => await SelectFromLibrary());
             RefreshCommand = new Command(async () => await Refresh());
@@ -28,6 +28,12 @@ namespace HappyXamDevs.ViewModels
         public ICommand RefreshCommand { get; }
         public ICommand SelectFromLibraryCommand { get; }
         public ICommand TakePhotoCommand { get; }
+
+        public bool IsRefreshing
+        {
+            get => isRefreshing;
+            set => Set(ref isRefreshing, value);
+        }
 
         private async Task Refresh()
         {
@@ -49,6 +55,8 @@ namespace HappyXamDevs.ViewModels
                     Photos.Insert(0, new PhotoModel(photo));
                 }
             }
+
+            IsRefreshing = false;
         }
 
         private async Task SelectFromLibrary()

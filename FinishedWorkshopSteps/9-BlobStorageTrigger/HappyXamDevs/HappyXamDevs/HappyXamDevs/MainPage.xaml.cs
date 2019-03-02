@@ -5,8 +5,6 @@ namespace HappyXamDevs
 {
     public partial class MainPage : ContentPage
     {
-        private bool firstAppear = true;
-
         public MainPage()
         {
             InitializeComponent();
@@ -15,9 +13,6 @@ namespace HappyXamDevs
         protected override async void OnAppearing()
         {
             base.OnAppearing();
-
-            if (!firstAppear) return;
-            firstAppear = false;
 
             var azureService = DependencyService.Get<IAzureService>();
 

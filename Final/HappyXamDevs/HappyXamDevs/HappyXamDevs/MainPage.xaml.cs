@@ -5,8 +5,6 @@ namespace HappyXamDevs
 {
     public partial class MainPage : ContentPage
     {
-        private bool firstAppear = true;
-
         public MainPage()
         {
             InitializeComponent();
@@ -16,14 +14,15 @@ namespace HappyXamDevs
         {
             base.OnAppearing();
 
-            if (!firstAppear) return;
-            firstAppear = false;
-
             var azureService = DependencyService.Get<IAzureService>();
 
             if (!azureService.IsLoggedIn())
             {
                 await Navigation.PushModalAsync(new LoginPage(), false);
+            }
+            else
+            {
+                PhotosListView.BeginRefresh();
             }
         }
     }

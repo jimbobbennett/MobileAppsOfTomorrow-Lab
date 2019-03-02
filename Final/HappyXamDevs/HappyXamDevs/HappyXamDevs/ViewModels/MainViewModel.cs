@@ -18,8 +18,6 @@ namespace HappyXamDevs.ViewModels
 
         public MainViewModel()
         {
-            MessagingCenter.Subscribe<IAzureService>(this, "LoggedIn", async s => await Refresh());
-
             TakePhotoCommand = new Command(async () => await TakePhoto());
             SelectFromLibraryCommand = new Command(async () => await SelectFromLibrary());
             RefreshCommand = new Command(async () => await Refresh());
