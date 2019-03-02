@@ -62,7 +62,7 @@ Functions can also have bindings to other Azure resources such as storage and Co
 1. In the [Azure Portal](https://portal.azure.com/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn), navigate to the Azure Function resource, **HappXamDevsFunction-[Your Last Name]**
     - E.g. HappyXamDevsFunction-Minnick
 
-2. On the **Azure Functions** dashboard, on the lef-hand menu, click **Functions**
+2. On the **Azure Functions** dashboard, on the left-hand menu, click **Functions**
 
 4. On the **Overview** page, click **Application settings**
 
@@ -183,24 +183,131 @@ public static async Task Run(CloudBlockBlob myBlob, string name, IAsyncCollector
 > **About the Code**
 >
 > `await visionApi.AnalyzeImageInStreamWithHttpMessagesAsync(myBlob, features);` retrieves the the image's `Description` and `Tags` from the machine learning results using the Vision API
+>
+> `await documentCollector.AddAsync` outputs the metadata to CosmosDb
 
 ## 3. Setting up an output binding to Cosmos DB
 
-Now that you have a function that returns an object with the results of the vision analysis, you will need to bind this output to your Cosmos DB database. Once this binding is set up, every time this trigger runs the returned object will be saved as a JSON document inside your Cosmos DB instance.
+Now that we have a function that returns an object with the results of the vision analysis, we need to bind this output to your Cosmos DB database. Once this binding is set up, every time this trigger runs the returned object will be saved as a JSON document inside your Cosmos DB instance.
 
-1. Under the _ProcessPhotoFromBlob_ node in the left-hand menu, select the _Integrate_ node. You will see the Blob trigger you set up, with nothing configured as input or output bindings.
-2. Under _Outputs_, click the "+ New Output" button. Select _Azure Cosmos DB_ and click "Select".
-3. For the _Document parameter name_, check the _Use function return value_ option.
-4. Set the database name to be "Photos" and collection name to be "PhotoMetadata".
-5. Leave the _Partition key_ blank.
-6. For the _Azure Cosmos DB Account connection_, click the _new_ option to configure a new connection string. The select your Cosmos DB resource from the list that appears.
-7. Click "Save".
+1. In the [Azure Portal](https://portal.azure.com/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn), navigate to the Azure Function resource, **HappXamDevsFunction-[Your Last Name]**
+    - E.g. HappyXamDevsFunction-Minnick
 
-    ![Configuring the Cosmos DB output binding](../Images/PortalConfigureCosmosOutputBinding.png)
+2. On the **Azure Functions** dashboard, on the left-hand menu, click **ProcessPhotoFromBlob**
+3. On the **Azure Functions** dashboard, on the left-hand menu, underneath **ProcessPhotoFromBlob**, click **Integrate**
+4. On the **Integrate** page, under **Outputs**, click **+ New Output**
+5. In the **New Output** overlay, scroll to the bottom and select **Azure Cosmos DB**
+6. On the **Azure Functions** dashboard, on the left-hand menu, click **Select**
+7. On the **Azure Cosmos Db Output** frame, if prompted for an extension, click **Install**
+8. On the **Azure Cosmos Db Output** frame, enter the following:
+    - **Document parameter name:** [Check **Use function return value**]
+    - **Database name:** Photos
+    - **Collection name:** PhotoMetadata
+    - **Azure Cosmos Db account connection**: [Click **new**]
+        - **Subscription:** [Your Azure Subscription]
+        - **Database Account:** happyxamdevs-[Your Last Name]
+            -E.g. happyxamdevs-minnick
+        - Click **Select**
+    - **Partition key** [Leave Blank]
+    - **Collection throughput** [Leave Blank]
 
-## Testing it all out
+7. On the **Azure Cosmos Db Output** frame, click **Save**
 
-To verify this is working, launch the mobile app on your platform of choice and upload a photo. From the Azure Portal, head to your Cosmos DB resource, and select the _Data Explorer_ from the left-hand menu. From there expand the _Photos_ database and the _PhotosMetadata_ collection and select _Documents_. You should see the new document in the main pane, and when you select it you will see the JSON for this document, showing the Blob name, as well as the caption and tags for this photo from the Computer Vision API.
+## 4. Test Cosmos Db Output
+
+## 4a. Test Cosmos Db Output Android
+
+1. In Visual Studio, right-click on **HappyXamDevs.Android** > **Set as Startup Project**
+
+2. (PC) In Visual Studio, select **Debug** > **Start Debugging**
+    - (Mac) In Visual Studio for Mac, select **Run** > **Start Debugging**
+
+3. On the Android device, if the **LoginPage** complete the login flow
+
+4. On the Android device, on the **MainPage**, tap the Camera icon
+
+5. On the Android device, if prompted for permission, tap **Allow**
+
+6. On the Android device, ensure the Camera appears
+
+7. On the Android device, take a happy-looking selfie
+
+8. In the [Azure portal](https://portal.azure.com/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn), navigate to the Cosmos Db instance **happyxamdevs-[Your Last Name]**
+    - E.g., happyxamdevs-minnick
+
+9. On the **Cosmos Db** dashboard, on the left-hand menu, select **Data Explorer**
+
+11. On the **Data Explorer** page, select **Photos**
+
+10. On the **Data Explorer** page, select **PhotosMetadata**
+
+10. On the **Data Explorer** page, select **Documents**
+
+11. In the **Documents** frame, ensure a new metadata entry has been added
+
+![Browsing documents in Cosmos DB](../Images/PortalCosmosBrowseDocument.png)
+
+## 4b. Test Cosmos Db Output, iOS
+
+1. In Visual Studio, right-click on **HappyXamDevs.iOS** > **Set as Startup Project**
+
+2. (PC) In Visual Studio, select **Debug** > **Start Debugging**
+    - (Mac) In Visual Studio for Mac, select **Run** > **Start Debugging**
+
+3. On the iOS device, if the **LoginPage** complete the login flow
+
+4. On the iOS device, on the **MainPage**, tap the Camera icon
+
+5. On the iOS device, if prompted for permission, tap **Allow**
+
+6. On the iOS device, ensure the Camera appears
+
+7. On the iOS device, take a happy-looking selfie
+
+8. In the [Azure portal](https://portal.azure.com/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn), navigate to the Cosmos Db instance **happyxamdevs-[Your Last Name]**
+    - E.g., happyxamdevs-minnick
+
+9. On the **Cosmos Db** dashboard, on the left-hand menu, select **Data Explorer**
+
+11. On the **Data Explorer** page, select **Photos**
+
+10. On the **Data Explorer** page, select **PhotosMetadata**
+
+10. On the **Data Explorer** page, select **Documents**
+
+11. In the **Documents** frame, ensure a new metadata entry has been added
+
+![Browsing documents in Cosmos DB](../Images/PortalCosmosBrowseDocument.png)
+
+## 4c. Test Cosmos Db Output, UWP
+
+1. In Visual Studio, right-click on **HappyXamDevs.UWP** > **Set as Startup Project**
+
+2. (PC) In Visual Studio, select **Debug** > **Start Debugging**
+    - (Mac) In Visual Studio for Mac, select **Run** > **Start Debugging**
+
+3. On the UWP device, if the **LoginPage** complete the login flow
+
+4. On the UWP device, on the **MainPage**, tap the Camera icon
+
+5. On the UWP device, if prompted for permission, tap **Allow**
+
+6. On the UWP device, ensure the Camera appears
+
+7. On the UWP device, take a happy-looking selfie
+
+8. In the [Azure portal](https://portal.azure.com/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn), navigate to the Cosmos Db instance **happyxamdevs-[Your Last Name]**
+    - E.g., happyxamdevs-minnick
+
+9. On the **Cosmos Db** dashboard, on the left-hand menu, select **Data Explorer**
+
+11. On the **Data Explorer** page, select **Photos**
+
+10. On the **Data Explorer** page, select **PhotosMetadata**
+
+10. On the **Data Explorer** page, select **Documents**
+
+11. In the **Documents** frame, ensure a new metadata entry has been added
 
 ![Browsing documents in Cosmos DB](../Images/PortalCosmosBrowseDocument.png)
 

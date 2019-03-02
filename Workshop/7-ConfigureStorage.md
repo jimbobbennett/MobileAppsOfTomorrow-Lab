@@ -42,7 +42,7 @@ The second type of storage to configure is Cosmos DB. This is a NoSQL database t
         - E.g. happyxamdevs-minnick
     > **Note:** The Storage Account Name must be unique because it is  used as the subdomain for our Azure Cosmos Db url
     - **API:** Core (SQL)
-    > **Note:** The different APIs have different ways for you to access and query your data, and have different capabilities. The SQL API allows us to query our data using SQL, and supports binding to Azure Functions which we will do in a later section
+    > **Note:** Thfe different APIs have different ways for you to access and query your data, and have different capabilities. The SQL API allows us to query our data using SQL, and supports binding to Azure Functions which we will do in a later section
     - **Location:** WestUS
     - **GeoRedundancy** Disable
     - **Multi-region Writes** Disable
