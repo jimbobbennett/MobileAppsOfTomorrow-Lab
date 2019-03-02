@@ -32,15 +32,14 @@ Azure Functions are named functions, so you would name them based off a naming c
     - **Authorization level**: Anonymous
 7. On the **New Function** slide-out menu, click **Create**
 
-    ![Creating a new C# HTTP Triggered Azure Function](../Images/PortalnewHttpTrigger.png)
-
 ### 1b. Configuring the Azure function
 
 By default, HTTP triggers support GET and POST methods. This function will only need to support POST. It will also be configured using the `photo` resource.
 
 1. On the left-hand menu, expand the **UploadPhoto** drop-down
 2. On the left-hand menu, under **UploadPhoto**, select the **Integrate** node
-3. In the **Integrate** dashboard, make the following selections:
+3. In the **Integrate** window, under **Triggers**, select **HTTP (req)**
+4. In the **HTTP trigger** window, make the following selections:
     - **Allowed Http methods:** Selected methods
     - **Request parameter name:** req
     - **Route Template**: photo
@@ -49,9 +48,15 @@ By default, HTTP triggers support GET and POST methods. This function will only 
 
     > Note: Uncheck all other **Selected HTTP methods**
 
-4. In the **Integrate** dashboard, click **Save**
-
-    ![Configuring the HTTP method and route for the UploadPhoto function](../Images/PortalUploadPhotoIntegrate.png)
+5. In the **HTTP trigger** window, click **Save**
+6. In the **Integrate** dashboard, under **Outputs**, click **+ New Output**
+7. In the **New Output** window, select **Azure Queue Storage**
+8. In the **New Output** window, select **Select**
+9. In the **Azure Queue Storage output** window, enter the following:
+    - **Message parameter name:** blobUrlCollector
+    - **Queue name:** processblobqueue
+    - **Storage account connection:** AzureWebJobStorage
+10. In the **Azure Queue Storage output** dashboard, click **Save**
 
 ### 1c. Writing the code
 
@@ -91,7 +96,7 @@ You'll actually implement the sending of this data later in this part, but for n
 
 9. In the **View Files** pane on the right-hand menu, select **run.csx**
 
-    > **Note**: This is a C# script file that contains the code that the function will run. The default new function contains a basic "Hello World" style function, which we will overwrite
+    > **Note**: This is a C# script file that contains the code that the function will run. The default new function contains a basic "Hello World" style function, which we will overwrite.
 
 10. In the **run.csx** editor, clear (delete) the existing Hello World code
 
@@ -110,7 +115,7 @@ using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
 using Microsoft.WindowsAzure.Storage;
 
-public static async Task<IActionResult> Run(HttpRequestMessage req, ILogger log)
+public static async Task<IActionResult> Run(HttpRequestMessage req, IAsyncCollector<string> blobUrlCollector, ILogger log)
 {
     dynamic data = await req.Content.ReadAsAsync<object>();
     string photo = data?.Photo;
@@ -125,13 +130,17 @@ public static async Task<IActionResult> Run(HttpRequestMessage req, ILogger log)
     var blobClient = storageAccount.CreateCloudBlobClient();
     var blobContainer = blobClient.GetContainerReference("photos");
 
-    var blobName = Guid.NewGuid().ToString();
+    var blobName = $"{Guid.NewGuid().ToString()}.jpeg";
     var blockBlob = blobContainer.GetBlockBlobReference(blobName);
     blockBlob.Properties.ContentType = "image/jpeg";
 
     await blockBlob.UploadFromByteArrayAsync(imageBytes, 0, imageBytes.Length);
 
     log.LogInformation($"Blob {blobName} created");
+
+    await blobUrlCollector.AddAsync(blobName);
+
+    log.LogInformation($"Blob Name Added to Queue");
 
     return new CreatedResult(blockBlob.Uri, blockBlob);
 }

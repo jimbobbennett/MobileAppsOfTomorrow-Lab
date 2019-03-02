@@ -1,4 +1,4 @@
-# Creating an Azure Function with a Blob Storage Trigger
+# Creating an Azure Function with a Queue Storage Trigger and a Cosmos Db Output
 
 In the previous step we uploaded an image to Blob Storage using an Azure Function.
 
@@ -6,7 +6,7 @@ In this step we will create another Azure Function that uses a Blob Storage trig
 
 The new Azure Function will use the [Azure Cognitive Services Computer Vision API](https://docs.microsoft.com/azure/cognitive-services/computer-vision/home/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn) to generate an image description and some tags around what is in the photo, then upload its metadata to Cosmos DB.
 
-## 1.Configuring Computer Vision API in the Azure portal
+## 1. Configuring Computer Vision API in the Azure portal
 
 Before you can use the Computer Vision API, you will need an API key. You can get this by creating a resource in the Azure portal.
 
@@ -80,20 +80,19 @@ Functions can also have bindings to other Azure resources such as storage and Co
 
 7. On the **Application settings** page, at the top, click **Save**
 
-8. On the **Functions** page, click **HappyXamDevsFunction-[Your Last Name]**
+8. On the **Functions** page, on the left-hand menu, click **Functions**
 
-9. On the **Functions** page, click **+ Add New Function**
+9. On the **Functions** page, click **+ New Function**
 
-10. On the **Choose a template...** page, select **Azure Blob Storage Trigger** panel and click on _C#_.
+10. On the **Choose a template...** page, select **Azure Queue Storage Trigger**
 
-11. On the **Azure Blob Storage Trigger** popout, if prompted to install extensions, select **Install**
+11. On the **Azure Queue Storage Trigger** popout, if prompted to install extensions, select **Install**
 
-11. On the **Azure Blob Storage Trigger** popout, if prompted to install extensions, select **Continue**
+11. On the **Azure Queue Storage Trigger** popout, if prompted to install extensions, select **Continue**
 
-12. On the **Azure Blob Storage Trigger** popout, enter the following:
+12. On the **Azure Queue Storage Trigger** popout, enter the following:
     - **Name:** ProcessPhotoFromBlob
-    - **Path:** photos/{name}
-        > **Note:** `photos/{name}` tells the trigger to listen on any inserted or updated blobs in the `photos` collection, and pass the blob file name into the function as a parameter called `name`
+    - **Queue name:** processblobqueue
     - **Storage account connection:** AzureWebJobStorage
 
 13. On the **Azure Blob Storage Trigger** popout, click **Create**
@@ -106,7 +105,8 @@ Functions can also have bindings to other Azure resources such as storage and Co
 17. In the **file name** entry, enter `function.proj`
 18. Press the **Return** key on the keyboard to save the new file
 
-    ![Adding a new file to the Azure Function](../Images/PortalAddFileToFunction.png)8
+    ![Adding a new file to the Azure Function](../Images/PortalAddFileToFunction.png)
+
 19. In the **function.proj** text editor, enter the following:
 
 ```xml
@@ -141,10 +141,14 @@ using Microsoft.Azure.CognitiveServices.Vision.ComputerVision;
 using Microsoft.Azure.CognitiveServices.Vision.ComputerVision.Models;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
+using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
 
-public static async Task Run(CloudBlockBlob myBlob, string name, IAsyncCollector<dynamic> documentCollector, ILogger log)
+public static async Task Run(string blobName, IAsyncCollector<object> documentCollector, ILogger log)
 {
+    log.LogInformation("Starting ProcessPhotoFromBlob");
+    log.LogInformation($"{nameof(blobName)}: {blobName}");
+
     var apiKey = Environment.GetEnvironmentVariable("ComputerVisionApiKey");
     var creds = new ApiKeyServiceClientCredentials(apiKey);
 
@@ -155,54 +159,73 @@ public static async Task Run(CloudBlockBlob myBlob, string name, IAsyncCollector
 
     log.LogInformation("Created Vision API Client");
 
-    using (var stream = new MemoryStream())
-    {
-        await myBlob.DownloadToStreamAsync(stream);
+    var connectionString = Environment.GetEnvironmentVariable("AzureWebJobsStorage");
+    CloudStorageAccount.TryParse(connectionString, out var storageAccount);
 
+    var blobClient = storageAccount.CreateCloudBlobClient();
+    var blobContainer = blobClient.GetContainerReference("photos");
+
+    var photoBlob = blobContainer.GetBlockBlobReference(blobName);
+
+    log.LogInformation("Retrieved Blob from Storage");
+
+    const string filePath = "D:\\home\\blobImage.jpeg";
+    using (var fileStream = System.IO.File.OpenWrite(filePath))
+    {
+        await photoBlob.DownloadToStreamAsync(fileStream);
+    }
+
+    using (var fileStream = System.IO.File.OpenRead(filePath))
+    {
         var features = new List<VisualFeatureTypes>
         {
             VisualFeatureTypes.Description,
             VisualFeatureTypes.Tags
         };
-        var analysis = await visionApi.AnalyzeImageInStreamWithHttpMessagesAsync(stream, features);
 
-        log.LogInformation("Completed Vision Analysis");
+        var analysis = await visionApi.AnalyzeImageInStreamAsync(fileStream, features);
+        var tags = analysis.Tags.Select(t => t.Name);
+        var caption = analysis.Description.Captions.FirstOrDefault()?.Text ?? "";
+
+        log.LogInformation($"{nameof(caption)}: {caption}");
+        foreach(var tag in tags)
+            log.LogInformation($"{nameof(tag)}: {tag}");
 
         await documentCollector.AddAsync(new
         {
-            Name = name,
-            Tags = analysis.Body.Tags.Select(t => t.Name).ToArray(),
-            Caption = analysis.Body.Description.Captions.FirstOrDefault()?.Text ?? ""
+            Name = blobName,
+            Tags = tags.ToArray(),
+            Caption = caption
         });
-    }
 
-    log.LogInformation("Saved Analysis to Cosmos Db");
+        log.LogInformation("Saved Analysis to Cosmos Db");
+    }
 }
 ```
 
 > **About the Code**
 >
+> `await photoBlob.DownloadToStreamAsync(fileStream);` downloads the photo from Azure Blob Storage to a local file
 > `await visionApi.AnalyzeImageInStreamWithHttpMessagesAsync(myBlob, features);` retrieves the the image's `Description` and `Tags` from the machine learning results using the Vision API
 >
 > `await documentCollector.AddAsync` outputs the metadata to CosmosDb
+
+23. In the **run.csx** editor, click **Save**
 
 ## 3. Setting up an output binding to Cosmos DB
 
 Now that we have a function that returns an object with the results of the vision analysis, we need to bind this output to your Cosmos DB database. Once this binding is set up, every time this trigger runs the returned object will be saved as a JSON document inside your Cosmos DB instance.
 
-1. In the [Azure Portal](https://portal.azure.com/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn), navigate to the Azure Function resource, **HappXamDevsFunction-[Your Last Name]**
-    - E.g. HappyXamDevsFunction-Minnick
-
-2. On the **Azure Functions** dashboard, on the left-hand menu, click **ProcessPhotoFromBlob**
-3. On the **Azure Functions** dashboard, on the left-hand menu, underneath **ProcessPhotoFromBlob**, click **Integrate**
-4. On the **Integrate** page, under **Outputs**, click **+ New Output**
-5. In the **New Output** overlay, scroll to the bottom and select **Azure Cosmos DB**
+1. On the **Azure Functions** dashboard, on the left-hand menu, select **ProcessPhotoFromBlob** > **Integrate**
+2. On the **Integrate** page, under **Outputs**, click **+ New Output**
+3. In the **New Output** overlay, scroll to the bottom and select **Azure Cosmos DB**
 6. On the **Azure Functions** dashboard, on the left-hand menu, click **Select**
 7. On the **Azure Cosmos Db Output** frame, if prompted for an extension, click **Install**
 8. On the **Azure Cosmos Db Output** frame, enter the following:
-    - **Document parameter name:** [Check **Use function return value**]
+    - **Document parameter name:** documentCollector
     - **Database name:** Photos
     - **Collection name:** PhotoMetadata
+    - **If true, creates the Azure Cosmos DB database and collection** [Unchecked]
     - **Azure Cosmos Db account connection**: [Click **new**]
         - **Subscription:** [Your Azure Subscription]
         - **Database Account:** happyxamdevs-[Your Last Name]
@@ -212,6 +235,12 @@ Now that we have a function that returns an object with the results of the visio
     - **Collection throughput** [Leave Blank]
 
 7. On the **Azure Cosmos Db Output** frame, click **Save**
+8. On the **Integrate** window, select **Azure Queue Storage (myQueueItem)**
+9. In the **Azure Queue Storage trigger** window, enter the following
+    - **Message parameter name:** blobName
+    - **Queue name:** processblobqueue
+    - **Storage account connection:** AzureWebJobsStorage
+10. In the **Azure Queue Storage trigger** window, click **Save**
 
 ## 4. Test Cosmos Db Output
 
@@ -237,13 +266,13 @@ Now that we have a function that returns an object with the results of the visio
 
 9. On the **Cosmos Db** dashboard, on the left-hand menu, select **Data Explorer**
 
-11. On the **Data Explorer** page, select **Photos**
+10. On the **Data Explorer** page, select **Photos**
 
-10. On the **Data Explorer** page, select **PhotosMetadata**
+11. On the **Data Explorer** page, select **PhotosMetadata**
 
-10. On the **Data Explorer** page, select **Documents**
+12. On the **Data Explorer** page, select **Documents**
 
-11. In the **Documents** frame, ensure a new metadata entry has been added
+13. In the **Documents** frame, ensure a new metadata entry has been added
 
 ![Browsing documents in Cosmos DB](../Images/PortalCosmosBrowseDocument.png)
 
@@ -269,13 +298,13 @@ Now that we have a function that returns an object with the results of the visio
 
 9. On the **Cosmos Db** dashboard, on the left-hand menu, select **Data Explorer**
 
-11. On the **Data Explorer** page, select **Photos**
+10. On the **Data Explorer** page, select **Photos**
 
-10. On the **Data Explorer** page, select **PhotosMetadata**
+11. On the **Data Explorer** page, select **PhotosMetadata**
 
-10. On the **Data Explorer** page, select **Documents**
+12. On the **Data Explorer** page, select **Documents**
 
-11. In the **Documents** frame, ensure a new metadata entry has been added
+13. In the **Documents** frame, ensure a new metadata entry has been added
 
 ![Browsing documents in Cosmos DB](../Images/PortalCosmosBrowseDocument.png)
 
@@ -301,13 +330,13 @@ Now that we have a function that returns an object with the results of the visio
 
 9. On the **Cosmos Db** dashboard, on the left-hand menu, select **Data Explorer**
 
-11. On the **Data Explorer** page, select **Photos**
+10. On the **Data Explorer** page, select **Photos**
 
-10. On the **Data Explorer** page, select **PhotosMetadata**
+11. On the **Data Explorer** page, select **PhotosMetadata**
 
-10. On the **Data Explorer** page, select **Documents**
+12. On the **Data Explorer** page, select **Documents**
 
-11. In the **Documents** frame, ensure a new metadata entry has been added
+13. In the **Documents** frame, ensure a new metadata entry has been added
 
 ![Browsing documents in Cosmos DB](../Images/PortalCosmosBrowseDocument.png)
 
