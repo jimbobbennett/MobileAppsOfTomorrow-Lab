@@ -23,7 +23,8 @@
     <ListView x:Name="PhotosListView" 
               ItemsSource="{Binding Photos}"
               IsRefreshing="{Binding IsRefreshing}"
-              RefreshCommand="{Binding RefreshCommand}">
+              RefreshCommand="{Binding RefreshCommand}"
+              IsPullToRefreshEnabled="true">
         <ListView.ItemTemplate>
             <DataTemplate>
                 <ImageCell ImageSource="{Binding Photo}"

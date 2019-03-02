@@ -78,7 +78,7 @@ namespace HappyXamDevs.Services
                                                        HttpMethod.Get,
                                                        new Dictionary<string, string>());
 
-            var photo = response["Photo"].Value<string>();
+            var photo = response["photo"].Value<string>();
             var bytes = Convert.FromBase64String(photo);
 
             using (var fs = new FileStream(photoMetadata.FileName, FileMode.CreateNew))

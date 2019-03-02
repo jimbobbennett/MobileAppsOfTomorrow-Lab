@@ -206,7 +206,7 @@ public async Task DownloadPhoto(PhotoMetadata photoMetadata)
                                                 HttpMethod.Get,
                                                 new Dictionary<string, string>());
 
-    var photo = result["Photo"].Value<string>();
+    var photo = result["photo"].Value<string>();
     var bytes = Convert.FromBase64String(photo);
 
     using (var fs = new FileStream(photoMetadata.FileName, FileMode.CreateNew))
