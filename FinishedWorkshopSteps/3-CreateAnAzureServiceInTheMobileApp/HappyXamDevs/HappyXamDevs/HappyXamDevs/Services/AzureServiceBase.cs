@@ -9,14 +9,12 @@ namespace HappyXamDevs.Services
         protected const string AzureAppName = "[YOUR AZURE APP NAME HERE]";
         protected readonly static string FunctionAppUrl = $"https://{AzureAppName}.azurewebsites.net";
 
-        public MobileServiceClient Client { get; }
-
         protected AzureServiceBase()
         {
             Client = new MobileServiceClient(FunctionAppUrl);
         }
 
-        protected abstract Task AuthenticateUser();
+        public MobileServiceClient Client { get; }
 
         public async Task<bool> Authenticate()
         {
@@ -39,5 +37,7 @@ namespace HappyXamDevs.Services
         {
             return Client.CurrentUser != null;
         }
+
+        protected abstract Task AuthenticateUser();
     }
 }
