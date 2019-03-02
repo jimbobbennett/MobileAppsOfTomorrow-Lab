@@ -28,7 +28,8 @@
               IsRefreshing="{Binding IsRefreshing}"
               HasUnevenRows="True"
               SeparatorVisibility="None"
-              BackgroundColor="#DCDCDC">
+              BackgroundColor="#DCDCDC"
+              SelectionMode="None">
         <ListView.ItemTemplate>
             <DataTemplate>
                 <local:PhotoCell />

@@ -178,7 +178,8 @@ public MainViewModel()
     <ListView x:Name="PhotosListView"
               ItemsSource="{Binding Photos}"
               RefreshCommand="{Binding RefreshCommand}"
-              IsPullToRefreshEnabled="true">
+              IsPullToRefreshEnabled="true"
+              SelectionMode="None">
         <ListView.ItemTemplate>
             <DataTemplate>
                 <ImageCell ImageSource="{Binding Photo}"

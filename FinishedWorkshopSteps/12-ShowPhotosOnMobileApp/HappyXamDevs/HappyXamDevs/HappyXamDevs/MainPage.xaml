@@ -24,7 +24,8 @@
               ItemsSource="{Binding Photos}"
               IsRefreshing="{Binding IsRefreshing}"
               RefreshCommand="{Binding RefreshCommand}"
-              IsPullToRefreshEnabled="true">
+              IsPullToRefreshEnabled="true"
+              SelectionMode="None">
         <ListView.ItemTemplate>
             <DataTemplate>
                 <ImageCell ImageSource="{Binding Photo}"
