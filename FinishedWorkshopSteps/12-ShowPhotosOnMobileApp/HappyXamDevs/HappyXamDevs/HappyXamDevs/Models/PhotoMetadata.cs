@@ -1,14 +1,14 @@
-﻿using Newtonsoft.Json;
-using System.IO;
+﻿using System.IO;
+using Newtonsoft.Json;
 using Xamarin.Essentials;
 
-namespace HappyXamDevs.Services
+namespace HappyXamDevs.Models
 {
     public class PhotoMetadata
     {
-        public string Caption { get; set; }
-
         public string FileName => Path.Combine(FileSystem.CacheDirectory, $"{Name}.jpg");
+
+        public string Caption { get; set; }
 
         public string Name { get; set; }
 
