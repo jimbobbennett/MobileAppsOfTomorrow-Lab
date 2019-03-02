@@ -1,7 +1,7 @@
-using Plugin.Media.Abstractions;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using HappyXamDevs.Models;
+using Plugin.Media.Abstractions;
 
 namespace HappyXamDevs.Services
 {
