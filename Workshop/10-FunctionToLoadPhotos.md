@@ -30,7 +30,6 @@ public static IActionResult Run(HttpRequestMessage req, IEnumerable<dynamic> doc
 {
     return new OkObjectResult(documents);
 }
-
 ```
 > **About the Code**
 >
@@ -67,7 +66,7 @@ public static IActionResult Run(HttpRequestMessage req, IEnumerable<dynamic> doc
 
 Next we will write a function that will take the name of a Blob and return that Blob, encoded as Base64 string in a JSON object.
 
-This function will be routed to the `photo/{name}` REST resource, such that making an HTTP GET call to `https://<YourFunctionApp>.azurewebsites.net/api/photo/<photo name>`  will return that photo blob.
+This function will be routed to the `photo/{blobName}` REST resource, such that making an HTTP GET call to `https://<YourFunctionApp>.azurewebsites.net/api/photo/<photo blobName>`  will return that photo blob.
 
 1. In the **Functions** dashboard, on the left-hand menu, click **Functions**
 2. In the **Functions** window, click **+ Add New Function**

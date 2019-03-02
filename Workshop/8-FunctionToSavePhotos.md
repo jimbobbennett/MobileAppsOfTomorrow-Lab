@@ -162,7 +162,7 @@ public static async Task<IActionResult> Run(HttpRequestMessage req, IAsyncCollec
 >
 > `return new CreatedResult(blockBlob.Uri, blockBlob);` returns an HTTP result status of **201 - Created**
 
-19. In the **run.csx** editor, click **Save**
+12. In the **run.csx** editor, click **Save**
 
 ## 2. Calling the Azure Function from the Mobile App
 

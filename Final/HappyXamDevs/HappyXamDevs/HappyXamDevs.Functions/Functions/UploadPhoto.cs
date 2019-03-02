@@ -14,7 +14,9 @@ namespace HappyXamDevs.Functions
     public static class UploadPhoto
     {
         [FunctionName(nameof(UploadPhoto))]
-        public static async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "photo")] HttpRequestMessage req, ILogger log)
+        public static async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "photo")] HttpRequestMessage req,
+                                                        [QueueTrigger(AzureConstants.ProcessBlobQueueName)] IAsyncCollector<string> blobUrlCollector,
+                                                        ILogger log)
         {
             dynamic data = await req.Content.ReadAsAsync<object>();
             string photo = data?.Photo;
@@ -29,13 +31,17 @@ namespace HappyXamDevs.Functions
             var blobClient = storageAccount.CreateCloudBlobClient();
             var blobContainer = blobClient.GetContainerReference("photos");
 
-            var blobName = Guid.NewGuid().ToString();
+            var blobName = $"{Guid.NewGuid().ToString()}.jpeg";
             var blockBlob = blobContainer.GetBlockBlobReference(blobName);
             blockBlob.Properties.ContentType = "image/jpeg";
 
             await blockBlob.UploadFromByteArrayAsync(imageBytes, 0, imageBytes.Length);
 
             log.LogInformation($"Blob {blobName} created");
+
+            await blobUrlCollector.AddAsync(blobName);
+
+            log.LogInformation($"Blob Name Added to Queue");
 
             return new CreatedResult(blockBlob.Uri, blockBlob);
         }
