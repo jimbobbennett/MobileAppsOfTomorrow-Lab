@@ -20,8 +20,18 @@ namespace HappyXamDevs.Services
 
         public async Task<bool> Authenticate()
         {
-            if (IsLoggedIn()) return true;
-            await AuthenticateUser();
+            if (IsLoggedIn())
+                return true;
+
+            try
+            {
+                await AuthenticateUser();
+            }
+            catch (System.InvalidOperationException)
+            {
+                return false;
+            }
+
             return IsLoggedIn();
         }
 

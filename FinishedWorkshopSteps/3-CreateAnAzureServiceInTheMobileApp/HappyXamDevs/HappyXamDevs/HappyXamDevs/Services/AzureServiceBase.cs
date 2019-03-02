@@ -5,7 +5,7 @@ namespace HappyXamDevs.Services
 {
     public abstract class AzureServiceBase : IAzureService
     {
-#error REPLACE [YOUR AZURE APP NAME HERE]
+//#error REPLACE [YOUR AZURE APP NAME HERE]
         protected const string AzureAppName = "[YOUR AZURE APP NAME HERE]";
         protected readonly static string FunctionAppUrl = $"https://{AzureAppName}.azurewebsites.net";
 
