@@ -1,10 +1,12 @@
 # Showing the photos on a mobile app
 
-Now that your mobile app can download the photos, you need to display them on your app. A normal way to display such data is through a scrolling list, with the most recent items at the top. Xamarin.Forms provides a [`ListView`](https://docs.microsoft.com/xamarin/xamarin-forms/user-interface/listview/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn) that you can use to display such a scrolling list.
+Now that our mobile app can download the photos, we need to display them on our app.
 
-List views can be bound to a collection of objects, and each item in the collection is used to supply the data for an item in the list. The usual way to expose such a list is using an [`ObservableCollection`](https://docs.microsoft.com/dotnet/api/system.collections.objectmodel.observablecollection-1?view=netstandard-2.0&WT.mc_id=mobileappsoftomorrow-workshop-jabenn). This collection type has events that get raised when the collection changes, such as having new items added. A list view bound to an observable collection will listen for these events, and if one is detected, the list will update to match. You can put a list view on the main page, and bind it to an observable collection on your main view model.
+A typical way to display such data is through a scrolling list, with the most recent items at the top. Xamarin.Forms provides a [`ListView`](https://docs.microsoft.com/xamarin/xamarin-forms/user-interface/listview/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn) that we will use to display such a scrolling list.
 
-## Loading the photos in the view model
+`ListView`s can be bound to a collection of objects, and each item in the collection is used to supply the data for an item in the list. The common way to expose such a list is using an [`ObservableCollection`](https://docs.microsoft.com/dotnet/api/system.collections.objectmodel.observablecollection-1?view=netstandard-2.0&WT.mc_id=mobileappsoftomorrow-workshop-jabenn). This collection type raises an event when the collection changes, such as having new items added. A `ListView` bound to an `ObservableCollection` will automatically incorporate the changes to the UI. We will put a `ListView` on `MainPage.xaml` and bind it to an `ObservableCollection` in `MainViewModel`.
+
+## 1. Loading the photos in the view model
 
 ### Creating a view model for each photo
 
