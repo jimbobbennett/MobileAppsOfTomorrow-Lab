@@ -1,10 +1,9 @@
 ﻿using System.Linq;
-using HappyXamDevs.ViewModels;
 using Xamarin.Forms;
 
 namespace HappyXamDevs.Models
 {
-    public class PhotoModel : BaseViewModel
+    public class PhotoModel
     {
         public PhotoModel(PhotoMetadataModel photoMetadata)
         {
