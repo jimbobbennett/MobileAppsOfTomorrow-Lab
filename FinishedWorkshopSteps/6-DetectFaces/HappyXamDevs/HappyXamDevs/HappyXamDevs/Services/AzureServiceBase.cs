@@ -1,16 +1,20 @@
-﻿using Microsoft.Azure.CognitiveServices.Vision.Face;
-using Microsoft.Azure.CognitiveServices.Vision.Face.Models;
-using Microsoft.WindowsAzure.MobileServices;
-using Plugin.Media.Abstractions;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Azure.CognitiveServices.Vision.Face;
+using Microsoft.Azure.CognitiveServices.Vision.Face.Models;
+using Microsoft.WindowsAzure.MobileServices;
+using Plugin.Media.Abstractions;
 using Xamarin.Forms;
 
 namespace HappyXamDevs.Services
 {
     public abstract class AzureServiceBase : IAzureService
     {
+#error REPLACE [YOUR AZURE APP NAME HERE]
+        protected const string AzureAppName = "[YOUR AZURE APP NAME HERE]";
+        protected readonly static string FunctionAppUrl = $"https://{AzureAppName}.azurewebsites.net";
+
         private const string AuthTokenKey = "auth-token";
         private const string UserIdKey = "user-id";
 #error REPLACE [YOUR API KEY HERE]
@@ -21,32 +25,12 @@ namespace HappyXamDevs.Services
             //Example Face API Base Url: "https://westus.api.cognitive.microsoft.com/"
         };
 
-#error REPLACE [YOUR AZURE APP NAME HERE]
-        protected const string AzureAppName = "[YOUR AZURE APP NAME HERE]";
-        protected readonly static string FunctionAppUrl = $"https://{AzureAppName}.azurewebsites.net";
-
-        public MobileServiceClient Client { get; }
-
         protected AzureServiceBase()
         {
             Client = new MobileServiceClient(FunctionAppUrl);
         }
 
-        private void TryLoadUserDetails()
-        {
-            if (Client.CurrentUser != null) return;
-
-            if (Application.Current.Properties.TryGetValue(AuthTokenKey, out var authToken) &&
-                Application.Current.Properties.TryGetValue(UserIdKey, out var userId))
-            {
-                Client.CurrentUser = new MobileServiceUser(userId.ToString())
-                {
-                    MobileServiceAuthenticationToken = authToken.ToString()
-                };
-            }
-        }
-
-        protected abstract Task AuthenticateUser();
+        public MobileServiceClient Client { get; }
 
         public async Task<bool> Authenticate()
         {
@@ -88,6 +72,22 @@ namespace HappyXamDevs.Services
 
                 var areHappyFacesDetected = faces.Any(f => f.FaceAttributes.Emotion.Happiness > 0.75);
                 return areHappyFacesDetected;
+            }
+        }
+
+        protected abstract Task AuthenticateUser();
+
+        private void TryLoadUserDetails()
+        {
+            if (Client.CurrentUser != null) return;
+
+            if (Application.Current.Properties.TryGetValue(AuthTokenKey, out var authToken) &&
+                Application.Current.Properties.TryGetValue(UserIdKey, out var userId))
+            {
+                Client.CurrentUser = new MobileServiceUser(userId.ToString())
+                {
+                    MobileServiceAuthenticationToken = authToken.ToString()
+                };
             }
         }
     }

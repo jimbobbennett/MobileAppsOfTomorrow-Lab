@@ -1,5 +1,5 @@
-﻿using Plugin.Media.Abstractions;
 using System.Threading.Tasks;
+using Plugin.Media.Abstractions;
 
 namespace HappyXamDevs.Services
 {
