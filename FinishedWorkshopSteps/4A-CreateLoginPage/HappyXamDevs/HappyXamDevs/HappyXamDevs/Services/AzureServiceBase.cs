@@ -1,5 +1,5 @@
-﻿using Microsoft.WindowsAzure.MobileServices;
 using System.Threading.Tasks;
+using Microsoft.WindowsAzure.MobileServices;
 
 namespace HappyXamDevs.Services
 {
@@ -9,12 +9,12 @@ namespace HappyXamDevs.Services
         protected const string AzureAppName = "[YOUR AZURE APP NAME HERE]";
         protected readonly static string FunctionAppUrl = $"https://{AzureAppName}.azurewebsites.net";
 
-        public MobileServiceClient Client { get; }
-
         protected AzureServiceBase()
         {
             Client = new MobileServiceClient(FunctionAppUrl);
         }
+
+        public MobileServiceClient Client { get; }
 
         protected abstract Task AuthenticateUser();
 

@@ -1,6 +1,6 @@
-﻿using HappyXamDevs.Services;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using HappyXamDevs.Services;
 using Xamarin.Forms;
 
 namespace HappyXamDevs.ViewModels
