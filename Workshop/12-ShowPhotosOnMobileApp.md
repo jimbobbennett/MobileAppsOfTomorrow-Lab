@@ -6,21 +6,9 @@ A typical way to display such data is through a scrolling list, with the most re
 
 `ListView`s can be bound to a collection of objects, and each item in the collection is used to supply the data for an item in the list. The common way to expose such a list is using an [`ObservableCollection`](https://docs.microsoft.com/dotnet/api/system.collections.objectmodel.observablecollection-1?view=netstandard-2.0&WT.mc_id=mobileappsoftomorrow-workshop-jabenn). This collection type raises an event when the collection changes, such as having new items added. A `ListView` bound to an `ObservableCollection` will automatically incorporate the changes to the UI. We will put a `ListView` on `MainPage.xaml` and bind it to an `ObservableCollection` in `MainViewModel`.
 
-## 1. Loading the photos in the view model
+## 1. Loading the photos into the `ObservableCollection`
 
-### Creating a view model for each photo
-
-What object should be in the observable collection? Ideally you want a view model that represents each individual item, exposing the photo and metadata as properties.
-
-1. Add a new class to the `ViewModels` folder called `PhotoViewModel`, deriving from `BaseViewModel`.
-
-    ```cs
-    public class PhotoViewModel : BaseViewModel
-    {
-    }
-    ```
-
-2. Add some read-only properties for the image, the caption and the tags. You will need to add a using directive for the `Xamarin.Forms` namespace.
+What object should be in the observable collection? Ideally you want a model that represents each individual item, exposing the photo and metadata as properties.
 
     | Property    | Type          | Description                                                                                        |
     | ----------- | ------------- | -------------------------------------------------------------------------------------------------- |
@@ -29,55 +17,23 @@ What object should be in the observable collection? Ideally you want a view mode
     | `Timestamp` | `long`        | A timestamp for when the document was created                                                      |
     | `Photo`     | `ImageSource` | An image source for the photo, this will be created from the file name                             |
 
-    ```cs
-    public class PhotoViewModel : BaseViewModel
-    {
-        public string Caption { get; }
-        public string Tags { get; }
-        public long Timestamp { get; }
-        public ImageSource Photo { get; }
-    }
-    ```
+1. In the Visual Studio Solution Explorer, right-click **HappyXamDevs** > **Models** > **Add** > **Class**
 
-3. Add a constructor to this view model that takes a `PhotoMetadata` parameter. You will need to add a using directive for the `HappyXamDevs.Services` namespace.
+    - (Mac) On Visual Studio for Mac, right-click **HappyXamDevs** > **Models** >  **Add** > **New File**
 
-    ```cs
-    public PhotoViewModel(PhotoMetadata photoMetadata)
-    {
-    }
-    ```
+2. In the **Add New Item** window, name the file `PhotoModel.cs`
 
-4. In this constructor, initialize the `Caption` and `Timestamp` properties using the values from the metadata.
+3. In the **PhotoModel.cs** editor, enter the following code:
 
-    ```cs
-    Caption = photoMetadata.Caption;
-    Timestamp = photoMetadata.Timestamp;
-    ```
-
-5. Still in the constructor, concatenate the tags from the photo metadata together using the static `string.Join` method with a space as a delimiter, and set this on the `Tags` property. To be in keeping with tags in modern social media apps, add a "#" to each tag. You will need to add a using directive for the `System.Linq` namespace.
-
-    ```cs
-    Tags = string.Join(" ", photoMetadata.Tags.Select(t => $"#{t}"));
-    ```
-
-6. Create a new file image source for the file name from the photo metadata and assign that to the `Photo` property.
-
-    ```cs
-    Photo = ImageSource.FromFile(photoMetadata.FileName);
-    ```
-
-The full code for this class is below.
-
-```cs
-using HappyXamDevs.Services;
+```csharp
 using System.Linq;
 using Xamarin.Forms;
 
-namespace HappyXamDevs.ViewModels
+namespace HappyXamDevs.Models
 {
-    public class PhotoViewModel : BaseViewModel
+    public class PhotoModel
     {
-        public PhotoViewModel(PhotoMetadata photoMetadata)
+        public PhotoModel(PhotoMetadataModel photoMetadata)
         {
             Caption = photoMetadata.Caption;
             Timestamp = photoMetadata.Timestamp;
@@ -86,90 +42,58 @@ namespace HappyXamDevs.ViewModels
         }
 
         public string Caption { get; }
-        public string Tags { get; }
-        public long Timestamp { get; }
+
         public ImageSource Photo { get; }
+
+        public string Tags { get; }
+
+        public long Timestamp { get; }
     }
 }
 ```
 
-### Adding photos to the main view model
+4. In the Visual Studio Solution Explorer, open **HappyXamDevs** > **ViewModels** > **MainViewModel.cs**
 
-The main view model needs to expose an observable collection of photo view models that can be bound to the UI. It also needs a way to load the photos, and that can be implemented in a command that can be executed when the view loads.
+5. In the **MainViewModel.cs** editor, add the following using statement:
 
-1. Open `MainViewModel` and add a read-only public property called `Photos`, initializing this inline. You will need to add a using directive for the `System.Collections.ObjectModel` namespace.
+`using System.Collections.ObjectModel;`
 
-    ```cs
-    public ObservableCollection<PhotoViewModel> Photos { get; } = new ObservableCollection<PhotoViewModel>();
-    ```
+6. In the **MainViewModel.cs** editor, add the following field:
 
-2. Add a new command called `RefreshCommand` to refresh the photos from the Azure service.
+```csharp
+private bool isRefreshing;
+```
 
-    ```cs
-    public ICommand RefreshCommand { get; }
-    ```
+7. In the **MainViewModel.cs** editor, add the following property:
 
-3. In the constructor, initialize this command using a new method called `Refresh`.
-
-    ```cs
-    public MainViewModel()
-    {
-        ...
-        RefreshCommand = new Command(async () => await Refresh());
-    }
-    ```
-
-4. Add this `Refresh` method as an `async` method.
-
-    ```cs
-    async Task Refresh()
-    {
-    }
-    ```
-
-5. In the `Refresh` method, start by loading all the photo metadata from the Azure service. Remember that this call will also download any photos that have not already been downloaded.
-
-    ```cs
-     var photos = await azureService.GetAllPhotoMetadata();
-    ```
-
-6. The `Refresh` method will be used initially when the page is loaded, so the `Photos` collection will be empty. Later, you will use this to refresh the UI manually so this method needs to only add items to the collection if they are not already present. To start with, check if the collection is empty, and if so add new `PhotoViewModel` items created using the photo metadata and ordered descending by their timestamp (so that the newest item with the largest time stamp is first in the collection). You will need to add a using directive for the `System.Linq` namespace.
-
-    ```cs
-    if (!Photos.Any())
-    {
-        foreach (var photo in photos.OrderByDescending(p => p.Timestamp))
-        {
-            Photos.Add(new PhotoViewModel(photo));
-        }
-    }
-    ```
-
-7. If the `Photos` collection already contains photos, get the timestamp of the first item (this will always be the newest so will have the largest timestamp), and only put photos that have a timestamp higher than this value into the collection. Adding to the collection puts items on the end, so you will need to `Insert` them at the start.
-
-    ```cs
-    else
-    {
-        var latest = Photos[0].Timestamp;
-        foreach (var photo in photos.Where(p => p.Timestamp > latest).OrderBy(p => p.Timestamp))
-        {
-            Photos.Insert(0, new PhotoViewModel(photo));
-        }
-    }
-    ```
-
-All the new code for this class is shown below.
-
-```cs
-public MainViewModel()
+```csharp
+public bool IsRefreshing
 {
-    ...
-    RefreshCommand = new Command(async () => await Refresh());
+    get => isRefreshing;
+    set => Set(ref isRefreshing, value);
 }
+```
 
+> **About the Code**
+>
+> `IsRefreshing` will be used to display the spinning indicator when a pull-to-refresh is triggered
+
+8. In the **MainViewModel.cs** editor, add the following properties:
+
+```csharp
 public ObservableCollection<PhotoViewModel> Photos { get; } = new ObservableCollection<PhotoViewModel>();
 public ICommand RefreshCommand { get; }
+```
 
+> **About the Code**
+>
+> `ObservableCollection<PhotoViewModel> Photos` this is an IEnumerable that will contain the photos displayed on the UI
+>
+> `ICommand RefreshCommand` this command will be triggered when the user initiates a pull-to-refresh on the `ListView`
+
+9. In the **MainViewModel.cs** editor, add the following method:
+
+```csharp
 async Task Refresh()
 {
     var photos = await azureService.GetAllPhotoMetadata();
@@ -178,120 +102,228 @@ async Task Refresh()
     {
         foreach (var photo in photos.OrderByDescending(p => p.Timestamp))
         {
-            Photos.Add(new PhotoViewModel(photo));
+            Photos.Add(new PhotoModel(photo));
         }
     }
     else
     {
         var latest = Photos[0].Timestamp;
+
         foreach (var photo in photos.Where(p => p.Timestamp > latest).OrderBy(p => p.Timestamp))
         {
-            Photos.Insert(0, new PhotoViewModel(photo));
+            Photos.Insert(0, new PhotoModel(photo));
         }
     }
+
+    IsRefreshing = false;
 }
 ```
 
-## Showing the photos on the page
+> **About the Code**
+> `azureService.GetAllPhotoMetadata();` retrieves the photo meta data from our Azure Function
+>
+> `if (!Photos.Any())` if `Photos` is empty, add all of the photos to the `ObservableCollection` from newest to oldest
+> 
+> `else` otherwise, only add the newest photos to the `ObservableCollection`
 
-### Adding a list view to show the photos
+8. In the **MainViewModel.cs** editor, update the constructor using this code:
 
-List views use data templates to specify how to show the items bound to the list. Out of the box there are some standard templates to show text or text and an image. To start with you can use a built in [`ImageCell`](https://docs.microsoft.com/dotnet/api/xamarin.forms.imagecell/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn) as the template to view the photos. This UI will be improved later in this workshop.
+```csharp
+public MainViewModel()
+{
+    TakePhotoCommand = new Command(async () => await TakePhoto());
+    SelectFromLibraryCommand = new Command(async () => await SelectFromLibrary());
+    RefreshCommand = new Command(async () => await Refresh());
+    azureService = DependencyService.Get<IAzureService>();
+}
+```
+
+> **About the Code**
+>
+> `RefreshCommand = new Command(async () => await Refresh());` initializes `RefreshCommand`, instructing it to run `Refresh()` when it is triggered
+
+## 2. Displaying the photos on the page
+
+`ListView` use a `DataTemplate` to specify how to display the items in the list. 
+
+`Xamarin.Forms` includes three templates for displaying text & images; we will use the built-in [`ImageCell`](https://docs.microsoft.com/dotnet/api/xamarin.forms.imagecell/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn) template to display the photos. This UI will be improved later in this workshop.
+
+1. In the Visual Studio Solution Explorer, open **HappyXamDevs** > **MainPage.xaml**
+
+2. In the **MainPage.xaml** editor, enter the following code:
+
+```xml
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             Title="Happy Developers"
+             xmlns:viewModels="clr-namespace:HappyXamDevs.ViewModels"
+             x:Class="HappyXamDevs.MainPage">
+
+    <ContentPage.BindingContext>
+        <viewModels:MainViewModel />
+    </ContentPage.BindingContext>
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Order="Primary"
+                     Icon="TakePhoto.png"
+                     Priority="0"
+                     Command="{Binding TakePhotoCommand}" />
+        <ToolbarItem Order="Primary"
+                     Icon="SelectFromLibrary.png"
+                     Priority="1"
+                     Command="{Binding SelectFromLibraryCommand}" />
+    </ContentPage.ToolbarItems>
+
+    <ListView x:Name="PhotosListView"
+              ItemsSource="{Binding Photos}"
+              RefreshCommand="{Binding RefreshCommand}"
+              IsPullToRefreshEnabled="true">
+        <ListView.ItemTemplate>
+            <DataTemplate>
+                <ImageCell ImageSource="{Binding Photo}"
+                           Text="{Binding Caption}"
+                           Detail="{Binding Tags}" />
+            </DataTemplate>
+        </ListView.ItemTemplate>
+    </ListView>
+
+</ContentPage>
+```
+
+**About the Code**
+>
+> `ItemsSource="{Binding Photos}"` binds the `ListView.ItemSource` to the `ObservableCollection`, `MainViewModel.Photos`
+>
+> `RefreshCommand="{Binding RefreshCommand}"` binds the `ListView.RefreshCommand` to `ICommand MainViewModel.Refresh`. This will trigger `ICommand
+>
+> `<DataTemplate> <ImageCell ...` uses Xamarin.Forms' baked-in `ImageCell` template to display each `PhotoModel`. `ImageSource` is bound to `PhotoModel.Photo`, displaying the image in bold text. `Text` is bound to `PhotoModel.Caption`, displaying each photo's caption next to the photo. `Detail` is bound to `PhotoModel.Tags`, displaying each photo's tags in a smaller font underneath its caption.
 
 1. Open the `MainPage.xaml` file.
 2. Delete the `StackLayout` content from inside the `ContentPage`.
 3. Add a `ListView` as the pages content, binding the `ItemsSource` to the photos collection on the view model.
 
-    ```xml
-     <ListView ItemsSource="{Binding Photos}">
-    </ListView>
-    ```
+## 3. Refreshing the `ListView` when the user logs in
 
-4. Set the item template for the list view to be an image cell. This needs to wrapped in a `DataTemplate`.
+When the main page is launched, it checks to see if the user is logged in, and if not shows the login page. After the user logs in, `MainViewModel` should automatically load all the photos.
 
-    ```xml
-    <ListView.ItemTemplate>
-        <DataTemplate>
-            <ImageCell />
-        </DataTemplate>
-    </ListView.ItemTemplate>
-    ```
+1. In the Visual Studio Solution Explorer, open **HappyXamDevs** > **MainPage.xaml.cs**
 
-5. The image cell has 3 properties of interest - `ImageSource`, `Text` and `Detail`. Image cells have the image on the left, with two rows of text next to it, the title on the top and detail underneath. You should bind these to the appropriate properties on the photo view model.
+2. In the **MainPage.xaml.cs** editor, enter the following code:
 
-    ```xml
-    <ImageCell ImageSource="{Binding Photo}"
-               Text="{Binding Caption}"
-               Detail="{Binding Tags}"/>
-    ```
+```csharp
+using HappyXamDevs.Services;
+using Xamarin.Forms;
 
-The full code for the contents of this page is below.
+namespace HappyXamDevs
+{
+    public partial class MainPage : ContentPage
+    {
+        public MainPage()
+        {
+            InitializeComponent();
+        }
 
-```xml
-<ListView ItemsSource="{Binding Photos}">
-    <ListView.ItemTemplate>
-        <DataTemplate>
-            <ImageCell ImageSource="{Binding Photo}"
-                       Text="{Binding Caption}"
-                       Detail="{Binding Tags}"/>
-        </DataTemplate>
-    </ListView.ItemTemplate>
-</ListView>
+        protected override async void OnAppearing()
+        {
+            base.OnAppearing();
+
+            var azureService = DependencyService.Get<IAzureService>();
+
+            if (!azureService.IsLoggedIn())
+            {
+                await Navigation.PushModalAsync(new LoginPage(), false);
+            }
+            else
+            {
+                PhotosListView.BeginRefresh();
+            }
+        }
+    }
+}
 ```
 
-### Refreshing the view model when the user logs in
-
-When the main page is launched, it checks to see if the user is logged in, and if not shows the login page. After the user logs in your view model should load all the photos. To allow this to happen in a loosely coupled way your app can take advantage of the Xamarin.Forms [Messaging Center](https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/messaging-center/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn). Classes can subscribe to messages from a particular source and react when these are received.
-
-The Azure service can publish a message when the user logs in or when the user is successfully loaded from Application properties. The main view model can listen for this message and run the refresh accordingly.
-
-1. Head to the `AzureServiceBase` and in the `Authenticate` method publish a message to the messaging center if the authentication was successful.
-
-    ```cs
-    public async Task<bool> Authenticate()
-    {
-        ...
-        if (Client.CurrentUser != null)
-        {
-            MessagingCenter.Send<IAzureService>(this, "LoggedIn");
-        ...
-        }
-        ...
-    }
-
-    ```
-
-2. In the  `TryLoadUserDetails` method, publish the same message after the user is loaded from the Application properties.
-
-    ```cs
-    void TryLoadUserDetails()
-    {
-        ...
-        Client.CurrentUser = new MobileServiceUser(userId.ToString())
-        {
-            MobileServiceAuthenticationToken = authToken.ToString()
-        };
-
-        MessagingCenter.Send<IAzureService>(this, "LoggedIn");
-        ...
-    }
-    ```
-
-3. In the constructor for the `MainViewModel` subscribe to the "LoggedIn" message, and when receive call the `Refresh` method.
-
-    ```cs
-    public MainViewModel()
-    {
-        MessagingCenter.Subscribe<IAzureService>(this, "LoggedIn", async s => await Refresh());
-        ...
-    }
-    ```
+> **About the Code**
+>
+> `else { PhotosListView.BeginRefresh(); }` when `MainPage` appears on the screen, if the user is logged in, the `ListView` will automatically trigger pull-to-refresh
 
 ### Test it out
 
 You should now have everything in place to view the photos that have been uploaded. Run the app on your platform of choice and you will see the photos with their captions and tags.
 
 > Like with uploading photos, this app doesn't include any feedback whilst the photos are being downloaded. In a production quality app you should provide feedback the download..
+
+## 4. Test Updated UI
+
+## 4a. Test Updated UI, Android
+
+1. In Visual Studio, right-click on **HappyXamDevs.Android** > **Set as Startup Project**
+
+2. (PC) In Visual Studio, select **Debug** > **Start Debugging**
+    - (Mac) In Visual Studio for Mac, select **Run** > **Start Debugging**
+
+3. On the Android device, if the **LoginPage** complete the login flow
+
+4. On the Android device, on the **MainPage**, tap the Camera icon
+
+5. On the Android device, if prompted for permission, tap **Allow**
+
+6. On the Android device, ensure the Camera appears
+
+7. On the Android device, take a happy-looking selfie
+
+8. On the Android device, trigger a pull-to-refresh
+
+9. On the Android device, ensure the uploaded photo and its associated metadata appear
+
+    > **Note:** Repeat the pull-to-refresh a few times until the image appears, because the Azure Functions may take a few seconds to complete. If the image still doesn't appear after a minute, there likely is a bug.
+
+## 4b. Test Updated UI, iOS
+
+1. In Visual Studio, right-click on **HappyXamDevs.iOS** > **Set as Startup Project**
+
+2. (PC) In Visual Studio, select **Debug** > **Start Debugging**
+    - (Mac) In Visual Studio for Mac, select **Run** > **Start Debugging**
+
+3. On the iOS device, if the **LoginPage** complete the login flow
+
+4. On the iOS device, on the **MainPage**, tap the Camera icon
+
+5. On the iOS device, if prompted for permission, tap **Allow**
+
+6. On the iOS device, ensure the Camera appears
+
+7. On the iOS device, take a happy-looking selfie
+
+8. On the iOS device, trigger a pull-to-refresh
+
+9. On the iOS device, ensure the uploaded photo and its associated metadata appear
+
+    > **Note:** Repeat the pull-to-refresh a few times until the image appears, because the Azure Functions may take a few seconds to complete. If the image still doesn't appear after a minute, there likely is a bug.
+
+## 4c. Test Updated UI, UWP
+
+1. (PC) In Visual Studio, right-click on **HappyXamDevs.UWP** > **Set as Startup Project**
+    - (Mac) Skip this step
+
+2. (PC) In Visual Studio, select **Debug** > **Start Debugging**
+    - (Mac) Skip this step
+
+3. On the UWP device, if the **LoginPage** complete the login flow
+
+4. On the UWP device, on the **MainPage**, tap the Camera icon
+
+5. On the UWP device, if prompted for permission, tap **Allow**
+
+6. On the UWP device, ensure the Camera appears
+
+7. On the UWP device, take a happy-looking selfie
+
+8. On the UWP device, trigger a pull-to-refresh
+
+9. On the UWP device, ensure the uploaded photo and its associated metadata appear
+
+    > **Note:** Repeat the pull-to-refresh a few times until the image appears, because the Azure Functions may take a few seconds to complete. If the image still doesn't appear after a minute, there likely is a bug.
 
 ## Next step
 
