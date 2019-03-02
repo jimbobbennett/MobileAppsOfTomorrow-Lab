@@ -1,4 +1,4 @@
-﻿using System.Threading.Tasks;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Plugin.Media;
 using Plugin.Media.Abstractions;
@@ -8,15 +8,15 @@ namespace HappyXamDevs.ViewModels
 {
     public class MainViewModel : BaseViewModel
     {
-        public ICommand SelectFromLibraryCommand { get; }
-
-        public ICommand TakePhotoCommand { get; }
-
         public MainViewModel()
         {
             TakePhotoCommand = new Command(async () => await TakePhoto());
             SelectFromLibraryCommand = new Command(async () => await SelectFromLibrary());
         }
+
+        public ICommand SelectFromLibraryCommand { get; }
+
+        public ICommand TakePhotoCommand { get; }
 
         private async Task SelectFromLibrary()
         {
