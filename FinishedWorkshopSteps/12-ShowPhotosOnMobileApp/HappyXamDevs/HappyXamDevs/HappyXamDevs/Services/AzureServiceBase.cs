@@ -1,16 +1,16 @@
-﻿using Microsoft.Azure.CognitiveServices.Vision.Face;
-using Microsoft.Azure.CognitiveServices.Vision.Face.Models;
-using Microsoft.WindowsAzure.MobileServices;
-using Newtonsoft.Json.Linq;
-using Plugin.Media.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Xamarin.Forms;
 using HappyXamDevs.Models;
+using Microsoft.Azure.CognitiveServices.Vision.Face;
+using Microsoft.Azure.CognitiveServices.Vision.Face.Models;
+using Microsoft.WindowsAzure.MobileServices;
+using Newtonsoft.Json.Linq;
+using Plugin.Media.Abstractions;
+using Xamarin.Forms;
 
 namespace HappyXamDevs.Services
 {
@@ -72,7 +72,7 @@ namespace HappyXamDevs.Services
             return IsLoggedIn();
         }
 
-        public async Task DownloadPhoto(PhotoMetadata photoMetadata)
+        public async Task DownloadPhoto(PhotoMetadataModel photoMetadata)
         {
             if (File.Exists(photoMetadata.FileName))
                 return;
@@ -88,9 +88,9 @@ namespace HappyXamDevs.Services
                 await fs.WriteAsync(bytes, 0, bytes.Length);
         }
 
-        public async Task<IEnumerable<PhotoMetadata>> GetAllPhotoMetadata()
+        public async Task<IEnumerable<PhotoMetadataModel>> GetAllPhotoMetadata()
         {
-            var allMetadata = await Client.InvokeApiAsync<List<PhotoMetadata>>(PhotoResource,
+            var allMetadata = await Client.InvokeApiAsync<List<PhotoMetadataModel>>(PhotoResource,
                                                                                HttpMethod.Get,
                                                                                new Dictionary<string, string>());
 

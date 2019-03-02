@@ -1,4 +1,4 @@
-﻿using HappyXamDevs.Services;
+using HappyXamDevs.Services;
 using Plugin.Media;
 using Plugin.Media.Abstractions;
 using System.Collections.ObjectModel;
@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
+using HappyXamDevs.Models;
 
 namespace HappyXamDevs.ViewModels
 {
@@ -23,7 +24,7 @@ namespace HappyXamDevs.ViewModels
             azureService = DependencyService.Get<IAzureService>();
         }
 
-        public ObservableCollection<PhotoViewModel> Photos { get; } = new ObservableCollection<PhotoViewModel>();
+        public ObservableCollection<PhotoModel> Photos { get; } = new ObservableCollection<PhotoModel>();
         public ICommand RefreshCommand { get; }
         public ICommand SelectFromLibraryCommand { get; }
         public ICommand TakePhotoCommand { get; }
@@ -36,7 +37,7 @@ namespace HappyXamDevs.ViewModels
             {
                 foreach (var photo in photos.OrderByDescending(p => p.Timestamp))
                 {
-                    Photos.Add(new PhotoViewModel(photo));
+                    Photos.Add(new PhotoModel(photo));
                 }
             }
             else
@@ -45,7 +46,7 @@ namespace HappyXamDevs.ViewModels
 
                 foreach (var photo in photos.Where(p => p.Timestamp > latest).OrderBy(p => p.Timestamp))
                 {
-                    Photos.Insert(0, new PhotoViewModel(photo));
+                    Photos.Insert(0, new PhotoModel(photo));
                 }
             }
         }

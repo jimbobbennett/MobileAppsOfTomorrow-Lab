@@ -1,10 +1,10 @@
-﻿using HappyXamDevs.Services;
 using System.Linq;
+using HappyXamDevs.ViewModels;
 using Xamarin.Forms;
 
-namespace HappyXamDevs.ViewModels
+namespace HappyXamDevs.Models
 {
-    public class PhotoViewModel : BaseViewModel
+    public class PhotoModel : BaseViewModel
     {
         public string Caption { get; }
 
@@ -14,7 +14,7 @@ namespace HappyXamDevs.ViewModels
 
         public long Timestamp { get; }
 
-        public PhotoViewModel(PhotoMetadata photoMetadata)
+        public PhotoModel(PhotoMetadataModel photoMetadata)
         {
             Caption = photoMetadata.Caption;
             Timestamp = photoMetadata.Timestamp;

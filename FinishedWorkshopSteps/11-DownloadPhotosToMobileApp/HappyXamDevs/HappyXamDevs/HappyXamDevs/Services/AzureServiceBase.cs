@@ -69,7 +69,7 @@ namespace HappyXamDevs.Services
             return IsLoggedIn();
         }
 
-        public async Task DownloadPhoto(PhotoMetadata photoMetadata)
+        public async Task DownloadPhoto(PhotoMetadataModel photoMetadata)
         {
             if (File.Exists(photoMetadata.FileName))
                 return;
@@ -85,9 +85,9 @@ namespace HappyXamDevs.Services
                 await fs.WriteAsync(bytes, 0, bytes.Length);
         }
 
-        public async Task<IEnumerable<PhotoMetadata>> GetAllPhotoMetadata()
+        public async Task<IEnumerable<PhotoMetadataModel>> GetAllPhotoMetadata()
         {
-            var allMetadata = await Client.InvokeApiAsync<List<PhotoMetadata>>(PhotoResource,
+            var allMetadata = await Client.InvokeApiAsync<List<PhotoMetadataModel>>(PhotoResource,
                                                                                HttpMethod.Get,
                                                                                new Dictionary<string, string>());
 

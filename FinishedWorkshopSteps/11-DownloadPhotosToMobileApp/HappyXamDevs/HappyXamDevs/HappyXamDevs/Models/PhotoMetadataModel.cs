@@ -4,7 +4,7 @@ using Xamarin.Essentials;
 
 namespace HappyXamDevs.Models
 {
-    public class PhotoMetadata
+    public class PhotoMetadataModel
     {
         public string FileName => Path.Combine(FileSystem.CacheDirectory, $"{Name}.jpg");
 

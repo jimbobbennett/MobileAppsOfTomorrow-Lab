@@ -9,9 +9,9 @@ namespace HappyXamDevs.Services
     {
         Task<bool> Authenticate();
 
-        Task DownloadPhoto(PhotoMetadata photoMetadata);
+        Task DownloadPhoto(PhotoMetadataModel photoMetadata);
 
-        Task<IEnumerable<PhotoMetadata>> GetAllPhotoMetadata();
+        Task<IEnumerable<PhotoMetadataModel>> GetAllPhotoMetadata();
 
         bool IsLoggedIn();
 
