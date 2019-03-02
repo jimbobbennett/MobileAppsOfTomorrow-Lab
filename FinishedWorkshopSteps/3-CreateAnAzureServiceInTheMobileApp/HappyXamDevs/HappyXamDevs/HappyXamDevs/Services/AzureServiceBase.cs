@@ -1,11 +1,11 @@
-﻿using Microsoft.WindowsAzure.MobileServices;
 using System.Threading.Tasks;
+using Microsoft.WindowsAzure.MobileServices;
 
 namespace HappyXamDevs.Services
 {
     public abstract class AzureServiceBase : IAzureService
     {
-//#error REPLACE [YOUR AZURE APP NAME HERE]
+#error REPLACE [YOUR AZURE APP NAME HERE]
         protected const string AzureAppName = "[YOUR AZURE APP NAME HERE]";
         protected readonly static string FunctionAppUrl = $"https://{AzureAppName}.azurewebsites.net";
 
@@ -20,8 +20,18 @@ namespace HappyXamDevs.Services
 
         public async Task<bool> Authenticate()
         {
-            if (IsLoggedIn()) return true;
-            await AuthenticateUser();
+            if (IsLoggedIn())
+                return true;
+
+            try
+            {
+                await AuthenticateUser();
+            }
+            catch (System.InvalidOperationException)
+            {
+                return false;
+            }
+
             return IsLoggedIn();
         }
 

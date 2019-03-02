@@ -1,7 +1,6 @@
-﻿using Android.App;
+using Android.App;
 using Android.Content.PM;
 using Android.OS;
-using Android.Runtime;
 
 namespace HappyXamDevs.Droid
 {
@@ -17,17 +16,7 @@ namespace HappyXamDevs.Droid
 
             global::Xamarin.Forms.Forms.Init(this, bundle);
             Plugin.CurrentActivity.CrossCurrentActivity.Current.Init(this, bundle);
-            Xamarin.Essentials.Platform.Init(this, bundle);
             LoadApplication(new App());
-        }
-
-        public override void OnRequestPermissionsResult(int requestCode,
-                                                        string[] permissions,
-                                                        [GeneratedEnum] Permission[] grantResults)
-        {
-            Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
-
-            base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
 }
