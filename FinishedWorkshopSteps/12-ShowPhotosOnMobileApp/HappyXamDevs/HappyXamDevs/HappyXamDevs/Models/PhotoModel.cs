@@ -6,14 +6,6 @@ namespace HappyXamDevs.Models
 {
     public class PhotoModel : BaseViewModel
     {
-        public string Caption { get; }
-
-        public ImageSource Photo { get; }
-
-        public string Tags { get; }
-
-        public long Timestamp { get; }
-
         public PhotoModel(PhotoMetadataModel photoMetadata)
         {
             Caption = photoMetadata.Caption;
@@ -21,5 +13,13 @@ namespace HappyXamDevs.Models
             Tags = string.Join(" ", photoMetadata.Tags.Select(t => $"#{t}"));
             Photo = ImageSource.FromFile(photoMetadata.FileName);
         }
+
+        public string Caption { get; }
+
+        public ImageSource Photo { get; }
+
+        public string Tags { get; }
+
+        public long Timestamp { get; }
     }
 }

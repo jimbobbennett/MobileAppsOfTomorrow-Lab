@@ -1,12 +1,12 @@
-using HappyXamDevs.Services;
-using Plugin.Media;
-using Plugin.Media.Abstractions;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Xamarin.Forms;
 using HappyXamDevs.Models;
+using HappyXamDevs.Services;
+using Plugin.Media;
+using Plugin.Media.Abstractions;
+using Xamarin.Forms;
 
 namespace HappyXamDevs.ViewModels
 {
