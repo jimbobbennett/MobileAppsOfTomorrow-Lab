@@ -169,7 +169,7 @@ public static async Task Run(string blobName, IAsyncCollector<object> documentCo
 
     log.LogInformation("Retrieved Blob from Storage");
 
-    const string filePath = "D:\\home\\blobImage.jpeg";
+    var filePath = $"D:\\home\\blobImage{System.DateTime.UtcNow.Ticks}.jpeg";
     using (var fileStream = System.IO.File.OpenWrite(filePath))
     {
         await photoBlob.DownloadToStreamAsync(fileStream);

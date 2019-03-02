@@ -10,8 +10,6 @@ The next step is to show a timeline on the mobile app of all the photos taken. T
 
 The first Function to create will return the metadata for all photos using a Cosmos DB function binding - this time an input binding. We will bind a Cosmos DB collection to the input parameter of the Function, either returning the whole collection or just a query. For this Function, you will need the entire collection.
 
-### 1a. Creating the GetAllPhotos function
-
 1. In the browser, navigate to the [Azure Portal](https://portal.azure.com/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn)
 2. In the Azure Portal, navigate to **HappyXamDevsFunction-[Your Last Name]**
     - E.g. HappyXamDevsFunction-Minnick
@@ -20,7 +18,7 @@ The first Function to create will return the metadata for all photos using a Cos
 4. In the **Functions** window, click **+ Add New Function**
 5. In the **Add new..** window, select **HTTP trigger**
 6. In the **Http trigger** slide out, enter the following:
-    - **Name:** GetAllPhotos
+    - **Name:** GetAllPhotosMetadata
     - **Authorization level:** Anonymous
 7. In the **Http trigger** slide out, click **Create**
 8. In the **run.csx editor**, enter the following code:
@@ -40,7 +38,7 @@ public static IActionResult Run(HttpRequestMessage req, IEnumerable<dynamic> doc
 >
 > `return new OkObjectResult(documents)` returns an **OK - 200** message containing the CosmosDb documents in the response body
 
-9. On the **Functions** dashboard, on the left-hand menu, select **GetAllPhotos** > **Integrate**
+9. On the **Functions** dashboard, on the left-hand menu, select **GetAllPhotosMetadata** > **Integrate**
 10. On the **Integrate** window, select **HTTP (req)**
 11. On the **HTTP (req)** window, enter the following:
     - **Allowed Http methods:** Selected methods
@@ -65,77 +63,101 @@ public static IActionResult Run(HttpRequestMessage req, IEnumerable<dynamic> doc
     - **SQL Query:** [Leave Blank]
 17. In the **Azure Cosmos DB input** window, click **Save**
 
-## Creating a function to load a photo
+## 2. Creating a function to retrieve a photo
 
-Next you need a function that will take the name of a Blob and return that Blob, encoded as Base64 to allow it to be returned in a JSON object. Once again, you can use an input binding to bind to Blob storage, even providing a way to automatically take an input parameter passed to the function as a REST resource identifier.
+Next we will write a function that will take the name of a Blob and return that Blob, encoded as Base64 string in a JSON object.
 
-### Creating the GetPhoto function
-
-This function will be routed to the `photo/{name}` REST resource, so making an HTTP GET method call to `https://<YourFunctionApp>.azurewebsites.net/api/photo/<photo name>` with the photo name set to the name of the Blob (taken from the Cosmos DB document) will return that blob.
+This function will be routed to the `photo/{name}` REST resource, such that making an HTTP GET call to `https://<YourFunctionApp>.azurewebsites.net/api/photo/<photo name>`  will return that photo blob.
 
 1. In the **Functions** dashboard, on the left-hand menu, click **Functions**
 2. In the **Functions** window, click **+ Add New Function**
 3. In the **Add new..** window, select **HTTP trigger**
+4. In the **HTTP trigger** slide out, enter the following:
+    - **Name:** GetPhoto
+    - **Authorization Level:** Anonymous
+5. On the **HTTP trigger** slide out, click **Create**
+6. In the **run.csx** editor, enter the following code:
 
-1. From the Azure Portal, create a new function inside your function app. This will need to be a C# HTTP trigger. Set the _Name_ as "GetPhoto" and the _Authorization level_ as "Anonymous".
-2. Head to the _Integrate_ tab and set the _Route Template_ to "photo/{name}". This will allow you to add a parameter called `name` to your function and have this automatically populated with the resource name from the URL.
-3. Set the _Selected HTTP Methods_ to GET. The click "Save".
+```csharp
+#r "Microsoft.WindowsAzure.Storage"
 
-    ![Setting the route template and HTTP method for the GetPhoto function](../Images/PortalGetPhotoIntegrate.png)
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.WindowsAzure.Storage;
 
-### Creating the Blob input binding
-
-1. From the _Integrate Tab_, click the "+ New Input" button under _Inputs_, select _Azure Blob Storage_ and click "Select".
-2. Set the _Blob parameter name_ to be "blob". This is the name of the parameter in your function that the Blob will be passed to.
-3. Set the _Path_ to be "photos/{name}". This maps to the `photos` Blob collection, and will return the Blob whose name matches the value passed as the `name` from the REST resource.
-4. Set the _Storage account connection_ to be your Blob storage connection string. Then click "Save".
-
-    ![Configuring the Blob storage input binding](../Images/PortalConfigureBlobsInputBinding.png)
-
-### Implementing the GetPhoto function
-
-1. Head to the Azure Function code, and update the Function signature to include the new binding and route template parameter by adding two new parameters - a `string` called `name` and a `Stream` called `blob`. These parameters will be populated by the photo name from the URL and the Blob from the input binding.
-
-    ```cs
-    public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, string name, Stream blob, TraceWriter log)
-    ```
-
-2. Read the contents of the Blob stream and encode it as a Base64 string.
-
-    ```cs
-    var bytes = new byte[blob.Length];
-    await blob.ReadAsync(bytes, 0, Convert.ToInt32(blob.Length));
-    var photo = Convert.ToBase64String(bytes);
-    ```
-
-3. Create a new anonymous object containing the photo and return it as part of the HTTP response. Then save the function.
-
-    ```cs
-    var retVal = new
-    {
-        Photo = photo
-    };
-    return req.CreateResponse(HttpStatusCode.OK, retVal);
-    ```
-
-The complete code for this function is below.
-
-```cs
-using System.Net;
-
-public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, string name, Stream blob, TraceWriter log)
+public static async Task<IActionResult> Run(HttpRequestMessage req, string blobName, ILogger log)
 {
-    var bytes = new byte[blob.Length];
-    await blob.ReadAsync(bytes, 0, Convert.ToInt32(blob.Length));
-    var photo = Convert.ToBase64String(bytes);
+    var connectionString = Environment.GetEnvironmentVariable("AzureWebJobsStorage");
 
-    var retVal = new
+    CloudStorageAccount.TryParse(connectionString, out var storageAccount);
+    var blobClient = storageAccount.CreateCloudBlobClient();
+
+    var blobContainer = blobClient.GetContainerReference("photos");
+    var photoBlob = blobContainer.GetBlockBlobReference(blobName);
+
+    var filePath = $"D:\\home\\blobPhoto{System.DateTime.UtcNow.Ticks}.jpeg";
+    using (var fileStream = System.IO.File.OpenWrite(filePath))
     {
-        Photo = photo
-    };
-    return req.CreateResponse(HttpStatusCode.OK, retVal);
+        await photoBlob.DownloadToStreamAsync(fileStream);
+    }
+
+    using (var fileStream = System.IO.File.OpenRead(filePath))
+    using (var memoryStream = new MemoryStream())
+    {
+        fileStream.CopyTo(memoryStream);
+
+        var resultObject = new
+        {
+            Photo = memoryStream.ToArray()
+        };
+
+        return new OkObjectResult(resultObject);
+    }
 }
 ```
+
+> **About the Code**
+>
+> `string blobName` is the parameter name sent from the mobile app
+>
+> `await photoBlob.DownloadToStreamAsync(fileStream);` downloads the blob to a file
+>
+> `memoryStream.ToArray()` converts the `Stream` to a Base64 array
+>
+> `return new OkObjectResult(resultObject);` returns an **OK - 200** response containing the photoBlob
+
+7. On the **Functions** page, on the left-hand menu, select **GetPhoto** > **Integrate**
+8. On the **Integrate** window, select **Http (req)**
+9. In the **Http trigger** window, enter the following:
+    - **Allowed Http methods:** Selected methods
+    - **Request parameter name:** req
+    - **Route Template**: photo/{blobName}
+    - **Authorization level:** Anonymous
+    - **Selected HTTP methods**: Get
+
+    > Note: Uncheck all other **Selected HTTP methods**
+
+10. In the **Http trigger** window, click **Save**
+11. In the **Functions** page, scroll to right-to-left until the right-hand menu is visible
+12. On the right-hand menu, select **View Files** 
+13. In the **View Files** window, click the **+ Add**
+14. In the **file name** entry, enter `function.proj`
+15. Press the **Return** key on the keyboard to save the new file
+16. In the **function.proj** text editor, enter the following:
+
+```xml
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="WindowsAzure.Storage" Version="9.3.3" />
+    </ItemGroup>
+</Project>
+```
+
+17. In the **function.proj** editor, click **Save**
+
 
 ## Next step
 

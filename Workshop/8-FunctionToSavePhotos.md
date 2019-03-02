@@ -73,12 +73,12 @@ The JSON document you will send will be a list of name/value pairs and will have
 You'll actually implement the sending of this data later in this part, but for now you can set up the function to be ready to receive it. The `"photo"` value will be retrieved from the HTTP request, converted back to binary data and saved into Blob storage. To access Blob storage, you will need to add a NuGet package to the function.
 
 1. On the left-hand side of the Azure Functions Dashboard, select **UploadPhoto**
-2. In the **UploadPhoto**, scroll to right-to-left until the right-hand menu is visible
+2. In the **UploadPhoto** window, scroll to right-to-left until the right-hand menu is visible
 3. On the right-hand menu, select **View Files** 
 4. In the **View Files** window, click the **+ Add**
 5. In the **file name** entry, enter `function.proj`
 6. Press the **Return** key on the keyboard to save the new file
-7. In the **function.proj** text editor, This file will open in the editor, enter the following:
+7. In the **function.proj** text editor, enter the following:
 
 ```xml
 <Project Sdk="Microsoft.NET.Sdk">
