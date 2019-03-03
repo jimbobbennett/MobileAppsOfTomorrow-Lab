@@ -120,9 +120,9 @@ We will  create a simple C# data object in our mobile app that deserializes thes
 
     - (Mac) On Visual Studio for Mac, right-click on the newly created **Models** folder > **Add** > **New File**
 
-4. In the **Add New Item** window, name the file `PhotoMetadata.cs`
+4. In the **Add New Item** window, name the file `PhotoMetadataModel.cs`
 
-5. In the **PhotoMetadata.cs** editor, enter the following code:
+5. In the **PhotoMetadataModel.cs** editor, enter the following code:
 
 ```csharp
 using System.IO;
@@ -131,7 +131,7 @@ using Xamarin.Essentials;
 
 namespace HappyXamDevs.Models
 {
-    public class PhotoMetadata
+    public class PhotoMetadataModel
     {
         public string FileName => Path.Combine(FileSystem.CacheDirectory, $"{Name}.jpg");
 
@@ -171,9 +171,9 @@ namespace HappyXamDevs.Services
     {
         Task<bool> Authenticate();
 
-        Task DownloadPhoto(PhotoMetadata photoMetadata);
+        Task DownloadPhoto(PhotoMetadataModel photoMetadata);
 
-        Task<IEnumerable<PhotoMetadata>> GetAllPhotoMetadata();
+        Task<IEnumerable<PhotoMetadataModel>> GetAllPhotoMetadata();
 
         bool IsLoggedIn();
 
@@ -198,7 +198,7 @@ using HappyXamDevs.Models;
 5. In the **AzureServiceBase.cs** editor, enter the following method:
 
 ```csharp
-public async Task DownloadPhoto(PhotoMetadata photoMetadata)
+public async Task DownloadPhoto(PhotoMetadataModel photoMetadata)
 {
     if (File.Exists(photoMetadata.FileName))
         return;
@@ -230,9 +230,9 @@ public async Task DownloadPhoto(PhotoMetadata photoMetadata)
 1. In the **AzureServiceBase.cs** editor, add the following method:
 
 ```csharp
-public async Task<IEnumerable<PhotoMetadata>> GetAllPhotoMetadata()
+public async Task<IEnumerable<PhotoMetadataModel>> GetAllPhotoMetadata()
 {
-    var allMetadata = await Client.InvokeApiAsync<List<PhotoMetadata>>(PhotoResource, HttpMethod.Get, new Dictionary<string, string>());
+    var allMetadata = await Client.InvokeApiAsync<List<PhotoMetadataModel>>(PhotoResource, HttpMethod.Get, new Dictionary<string, string>());
 
     foreach (var metadata in allMetadata)
         await DownloadPhoto(metadata);
@@ -243,7 +243,7 @@ public async Task<IEnumerable<PhotoMetadata>> GetAllPhotoMetadata()
 
 > **About the Code**
 >
-> `await Client.InvokeApiAsync<List<PhotoMetadata>>(PhotoResource, HttpMethod.Get, new Dictionary<string, string>());` retrieves the photo metada from the Azure Function, `GetAllPhotoMetata`
+> `await Client.InvokeApiAsync<List<PhotoMetadataModel>>(PhotoResource, HttpMethod.Get, new Dictionary<string, string>());` retrieves the photo metada from the Azure Function, `GetAllPhotoMetata`
 
 ## Next step
 
