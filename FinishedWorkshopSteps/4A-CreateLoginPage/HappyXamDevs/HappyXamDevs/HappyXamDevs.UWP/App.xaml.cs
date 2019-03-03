@@ -48,7 +48,7 @@ namespace HappyXamDevs.UWP
 
         protected override void OnActivated(IActivatedEventArgs args)
         {
-            if (args.Kind == ActivationKind.Protocol)
+            if (args.Kind is ActivationKind.Protocol)
             {
                 var protocolArgs = args as ProtocolActivatedEventArgs;
                 var content = Window.Current.Content as Frame;
