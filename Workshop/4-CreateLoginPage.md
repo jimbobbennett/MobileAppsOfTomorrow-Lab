@@ -634,6 +634,35 @@ public bool IsLoggedIn()
 }
 ```
 
+6. In the **AzureServiceBase.cs** editor, update the existing `Authenticate` method:		
+
+  ```csharp		
+ public async Task<bool> Authenticate()		
+ {		
+     if (IsLoggedIn())		
+         return true;		
+		
+     try		
+     {		
+         await AuthenticateUser();		
+     }		
+     catch (InvalidOperationException)		
+     {		
+         return false;		
+     }		
+		
+     if (Client.CurrentUser != null)		
+     {		
+         Application.Current.Properties[AuthTokenKey] = Client.CurrentUser.MobileServiceAuthenticationToken;		
+         Application.Current.Properties[UserIdKey] = Client.CurrentUser.UserId;		
+		
+         await Application.Current.SavePropertiesAsync();		
+     }		
+		
+     return IsLoggedIn();		
+ }		
+ ```
+
 > **About the Code**
 >
 >`bool IsLoggedIn()` will first try to initialize `MobileServicesClient.CurrentUser` using `TryLoadUserDetails()` before checking `CurrentUser`
