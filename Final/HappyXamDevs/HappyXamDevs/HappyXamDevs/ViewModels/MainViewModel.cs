@@ -71,7 +71,11 @@ namespace HappyXamDevs.ViewModels
 
         private async Task TakePhoto()
         {
-            var options = new StoreCameraMediaOptions { PhotoSize = PhotoSize.Medium };
+            var options = new StoreCameraMediaOptions
+            {
+                PhotoSize = PhotoSize.Medium,
+                DefaultCamera = CameraDevice.Front
+            };
 
             var photo = await CrossMedia.Current.TakePhotoAsync(options);
 
