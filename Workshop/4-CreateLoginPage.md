@@ -459,6 +459,7 @@ namespace HappyXamDevs
 4. In the **MainPage.xaml.cs** editor, enter the following code:
 
 ```csharp
+using System.Linq;
 using HappyXamDevs.Services;
 using Xamarin.Forms;
 
@@ -479,7 +480,8 @@ namespace HappyXamDevs
 
             if (!azureService.IsLoggedIn())
             {
-                await Navigation.PushModalAsync(new LoginPage(), false);
+                if (!Navigation.ModalStack.Any())
+                    await Navigation.PushModalAsync(new LoginPage(), false);
             }
         }
     }
