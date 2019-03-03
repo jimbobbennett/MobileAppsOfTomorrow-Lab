@@ -57,6 +57,7 @@ namespace HappyXamDevs.Models
 5. In the **MainViewModel.cs** editor, add the following using statement:
 ```csharp
 using System.Collections.ObjectModel;
+using System.Linq;
 ```
 
 6. In the **MainViewModel.cs** editor, add the following field:
@@ -95,7 +96,7 @@ public ICommand RefreshCommand { get; }
 9. In the **MainViewModel.cs** editor, add the following method:
 
 ```csharp
-async Task Refresh()
+private async Task Refresh()
 {
     var photos = await azureService.GetAllPhotoMetadata();
 
