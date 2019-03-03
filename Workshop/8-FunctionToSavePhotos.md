@@ -293,8 +293,8 @@ private async Task TakePhoto()
 
 7. On the Android device, take a happy-looking selfie
 
-8. In the [Azure portal](https://portal.azure.com/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn), navigate to the Azure Blob Storage instance **happyxamdevsstorage**
-    - E.g., happyxamdevsstorage
+8. In the [Azure portal](https://portal.azure.com/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn), navigate to the Azure Blob Storage instance **storage[Your Last Name]**
+    - E.g., storageminnick
 
 9. In the **Storage Account** dashboard, on the left-hand menu, select **Blobs**
 
@@ -321,8 +321,8 @@ private async Task TakePhoto()
 
 7. On the iOS device, take a happy-looking selfie
 
-8. In the [Azure portal](https://portal.azure.com/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn), navigate to the Azure Blob Storage instance **happyxamdevsstorage**
-    - E.g., happyxamdevsstorage
+8. In the [Azure portal](https://portal.azure.com/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn), navigate to the Azure Blob Storage instance **storage[Your Last Name]**
+    - E.g., storageminnick
 
 9. In the **Storage Account** dashboard, on the left-hand menu, select **Blobs**
 
@@ -349,8 +349,8 @@ private async Task TakePhoto()
 
 7. On the UWP device, take a happy-looking selfie
 
-8. In the [Azure portal](https://portal.azure.com/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn), navigate to the Azure Blob Storage instance **happyxamdevsstorage**
-    - E.g., happyxamdevsstorage
+8. In the [Azure portal](https://portal.azure.com/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn), navigate to the Azure Blob Storage instance **storage[Your Last Name]**
+    - E.g., storageminnick
 
 9. In the **Storage Account** dashboard, on the left-hand menu, select **Blobs**
 
