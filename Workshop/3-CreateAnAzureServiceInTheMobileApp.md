@@ -96,7 +96,7 @@ namespace HappyXamDevs.Services
 9. (PC) In the **Add New Item** window, click **Add**
     - (Mac) In the **Add New Item** window, click **New**
 
-10. In the `AzureServiceBase.cs` editor, add the following code:
+10. In the `AzureServiceBase.cs` editor, add the following code, replacing `[Your Function App Name]` with the name of your Azure Function App, e.g. `HappyXamDevsFunction-Minnick`
 
 ```csharp
 using System;
