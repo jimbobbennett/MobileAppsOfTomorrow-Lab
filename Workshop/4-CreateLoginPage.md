@@ -253,7 +253,7 @@ To provide functionality to the Login page, we will create a `LoginViewModel` an
 
 To help with creating view models, we will create a `BaseViewModel` that provides an implementation of `INotifyPropertyChanged`. 
 
-1. In the Visual Studio Solution Explorer, right-click on the `HappyXamDevs` project > **Add** > **New Folder**
+1. In the Visual Studio Solution Explorer, right-click on the **HappyXamDevs** project > **Add** > **New Folder**
 
 2. In the Visual Studio Solution Explorer, name the new folder `ViewModels`
 
