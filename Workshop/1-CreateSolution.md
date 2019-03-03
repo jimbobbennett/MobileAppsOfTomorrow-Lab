@@ -1,73 +1,18 @@
 # Creating the solution
 
-Let's begin by creating a cross-platform Xamarin.Forms app.
+Let's begin by opening the MobileAppsOfTomorrow-Lab template, a cross-platform Xamarin.Forms app.
 
-## 1a. Creating the solution using Visual Studio 2017 on Windows
+## 1. Open the Workshop's Created Solution Template
 
-[Build your first Xamarin.Forms App, Visual Studio 2017](https://docs.microsoft.com/xamarin/get-started/first-app/?pivots=windows)
+1. (PC) In File Explorer, navigate to **MobileAppsOfTomorrow-Lab** > **FinishedWorkshopSteps** > **1-CreateSolution** > **HappyXamDevs**
+    - (Mac) In Finder, navigate to **MobileAppsOfTomorrow-Lab** > **FinishedWorkshopSteps** > **1-CreateSolution** > **HappyXamDevs**
 
-1. On the  **Get Started** page, select **Create new project...**
+2. (PC) In File Explorer, double-click **HappyXamDevs.sln**
+    - (Mac) (Mac) In Finder, double-click **HappyXamDevs.sln**
 
-2. In the **New Project** dialog, one the tree on the left, choose **Visual C#** > **Cross-Platform**
+3. Ensure the **HappyXamDevs** solution launches in Visual Studio
 
-3. In the **New Project** dialog, select **Mobile App (Xamarin.Forms)**
-
-4. In the **New Project** dialog, enter the project name: **HappyXamDevs**
-
-5. In the **New Project** dialog, choose a location for the solution
-
-    > **Recommended** : Choose a directory close to the root folder of a drive (such as `C:\Code`). Windows limits the length of the file path and the compiler-generated files and directory paths can get very long
-
-6. Click **OK**
-
-![Selecting the app template](../Images/VS2017ChooseTemplate.png)
-
-7. On the **New Cross Platform App** dialog, select the following:
-
-    - **Select a Template:** **Blank App**
-    - **Platform:**
-        - [x] **Android**
-        - [x] **Windows (UWP)**
-    - **Code Sharing Strategy:** **.NET Standard**
-  
-8. Click **OK**
-
-![Configuring the new app](../Images/VS2017ConfigureProject.png)
-
-## 1b. Creating the solution using Visual Studio for Mac
-
-[Build your first Xamarin.Forms App, Visual Studio for Mac](https://docs.microsoft.com/xamarin/get-started/first-app/?pivots=macos)
-
-1. On the **Get Started** page, select **New project**
-
-2. In the **New Project** window, on the left-hand menu, choose **Multiplatform** > **App**
-
-3. In the **New Project** window, select **Xamarin.Forms** > **Blank Forms App**
-
-4. In the **New Project** window, click **Next**
-
-   ![Selecting a new Blank forms app template](../Images/VSMChooseTemplate.png)
-
-5. Make the following selections:
-
-    - **App Name:** HappyXamDevs
-    - **Organization Identifier:** com.companyname
-    - **Target Platforms**
-        - [x] iOS
-        - [x] Android
-    - **Shared Code:** .NET Standard
-
-6. In the **New Project** window, click **Next**
-
-   ![Configuring the app](../Images/VSMConfigureApp.png)
-
-7. In the **New Project** window, enter the location for your project
-
-8. In the **New Project** window, click **Create**
-
-   ![Configuring the project location](../Images/VSMConfigureProject.png)
-
-## 4. Explore the project
+## 2. Explore the project
 
 This solution contains 3 projects on Mac, and 4 on Windows.
 
@@ -78,7 +23,7 @@ This solution contains 3 projects on Mac, and 4 on Windows.
 | **HappyXamDevs.iOS** | The Xamarin.iOS project which generates the iOS-specific binary package to be deployed onto iPhone and iPad devices. |
 | **HappyXamDevs.UWP** _(PC only)_| The Universal Windows project which can be run on Windows 10 devices. This project is only available when you create the solution with Visual Studio on Windows. |
 
-## 5. Build & Run
+## 3. Build & Run
 
 Build and run each app to see them all working, using the steps in the [setup guide](../SETUP.md).
 
