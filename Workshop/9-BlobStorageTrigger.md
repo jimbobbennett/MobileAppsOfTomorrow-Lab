@@ -2,7 +2,7 @@
 
 In the previous step we uploaded an image to Blob Storage using an Azure Function.
 
-In this step we will create another Azure Function that uses a Blob Storage trigger making it run every time a new Blob is added or an existing Blob is updated.
+In this step we will create another Azure Function that uses a Queue Storage trigger making it run every time `UploadPhoto` completes.
 
 The new Azure Function will use the [Azure Cognitive Services Computer Vision API](https://docs.microsoft.com/azure/cognitive-services/computer-vision/home/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn) to generate an image description and some tags around what is in the photo, then upload its metadata to Cosmos DB.
 
@@ -86,6 +86,8 @@ Functions can also have bindings to other Azure resources such as storage and Co
 
 12. On the **Azure Queue Storage Trigger** popout, if prompted to install extensions, select **Install**
 
+12. On the **Azure Queue Storage Trigger** popout, if prompted to install extensions, stand by until the extension installation completes
+
 13. On the **Azure Queue Storage Trigger** popout, if prompted to install extensions, select **Continue**
 
 14. On the **Azure Queue Storage Trigger** popout, enter the following:
@@ -93,7 +95,7 @@ Functions can also have bindings to other Azure resources such as storage and Co
     - **Queue name:** processblobqueue
     - **Storage account connection:** AzureWebJobStorage
 
-15. On the **Azure Blob Storage Trigger** popout, click **Create**
+15. On the **Azure Queue Storage Trigger** popout, click **Create**
 
 16. In the **ProcessPhotoFromBlob** Function page, scroll to the right until **View files** is visible
 
@@ -214,7 +216,8 @@ Now that we have a function that returns an object with the results of the visio
 3. In the **New Output** overlay, scroll to the bottom and select **Azure Cosmos DB**
 6. On the **Azure Functions** dashboard, on the left-hand menu, click **Select**
 7. On the **Azure Cosmos Db Output** frame, if prompted for an extension, click **Install**
-8. On the **Azure Cosmos Db Output** frame, enter the following:
+8. On the **Azure Cosmos Db Output** frame, if prompted for an extension, stand by until the extension installation completes
+9. On the **Azure Cosmos Db Output** frame, enter the following:
     - **Document parameter name:** documentCollector
     - **Database name:** Photos
     - **Collection name:** PhotoMetadata
@@ -227,13 +230,13 @@ Now that we have a function that returns an object with the results of the visio
     - **Partition key** [Leave Blank]
     - **Collection throughput** [Leave Blank]
 
-7. On the **Azure Cosmos Db Output** frame, click **Save**
-8. On the **Integrate** window, select **Azure Queue Storage (myQueueItem)**
-9. In the **Azure Queue Storage trigger** window, enter the following
+10. On the **Azure Cosmos Db Output** frame, click **Save**
+11. On the **Integrate** window, select **Azure Queue Storage (myQueueItem)**
+12. In the **Azure Queue Storage trigger** window, enter the following
     - **Message parameter name:** blobName
     - **Queue name:** processblobqueue
     - **Storage account connection:** AzureWebJobsStorage
-10. In the **Azure Queue Storage trigger** window, click **Save**
+13. In the **Azure Queue Storage trigger** window, click **Save**
 
 ## 4. Test Cosmos Db Output
 
