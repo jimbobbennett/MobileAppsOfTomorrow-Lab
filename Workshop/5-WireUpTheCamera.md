@@ -115,7 +115,7 @@ The [Xamarin Media Plugin](https://www.nuget.org/packages/Xam.Plugin.Media/) pro
 
 4. In Visual Studio, save the changes to **AndroidManifest.xml** by selecting **File** > **Save All**
 
-5. In the Visual Studio Solution Explorer, right-click on the `HappyXamDevs.Android` > **Resources** > **Add** > **New Folder**
+5. In the Visual Studio Solution Explorer, right-click on **HappyXamDevs.Android** > **Resources** > **Add** > **New Folder**
 
 6. In the Visual Studio Solution Explorer, name the new folder `xml`
 
