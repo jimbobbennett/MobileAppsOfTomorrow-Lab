@@ -16,7 +16,7 @@ We are going to create a `Xamarin.Forms.ContentPage`, a Xamarin.Forms control th
 
     - (Mac) In the Visual Studio Solution Explorer, right-click **HappyXamDevs** > **Add** > **New File**
 
-2. (PC) In the **Add New Item** window, select **Installed** > **Visual C# Items** > **Xamarin.Forms** > **Content Page*
+2. (PC) In the **Add New Item** window, select **Installed** > **Visual C# Items** > **Xamarin.Forms** > **Content Page**
 
     > **Warning:** Select **Content Page**, _not_ **Content Page (C#)**
     - (Mac) In the **New File** window, select **Forms** > **Forms ContentPage XAML**
