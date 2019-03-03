@@ -180,6 +180,7 @@ public MainViewModel()
 
     <ListView x:Name="PhotosListView"
               ItemsSource="{Binding Photos}"
+              IsRefreshing="{Binding IsRefreshing}"
               RefreshCommand="{Binding RefreshCommand}"
               IsPullToRefreshEnabled="true"
               SelectionMode="None">
