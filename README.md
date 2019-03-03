@@ -82,3 +82,4 @@ This lab was built by [Jim Bennett](https://developer.microsoft.com/advocates/ji
 |---------|------|----------|
 | 1.0     | 23 May 2018 | Initial release |
 | 1.1     | 11 June 2018 | Updates after first run to fix bugs and improve clarity |
+| 1.2     | 02 March 2019 | Migrated Azure Functions from v1 to v2 |
