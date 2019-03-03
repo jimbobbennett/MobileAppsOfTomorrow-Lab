@@ -15,7 +15,7 @@ The first Function to create will return the metadata for all photos using a Cos
     - E.g. HappyXamDevsFunction-Minnick
 
 3. In the **Functions** dashboard, on the left-hand menu, click **Functions**
-4. In the **Functions** window, click **+ Add New Function**
+4. In the **Functions** window, click **+ New Function**
 5. In the **Add new..** window, select **HTTP trigger**
 6. In the **Http trigger** slide out, enter the following:
     - **Name:** GetAllPhotosMetadata
@@ -71,7 +71,7 @@ Next we will write a function that will take the name of a Blob and return that 
 This function will be routed to the `photo/{blobName}` REST resource, such that making an HTTP GET call to `https://<YourFunctionApp>.azurewebsites.net/api/photo/<photo blobName>`  will return that photo blob.
 
 1. In the **Functions** dashboard, on the left-hand menu, click **Functions**
-2. In the **Functions** window, click **+ Add New Function**
+2. In the **Functions** window, click **+ New Function**
 3. In the **Add new..** window, select **HTTP trigger**
 4. In the **HTTP trigger** slide out, enter the following:
     - **Name:** GetPhoto
