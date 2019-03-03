@@ -419,9 +419,7 @@ We will wrap the page in a `NavigationPage` which provides page-level navigation
 using Xamarin.Forms;
 using Xamarin.Forms.PlatformConfiguration;
 using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
-using Xamarin.Forms.Xaml;
 
-[assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace HappyXamDevs
 {
     public partial class App : Xamarin.Forms.Application
