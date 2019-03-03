@@ -538,8 +538,6 @@ namespace HappyXamDevs.ViewModels
 
 ## 8. Test Camera & Photo Library Functionality
 
-> The iOS Simulator does not have support for the camera, so if you use the take photo button your app will crash. In a production-quality app you would need to handle this. The media plugin has methods to check to see if the camera and photo library is supported and you could show or hide the buttons based off these values.
-
 ### 8a. Test Camera & Photo Library Functionality, Android
 
 1. In Visual Studio, right-click on **HappyXamDevs.Android** > **Set as Startup Project**
@@ -553,15 +551,15 @@ namespace HappyXamDevs.ViewModels
 
 5. On the Android device, if prompted for permission, tap **Allow**
 
-5. On the Android device, ensure the Camera appears
+6. On the Android device, ensure the Camera appears
 
-6. On the Android device, tap the back button to navigate away from the Camera
+7. On the Android device, tap the back button to navigate away from the Camera
 
-7. On the Android device, on **MainPage**, tap files icon
+8. On the Android device, on **MainPage**, tap files icon
 
-8. On the Android device, if prompted for permission, tap **Allow**
+9. On the Android device, if prompted for permission, tap **Allow**
 
-9. On the Android device, on **MainPage**, ensure the photos library appears
+10. On the Android device, on **MainPage**, ensure the photos library appears
 
 ### 8b. Test Camera & Photo Library Functionality, UWP
 
@@ -570,21 +568,46 @@ namespace HappyXamDevs.ViewModels
 2. (PC) In Visual Studio, select **Debug** > **Start Debugging**
     - (Mac) In Visual Studio for Mac, select **Run** > **Start Debugging**
 
-3. On the Android device, if the **LoginPage** complete the login flow
+3. On the UWP device, if the **LoginPage** complete the login flow
 
-4. On the Android device, on the **MainPage**, tap the Camera icon
+4. On the UWP device, on the **MainPage**, tap the Camera icon
 
-5. On the Android device, if prompted for permission, tap **Allow**
+5. On the UWP device, if prompted for permission, tap **Allow**
 
-5. On the Android device, ensure the Camera appears
+6. On the UWP device, ensure the Camera appears
 
-6. On the Android device, tap the back button to navigate away from the Camera
+7. On the UWP device, tap the back button to navigate away from the Camera
 
-7. On the Android device, on **MainPage**, tap files icon
+8. On the UWP device, on **MainPage**, tap files icon
 
-8. On the Android device, if prompted for permission, tap **Allow**
+9. On the UWP device, if prompted for permission, tap **Allow**
 
-9. On the Android device, on **MainPage**, ensure the photos library appears
+10. On the UWP device, on **MainPage**, ensure the photos library appears
+
+### 8c. Test Camera & Photo Library Functionality, iOS
+
+> The camera can only be tested on a physical iOS device because the iOS Simulator does not have support for the camera
+
+1. In Visual Studio, right-click on **HappyXamDevs.UWP** > **Set as Startup Project**
+
+2. (PC) In Visual Studio, select **Debug** > **Start Debugging**
+    - (Mac) In Visual Studio for Mac, select **Run** > **Start Debugging**
+
+3. On the iOS device, if the **LoginPage** complete the login flow
+
+4. On the iOS device, on the **MainPage**, tap the Camera icon
+
+5. On the iOS device, if prompted for permission, tap **Allow**
+
+6. On the iOS device, ensure the Camera appears
+
+7. On the iOS device, tap the back button to navigate away from the Camera
+
+8. On the iOS device, on **MainPage**, tap files icon
+
+9. On the iOS device, if prompted for permission, tap **Allow**
+
+10. On the iOS device, on **MainPage**, ensure the photos library appears
 
 ## Next step
 
