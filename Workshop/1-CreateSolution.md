@@ -84,7 +84,7 @@ Build and run each app to see them all working, using the steps in the [setup gu
 
 > **Note:** On Windows you won't be able to run the iOS app unless you are connected to a [Mac build server](https://docs.microsoft.com/xamarin/ios/get-started/installation/windows/connecting-to-mac/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn).
 
-> **Note:** On macOS you won't be able to build and run the UWP project, but this project won't be present if the solution was created with Visual Studio for Mac.
+> **Note:** On macOS you won't be able to build and run the UWP project, and a UWP project won't be present if the solution was created with Visual Studio for Mac.
 
 ![The app running on Android](../Images/Step1-Android.png)
 
