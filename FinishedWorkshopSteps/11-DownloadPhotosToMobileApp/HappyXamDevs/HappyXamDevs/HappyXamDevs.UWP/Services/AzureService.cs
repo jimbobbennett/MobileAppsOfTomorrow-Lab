@@ -9,7 +9,7 @@ namespace HappyXamDevs.UWP.Services
         protected override Task AuthenticateUser()
         {
             return Client.LoginAsync(MobileServiceAuthenticationProvider.Facebook,
-                                    AzureAppName);
+                                    "happyxamdevs");
         }
     }
 }
