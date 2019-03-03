@@ -118,7 +118,7 @@ We will configure the callback URL scheme in `info.plist`.
     - (Mac) On the keyboard, press **Return**
 
 13. (PC) _Skip this step_
-    - (Mac) In the empty `string` field right + below **URL Schemes**, enter `happyxamdevs`
+    - (Mac) In the empty `String` field right + below **URL Schemes**, enter `happyxamdevs`
 
 14. (PC) _Skip this step_
 
