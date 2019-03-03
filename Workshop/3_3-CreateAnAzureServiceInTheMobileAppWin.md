@@ -107,7 +107,7 @@ protected override void OnNavigatedTo(NavigationEventArgs e)
     - **Name**: happyxamdevs
     > **Note:** `Name` must match the domain of **Allowed external redirect URLs** configured in your Azure Functions
 
-    ![Configuring the UWP protocol](../Images/VS2017ConfigureUWPProtocol.PNG)
+    ![Configuring the UWP protocol](../Images/VS2017ConfigureUWPProtocol.png)
 
 13. In Visual Studio, save the **Package.appxmanifest** by selecting **File** > **Save All**
 
