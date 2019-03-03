@@ -210,6 +210,7 @@ When the main page is launched, it checks to see if the user is logged in, and i
 2. In the **MainPage.xaml.cs** editor, enter the following code:
 
 ```csharp
+using System.Linq;
 using HappyXamDevs.Services;
 using Xamarin.Forms;
 
@@ -228,9 +229,9 @@ namespace HappyXamDevs
 
             var azureService = DependencyService.Get<IAzureService>();
 
-            if (!azureService.IsLoggedIn())
+            if (!azureService.IsLoggedIn() && !Navigation.ModalStack.Any())
             {
-                await Navigation.PushModalAsync(new LoginPage(), false);
+                    await Navigation.PushModalAsync(new LoginPage(), false);
             }
             else
             {
