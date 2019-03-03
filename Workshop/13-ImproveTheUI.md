@@ -131,6 +131,7 @@ Once you have your new view cell, it's time to use it inside your list view.
               IsPullToRefreshEnabled="True"
               RefreshCommand="{Binding RefreshCommand}"
               IsRefreshing="{Binding IsRefreshing}"
+              RefreshControlColor="White"
               HasUnevenRows="True"
               SeparatorVisibility="None"
               BackgroundColor="#DCDCDC"
