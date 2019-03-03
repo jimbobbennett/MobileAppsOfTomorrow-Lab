@@ -21,16 +21,23 @@
                      Command="{Binding SelectFromLibraryCommand}" />
     </ContentPage.ToolbarItems>
 
-    <ListView x:Name="PhotosListView" 
+    <ListView x:Name="PhotosListView"
               ItemsSource="{Binding Photos}"
               IsPullToRefreshEnabled="True"
               RefreshCommand="{Binding RefreshCommand}"
               IsRefreshing="{Binding IsRefreshing}"
-              RefreshControlColor="White"
               HasUnevenRows="True"
               SeparatorVisibility="None"
               BackgroundColor="#DCDCDC"
               SelectionMode="None">
+        
+        <ListView.RefreshControlColor>
+            <OnPlatform x:TypeArguments="Color">
+                <On Platform="iOS" Value="White"/>
+                <On Platform="Android, UWP" Value="{StaticResource CoolPurple}" />
+            </OnPlatform>
+        </ListView.RefreshControlColor>
+        
         <ListView.ItemTemplate>
             <DataTemplate>
                 <local:PhotoCell />
