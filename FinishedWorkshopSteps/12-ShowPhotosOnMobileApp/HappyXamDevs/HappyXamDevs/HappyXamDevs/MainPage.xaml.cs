@@ -1,3 +1,4 @@
+using System.Linq;
 using HappyXamDevs.Services;
 using Xamarin.Forms;
 
@@ -16,9 +17,9 @@ namespace HappyXamDevs
 
             var azureService = DependencyService.Get<IAzureService>();
 
-            if (!azureService.IsLoggedIn())
+            if (!azureService.IsLoggedIn() && !Navigation.ModalStack.Any())
             {
-                await Navigation.PushModalAsync(new LoginPage(), false);
+                    await Navigation.PushModalAsync(new LoginPage(), false);
             }
             else
             {
