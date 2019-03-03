@@ -87,7 +87,7 @@ namespace HappyXamDevs.Services
 
 > **Note:** `Authenticate` will return `true` if the user is successfully authenticated and `false` if not. This will be an asynchronous method, so the return value will be wrapped in a `System.Threading.Tasks.Task`. 
 
-7. In the Visual Studio Solution Explorer, right-click on **Service*` folder > **Add** > **Class**
+7. In the Visual Studio Solution Explorer, right-click on **Services** folder > **Add** > **Class**
 
     - (Mac) On Visual Studio for Mac, right-click on the **Services** folder > **Add** > **New File**
 
