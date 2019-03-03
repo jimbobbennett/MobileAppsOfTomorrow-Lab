@@ -8,7 +8,7 @@ This is an indicative schedule for the workshop in VS Live Las Vegas 2019.
 | 9:15 | Lecture 1: Intro to Xamarin + Forms | Brandon |
 | 9:45 | Workshop 1 | Brandon + Laurent |
 | 11:00 | Coffee break |
-| 11:15 | Lecture 2: Azure Functions | Brandon |
+| 11:15 | Lecture 2: Azure Functions | Laurent |
 | 11:45 | Workshop 2 | Brandon + Laurent |
 | 13:00 | Lunch break | All |
 | 14:00 | Lecture 3: Cognitive Services | Laurent |
