@@ -60,31 +60,31 @@ Functions can also have bindings to other Azure resources such as storage and Co
 1. In the [Azure Portal](https://portal.azure.com/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn), navigate to the Azure Function resource, **HappXamDevsFunction-[Your Last Name]**
     - E.g. HappyXamDevsFunction-Minnick
 
-2. On the **Azure Functions** dashboard, on the left-hand menu, click **Functions**
+2. On the **Azure Functions** dashboard, on the left-hand menu, click **HappXamDevsFunction-[Your Last Name]**
 
-4. On the **Overview** page, click **Application settings**
+3. On the **Overview** page, click **Application settings**
 
-5. On the **Application settings** page, in the **Application settings** frame, click **+ Add new setting**
+4. On the **Application settings** page, in the **Application settings** frame, click **+ Add new setting**
 
-6. On the **Application settings** page, in the **Application settings** frame, enter the following:
+5. On the **Application settings** page, in the **Application settings** frame, enter the following:
     - **App Setting:** ComputerVisionApiKey
     - **Value:** [Your Computer Vision API Key]
 
-5. On the **Application settings** page, in the **Application settings** frame, click **+ Add new setting**
+6. On the **Application settings** page, in the **Application settings** frame, click **+ Add new setting**
 
-6. On the **Application settings** page, in the **Application settings** frame, enter the following:
+7. On the **Application settings** page, in the **Application settings** frame, enter the following:
     - **App Setting:** ComputerVisionBaseUrl
     - **Value:** [Your Computer Vision Base Url]
 
-7. On the **Application settings** page, at the top, click **Save**
+8. On the **Application settings** page, at the top, click **Save**
 
-8. On the **Functions** page, on the left-hand menu, click **Functions**
+9. On the **Functions** page, on the left-hand menu, click **Functions**
 
-9. On the **Functions** page, click **+ New Function**
+10. On the **Functions** page, click **+ New Function**
 
-10. On the **Choose a template...** page, select **Azure Queue Storage Trigger**
+11. On the **Choose a template...** page, select **Azure Queue Storage Trigger**
 
-11. On the **Azure Queue Storage Trigger** popout, if prompted to install extensions, select **Install**
+12. On the **Azure Queue Storage Trigger** popout, if prompted to install extensions, select **Install**
 
 12. On the **Azure Queue Storage Trigger** popout, if prompted to install extensions, stand by until the extension installation completes
 
