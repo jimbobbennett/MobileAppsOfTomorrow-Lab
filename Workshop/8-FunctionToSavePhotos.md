@@ -49,6 +49,7 @@ By default, HTTP triggers support GET and POST methods. This function will only 
 5. In the **HTTP trigger** window, click **Save**
 6. In the **Integrate** dashboard, under **Outputs**, click **+ New Output**
 7. In the **New Output** window, select **Azure Queue Storage**
+8. In the **New Output** window, if prompted to install an extension, click **Install**
 8. In the **New Output** window, select **Select**
 9. In the **Azure Queue Storage output** window, enter the following:
     - **Message parameter name:** blobNameCollector
