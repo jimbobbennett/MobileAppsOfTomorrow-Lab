@@ -33,8 +33,6 @@ We will use the power of artificial intelligence (AI), thanks to [Azure Cognitiv
 
 > **Note:** **Pricing tier** "F0" is a free tier with a limited number of API calls; it is limited to 20 calls per minute, and 30,000 per month
 
-![Setting up the Face service resource](../Images/PortalNewFace.png)
-
 9. In the Azure Portal, navigate to the Resource Group **HappyXamDevs**
 
 10. On the **XamHappyDevs** Resource Group dashboard, select the newly created **HappyXamDevs-Face**
