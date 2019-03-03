@@ -52,9 +52,6 @@ Let's begin by creating a cross-platform Xamarin.Forms app.
 
     - **App Name:** HappyXamDevs
     - **Organization Identifier:** com.companyname
-
-    > **Note**: If will run the app on a physical iOS device using an existing Apple developer account, enter your own domain (e.g. if you own MyCoolDomain.com, enter `com.mycooldomain`)
-
     - **Target Platforms**
         - [x] iOS
         - [x] Android
