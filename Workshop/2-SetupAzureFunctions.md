@@ -89,7 +89,7 @@ To set up authentication using Facebook, you will need to create an app in Faceb
 
 8. Click **Create App Id**
 
-9. If prompted, completed the **Security Check**
+9. If prompted, complete the **Security Check**
 
 10. On the **Facebook For Developers Dashboard**, select **Integrate Facebook Login** > **Confirm**
 
