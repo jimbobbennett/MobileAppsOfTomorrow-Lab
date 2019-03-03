@@ -583,7 +583,13 @@ For the sake of simplicity during this workshop we will be persisting these usin
 
 1. In Visual Studio Solution Explorer, open **HappyXamDevs** > **Services** > **AzureServiceBase.cs**
 
-2. In the **AzureServiceBase.cs** editor, define two constant fields:
+2. In the **AzureServiceBase.cs** editor, add the following using statement:
+
+```csharp
+using Xamarin.Forms;
+```
+
+3. In the **AzureServiceBase.cs** editor, define two constant fields:
 
 ```csharp
 const string AuthTokenKey = "auth-token";
@@ -594,7 +600,7 @@ const string UserIdKey = "user-id";
 >
 > `AuthTokenKey` and `UserIdKey` are unique keys that will be used to store/retrieve a key-value
 
-2. In the **AzureServiceBase.cs** editor, add the following method:
+4. In the **AzureServiceBase.cs** editor, add the following method:
 
 ```csharp
 void TryLoadUserDetails()
@@ -617,7 +623,7 @@ void TryLoadUserDetails()
 >
 > In `TryLoadUserDetails()`, if a user's `AuthTokenKey` and `UserIdKey` exist, use them to initialize `MobileServicesClient.CurrentUser`
 
-4. In the **AzureServiceBase.cs** editor, update `bool IsLoggedIn()`:
+5. In the **AzureServiceBase.cs** editor, update `bool IsLoggedIn()`:
 
 ```csharp
 public bool IsLoggedIn()
@@ -636,7 +642,7 @@ public bool IsLoggedIn()
     public bool IsLoggedIn() => true;
     ```
 
-5. In the **AzureServiceBase.cs** editor, add the following method:
+6. In the **AzureServiceBase.cs** editor, add the following method:
 
 ```csharp
 public async Task<bool> Authenticate()
