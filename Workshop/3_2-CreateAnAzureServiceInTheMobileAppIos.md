@@ -127,7 +127,7 @@ We will configure the callback URL scheme in `info.plist`.
     - (Mac) In Visual Studio for Mac, save the changes to `Info.plist` by selecting **File** > **Save All**
 
 
-    ![Setting the URL scheme, VS for Mac](../Images/InfoPListVSMac.png)
+    ![Setting the URL scheme, VS for Mac](../Images/InfoPlistVSMac.png)
 
 
     > **Note:** The URL Scheme `happyxamdevs` matches the settings configured for the Facebook App's  **Allowed external redirect URLs**
