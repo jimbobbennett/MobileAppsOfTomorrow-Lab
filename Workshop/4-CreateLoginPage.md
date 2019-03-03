@@ -515,7 +515,7 @@ namespace HappyXamDevs
 
 3. On the Android device, when the app launches, ensure the **LoginPage** appears
 
-4. On the Android device, on the **LoginPage**, select **Login**
+4. On the Android device, on the **LoginPage**, select **Log in with Facebook**
 
 5. On the Android device, ensure the Facebook login flow appears
 
@@ -534,7 +534,7 @@ namespace HappyXamDevs
 
 3. (PC) On the UWP window, when the app launches, ensure the **LoginPage** appears
 
-4. (PC) On the UWP window, on the **LoginPage**, select **Login**
+4. (PC) On the UWP window, on the **LoginPage**, select **Log in with Facebook**
     - (Mac) _Skip this step_
 
 5. (PC) On the UWP window, ensure the Facebook login flow appears
@@ -559,7 +559,7 @@ namespace HappyXamDevs
     - (Mac) On the iOS device, when the app launches, ensure the **LoginPage** appears
 
 4. (PC) _Skip this step_
-    - (Mac) On the iOS device, on the **LoginPage**, select **Login**
+    - (Mac) On the iOS device, on the **LoginPage**, select **Log in with Facebook**
 
 5. (PC) _Skip this step_
     - (Mac) On the iOS device, ensure the Facebook login flow appears
