@@ -188,6 +188,7 @@ namespace HappyXamDevs.Services
         bool IsLoggedIn();
         Task<bool> Authenticate();
         Task<bool> VerifyHappyFace(MediaFile photo);
+        Task UploadPhoto(MediaFile photo);
     }
 }
 ```
