@@ -126,9 +126,10 @@ public static async Task<IActionResult> Run(HttpRequestMessage req, string blobN
 >
 > `return new OkObjectResult(resultObject);` returns an **OK - 200** response containing the photoBlob
 
-7. On the **Functions** page, on the left-hand menu, select **GetPhoto** > **Integrate**
-8. On the **Integrate** window, select **Http (req)**
-9. In the **Http trigger** window, enter the following:
+7. In the **run.csx** editor, click **Save**
+8. On the **Functions** page, on the left-hand menu, select **GetPhoto** > **Integrate**
+9. On the **Integrate** window, select **Http (req)**
+10. In the **Http trigger** window, enter the following:
     - **Allowed Http methods:** Selected methods
     - **Request parameter name:** req
     - **Route Template**: photo/{blobName}
@@ -137,13 +138,13 @@ public static async Task<IActionResult> Run(HttpRequestMessage req, string blobN
 
     > Note: Uncheck all other **Selected HTTP methods**
 
-10. In the **Http trigger** window, click **Save**
-11. In the **Functions** page, scroll to right-to-left until the right-hand menu is visible
-12. On the right-hand menu, select **View Files** 
-13. In the **View Files** window, click the **+ Add**
-14. In the **file name** entry, enter `function.proj`
-15. Press the **Return** key on the keyboard to save the new file
-16. In the **function.proj** text editor, enter the following:
+11. In the **Http trigger** window, click **Save**
+12. In the **Functions** page, scroll to right-to-left until the right-hand menu is visible
+13. On the right-hand menu, select **View Files** 
+14. In the **View Files** window, click the **+ Add**
+15. In the **file name** entry, enter `function.proj`
+16. Press the **Return** key on the keyboard to save the new file
+17. In the **function.proj** text editor, enter the following:
 
 ```xml
 <Project Sdk="Microsoft.NET.Sdk">
@@ -157,7 +158,7 @@ public static async Task<IActionResult> Run(HttpRequestMessage req, string blobN
 </Project>
 ```
 
-17. In the **function.proj** editor, click **Save**
+18. In the **function.proj** editor, click **Save**
 
 
 ## Next step
