@@ -259,7 +259,11 @@ private async Task SelectFromLibrary()
 ```csharp
 private async Task TakePhoto()
 {
-    var options = new StoreCameraMediaOptions { PhotoSize = PhotoSize.Medium };
+    var options = new StoreCameraMediaOptions
+    {
+        PhotoSize = PhotoSize.Medium,
+        DefaultCamera = CameraDevice.Front
+    };
     var photo = await CrossMedia.Current.TakePhotoAsync(options);
 
     if (await ValidatePhoto(photo))
