@@ -12,15 +12,16 @@ We will use the power of artificial intelligence (AI), thanks to [Azure Cognitiv
 
 3. On the **HappyXamDevs** resource group dashboard, click **+ Add**
 
-4. In the **Everything**, in the search bar, enter **Face**
+4. In the **Everything** page, in the search bar, enter **Face**
 
 5. On the keyboard, press the **Enter** key
 
-6. In the search results, select **Face** from the **AI + Machine Learning**
+6. In the search results, select **Face**
+
+    ![Searching for Face in the Azure portal](../Images/PortalSearchFace.png)
 
 7. In the **Face** window, click **Create**
 
-    ![Searching for Face in the Azure portal](../Images/PortalSearchFace.png)
 
 8. In the **Create** window, enter the following:
 
@@ -32,7 +33,7 @@ We will use the power of artificial intelligence (AI), thanks to [Azure Cognitiv
 
 > **Note:** **Pricing tier** "F0" is a free tier with a limited number of API calls; it is limited to 20 calls per minute, and 30,000 per month
 
-    ![Setting up the Face service resource](../Imagews/PortalNewFace.png)
+![Setting up the Face service resource](../Images/PortalNewFace.png)
 
 9. In the Azure Portal, navigate to the Resource Group **HappyXamDevs**
 
@@ -47,17 +48,16 @@ We will use the power of artificial intelligence (AI), thanks to [Azure Cognitiv
 
 13. In the **XamHappyDevs-Face** dashboard, on the left-hand menu, select **Overview**
 
-14. In the **Overview** window, copy the base url of **Endpoint**
-    - E.g. If the **Endpoint** is `https://westus.api.cognitive.microsoft.com/face/v1.0`, copy the base url, `https://westus.api.cognitive.microsoft.com/`
+14. In the **Overview** window, copy the Base Url of **Endpoint**
+    - Incorrect Base Url: `https://westus.api.cognitive.microsoft.com/face/v1.0`
+    - Correct Base Url: `https://westus.api.cognitive.microsoft.com/`
     > **Note:** We will use this value in our mobile app
 
-## 2. Add Microsoft.Azure.CognitiveServices.Vision.Face NuGet Package
+## 2. Adding Microsoft.Azure.CognitiveServices.Vision.Face NuGet Package
 
 The Azure Cognitive Services FaceAPI is accessible from a NuGet package that provides wrappers around the available services. This can be used to detect faces in your photo.
 
 1. Open the Xamarin.Forms app in Visual Studio
-
-    > **Note:** The completed app from Section 1 is available in **FinishedWorkshopSteps** > **1-CreateSolution**
 
 2. (PC) In Visual Studio, right-click the `HappyXamDevs` solution > **Manage NuGet Packages For Solution..**
 
@@ -104,7 +104,7 @@ The Azure Cognitive Services FaceAPI is accessible from a NuGet package that pro
 
     - (Mac) In the **NuGet Package Manager** window, select **Add Package**
 
-### 3. Create `VerifyHappyFace`
+## 3. Creating `VerifyHappyFace`
 
 1. In the Visual Studio Solution Explorer, open **HappyXamDevs** > **Services** > **IAzureService.cs**
 
@@ -147,12 +147,11 @@ private readonly FaceClient faceApiClient = new FaceClient(new ApiKeyServiceClie
 ```
 > **Note:** Replace `[Your API Key]` with the value from `KEY 1`
 >
-> **Note:** Replace `[Your Face API Base Url]` with the base url of the **Face API** **Overview** `Endpoint`
+> **Note:** Replace `[Your Face API Base Url]` with the Base Url of the **Face API**
+> > **Warning:** Do not use the full URL; only use the base url
 
-- **Warning:** Do not use the full URL; only use the base url
-
-    - **Correct Example:** `https://westus.api.cognitive.microsoft.com/`
-    - **Incorrect Example:** `https://westus.api.cognitive.microsoft.com/face/v1.0`
+- **Correct Base Url:** `https://westus.api.cognitive.microsoft.com/`
+- **Incorrect Base Url:** `https://westus.api.cognitive.microsoft.com/face/v1.0`
 
 6. In the **AzureServiceBase.cs** editor, add the following method:
 
@@ -178,7 +177,7 @@ public async Task<bool> VerifyHappyFace(MediaFile photo)
 >
 > `faces.Any(f => f.FaceAttributes.Emotion.Happiness > 0.75)` searches the Face API results for `Happiness` value above 0.75; 0.75 is a confidence interval indicating that there is a 75% chance a happy face was found in the photo
 
-### 4. Add Face Detection to `MainViewModel.cs`
+## 4. Adding Face Detection to `MainViewModel.cs`
 
 Now that you have a method on your Azure service to detect a happy face, you can call this in your main view model to validate that the photo contains happy faces. Open the `MainViewModel` class.
 
@@ -253,7 +252,10 @@ namespace HappyXamDevs.ViewModels
 >
 > `ValidatePhoto` uses `IAzureService.VerifyHappyFace` to ensure a happy face is found in the photo
 
-## 5a. Test The Face API, Android
+
+## 5. Test the Face API
+
+### 5a. Test The Face API, Android
 
 1. In Visual Studio Solution Explorer, open **HappyXamDevs** > **ViewModels** > **MainViewModel.cs**
 

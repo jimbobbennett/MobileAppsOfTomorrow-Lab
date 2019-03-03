@@ -1,12 +1,12 @@
-# Improving the mobile app UI
+# Improving the Mobile App UI
 
 Now that our app is working, it is time to add a bit of polish to the UI.
 
 The `ImageCell` in our `ListView` is functional, but not the prettiest way to show off the amazing photos of happy Xamarin developers; let's make it better
 
-## 1. Creating a new view cell for the list view
+## 1. Creating a new `ViewCell` for the list view
 
-Currently the `ListView` is using an out-the-box `ImageCell` as the item template. This is functional, but doesn't really show of the photo very well.
+Currently the `ListView` is using an out-the-box `ImageCell` as the item template. This is functional, but doesn't display the photo very well.
 
 1. (PC) In the Visual Studio Solution Explorer, right-click **HappyXamDevs** > **Add** > **New Item...**
 

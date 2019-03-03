@@ -53,7 +53,7 @@ public static IActionResult Run(HttpRequestMessage req, IEnumerable<dynamic> doc
 14. In the **New Input** window, scroll to the bottom and select **Azure Cosmos DB**
 15. In the **New Input** window, click **Select**
 16. In the **Azure Cosmos DB input** window, enter the following:
-    - **_Document parameter name:** documents
+    - **Document parameter name:** documents
     - **Database name:** Photos
     - **Collection name:** PhotoMetadata
     - **Azure Cosmos DB account connection** happyxamdevs-[Your Last Name]_DOCUMENTDB

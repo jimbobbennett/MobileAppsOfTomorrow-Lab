@@ -8,13 +8,13 @@ Let's begin by creating a cross-platform Xamarin.Forms app.
 
 1. On the  **Get Started** page, select **Create new project...**
 
-2. In the **New Project** dialog, choose **Visual C#** > **Cross-Platform** from the tree on the left
+2. In the **New Project** dialog, one the tree on the left, choose **Visual C#** > **Cross-Platform**
 
-3. Select **Mobile App (Xamarin.Forms)**
+3. In the **New Project** dialog, select **Mobile App (Xamarin.Forms)**
 
-4. Enter a project name such as **HappyXamDevs**
+4. In the **New Project** dialog, enter the project name: **HappyXamDevs**
 
-5. Choose a location for the solution
+5. In the **New Project** dialog, choose a location for the solution
 
     > **Recommended** : Choose a directory close to the root folder of a drive (such as `C:\Code`). Windows limits the length of the file path and the compiler-generated files and directory paths can get very long
 
@@ -24,13 +24,11 @@ Let's begin by creating a cross-platform Xamarin.Forms app.
 
 7. On the **New Cross Platform App** dialog, select the following:
 
-    - **Select a Template**
-        - **Blank App**
-    - **Platform**
-        - **Android**
-        - **Windows (UWP)**
-    - **Code Sharing Strategy**
-        - **.NET Standard**
+    - **Select a Template:** **Blank App**
+    - **Platform:**
+        - [x] **Android**
+        - [x] **Windows (UWP)**
+    - **Code Sharing Strategy:** **.NET Standard**
   
 8. Click **OK**
 
@@ -42,34 +40,33 @@ Let's begin by creating a cross-platform Xamarin.Forms app.
 
 1. On the **Get Started** page, select **New project**
 
-2. Choose **Multiplatform** > **App**
+2. In the **New Project** window, on the left-hand menu, choose **Multiplatform** > **App**
 
-3. Select **Xamarin.Forms** > **Blank Forms App**
+3. In the **New Project** window, select **Xamarin.Forms** > **Blank Forms App**
 
-4. Click **Next**
+4. In the **New Project** window, click **Next**
 
    ![Selecting a new Blank forms app template](../Images/VSMChooseTemplate.png)
 
 5. Make the following selections:
 
-    - **App Name**: **HappyXamDevs**
-    - **Organization Identifier**: **com.companyname**
+    - **App Name:** HappyXamDevs
+    - **Organization Identifier:** com.companyname
 
     > **Note**: If will run the app on a physical iOS device using an existing Apple developer account, enter your own domain (e.g. if you own MyCoolDomain.com, enter `com.mycooldomain`)
 
     - **Target Platforms**
-        - iOS
-        - Android
-    - **Shared Code**
-        **.NET Standard**
+        - [x] iOS
+        - [x] Android
+    - **Shared Code:** .NET Standard
 
-6. Click **Next**
+6. In the **New Project** window, click **Next**
 
    ![Configuring the app](../Images/VSMConfigureApp.png)
 
-7. Enter the location for your project
+7. In the **New Project** window, enter the location for your project
 
-8. Click **Create**
+8. In the **New Project** window, click **Create**
 
    ![Configuring the project location](../Images/VSMConfigureProject.png)
 
@@ -82,7 +79,7 @@ This solution contains 3 projects on Mac, and 4 on Windows.
 | **HappyXamDevs** | The .NET Standard shared code project. This project is shared between all the target platforms and is where most of your code and the user interface files (XAML) will go. |
 | **HappyXamDevs.Android** | The Xamarin.Android project which generates the Android-specific binary package to be deployed onto Android devices. |
 | **HappyXamDevs.iOS** | The Xamarin.iOS project which generates the iOS-specific binary package to be deployed onto iPhone and iPad devices. |
-| **HappyXamDevs.UWP** | The Universal Windows project which can be run on Windows 10 devices. This project is only available when you create the solution with Visual Studio on Windows. |
+| **HappyXamDevs.UWP** _(PC only)_| The Universal Windows project which can be run on Windows 10 devices. This project is only available when you create the solution with Visual Studio on Windows. |
 
 ## 5. Build & Run
 

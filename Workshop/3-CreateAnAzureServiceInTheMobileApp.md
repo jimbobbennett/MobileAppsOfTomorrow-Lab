@@ -4,11 +4,9 @@ Now that our Azure Function App is configured for authentication, we will implem
 
 We'll be using the [Microsoft.Azure.Mobile.Client](https://www.nuget.org/packages/Microsoft.Azure.Mobile.Client/) NuGet package to help with authentication, as well as to call Azure Functions as an authenticated user.
 
-## 1. Install NuGet Packages
+## 1. Installing NuGet Packages
 
-1. Open the Xamarin.Forms app in Visual Studio
-
-    > **Note:** The completed app from Section 1 is available in **FinishedWorkshopSteps** > **1-CreateSolution**
+1. Open our newly created Xamarin.Forms app in Visual Studio
 
 2. (PC) In Visual Studio, right-click the `HappyXamDevs` solution > **Manage NuGet Packages For Solution..**
 
@@ -24,11 +22,11 @@ We'll be using the [Microsoft.Azure.Mobile.Client](https://www.nuget.org/package
 
 6. (PC) In the **NuGet Package Manager** window, select **Install**
 
-  ![Adding the Microsoft.Azure.Mobile.Client NuGet package on PC](../Images/VS2017AddMobileClientNuget.png)
+![Adding the Microsoft.Azure.Mobile.Client NuGet package on PC](../Images/VS2017AddMobileClientNuget.png)
 
-    - (Mac) In the **NuGet Package Manager** window, select **Add Package**
+- (Mac) In the **NuGet Package Manager** window, select **Add Package**
 
-  ![Adding the Microsoft.Azure.Mobile.Client NuGet package on Mac](../Images/VSMacAddMobileClientNuget.png)
+![Adding the Microsoft.Azure.Mobile.Client NuGet package on Mac](../Images/VSMacAddMobileClientNuget.png)
 
 7. (PC) _Skip this step_
 
@@ -55,13 +53,13 @@ We'll be using the [Microsoft.Azure.Mobile.Client](https://www.nuget.org/package
 
     - (Mac) In the **NuGet Package Manager** window, select **Add Package**
 
-## 2. Create a cross-platform Azure service
+## 2. Creating a cross-platform Azure service
 
-1. In the Visual Studio Solution Explorer, right-click on the `HappyXamDevs` project > **Add** > **New Folder**
+1. In the Visual Studio Solution Explorer, right-click on the project **HappyXamDevs** > **Add** > **New Folder**
 
 2. In the Visual Studio Solution Explorer, name the new folder `Services`
 
-3. In the Visual Studio Solution Explorer, right-click on the newly created `Services` folder > **Add** > **Class**
+3. (PC) In the Visual Studio Solution Explorer, right-click on the newly created **Services** folder > **Add** > **Class**
 
     - (Mac) On Visual Studio for Mac, right-click on the newly created `Services` folder > **Add** > **New File**
 
@@ -85,12 +83,13 @@ namespace HappyXamDevs.Services
 }
 ```
 
-> **Note:** `IsLoggedIn` will return `true` if there is currently a user logged in, `false` if not.
+> **Note:** `IsLoggedIn` will return `true` if there is currently a user logged in, `false` if not
+
 > **Note:** `Authenticate` will return `true` if the user is successfully authenticated and `false` if not. This will be an asynchronous method, so the return value will be wrapped in a `System.Threading.Tasks.Task`. 
 
-7. In the Visual Studio Solution Explorer, right-click on the newly created `Services` folder > **Add** > **Class**
+7. In the Visual Studio Solution Explorer, right-click on **Service*` folder > **Add** > **Class**
 
-    - (Mac) On Visual Studio for Mac, right-click on the newly created `Services` folder > **Add** > **New File**
+    - (Mac) On Visual Studio for Mac, right-click on the **Services** folder > **Add** > **New File**
 
 8. In the **Add New Item** window, name the file `AzureServiceBase.cs`
 
@@ -111,12 +110,12 @@ namespace HappyXamDevs.Services
         protected const string AzureAppName = "[Your Function App Name]";
         protected readonly static string FunctionAppUrl = $"https://{AzureAppName}.azurewebsites.net";
 
-        public MobileServiceClient Client { get; }
-
         protected AzureServiceBase()
         {
             Client = new MobileServiceClient(FunctionAppUrl);
         }
+
+        public MobileServiceClient Client { get; }
 
         public bool IsLoggedIn()
         {
@@ -146,15 +145,15 @@ namespace HappyXamDevs.Services
 ```
 
 > **About The Code** 
-
+>
 >`string AzureAppName` and `string FunctionAppUrl` will be used in the platform-specific projects to connect to your Function back end
-
+>
 > `MobileServiceClient Client` provides APIs for authentication, information about the current user, and back-end services
-
+>
 > `bool IsLoggedIn()` verifies that `Client` has a valid current user
-
+>
 > `abstract Task AuthenticateUser()` will be implemented in our Android, iOS and/or UWP projects later
-
+>
 > `Task<bool> Authenticate()` first checks to see if there already is a logged in user, and if not call the `AuthenticateUser()` 
 
 11. In the `AzureServiceBase.cs` editor, replace `[Your Function App Name]` with the name of your Azure Function App

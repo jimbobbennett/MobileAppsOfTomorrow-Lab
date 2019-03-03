@@ -14,11 +14,9 @@ HTTP triggers are an incredibly useful way of building a REST service, and you c
 
 `https://<YourFunctionApp>.azurewebsites.net/api/photo`
 
-By the end of this workshop you will be able to send a request using the GET method to this API to get the entire collection of photos. You will also be able to send a GET to `/api/photo/{name}` to get an individual photo by name, and to POST a photo to `/api/photo`.
+By the end of this workshop we will be able to send a request using the GET method to this API to get the entire collection of photos. You will also be able to send a GET to `/api/photo/{name}` to get an individual photo by name, and to POST a photo to `/api/photo`.
 
-In this step you will be implementing the POST method.
-
-Azure Functions are named functions, so you would name them based off a naming convention that makes sense to you. You can then set up a [_Route Template_](https://docs.microsoft.com/en-gb/azure/azure-functions/functions-bindings-http-webhook?WT.mc_id=mobileappsoftomorrow-workshop-jabenn#customize-the-http-endpoint) to assign a REST resource and HTTP method combination to a function. For example you can create a function called "GetPhotos" and assign this to all GET requests made to `/api/photo`.
+In this step we will be implementing the POST method.
 
 ### 1a. Creating the Azure Function
 
@@ -34,10 +32,10 @@ Azure Functions are named functions, so you would name them based off a naming c
 
 ### 1b. Configuring the Azure function
 
-By default, HTTP triggers support GET and POST methods. This function will only need to support POST. It will also be configured using the `photo` resource.
+By default, HTTP triggers support GET and POST methods. This function will only need to support POST. It will also be configured using the `photo` route template.
 
 1. On the left-hand menu, expand the **UploadPhoto** drop-down
-2. On the left-hand menu, under **UploadPhoto**, select the **Integrate** node
+2. On the left-hand menu, under **UploadPhoto**, select the **Integrate**
 3. In the **Integrate** window, under **Triggers**, select **HTTP (req)**
 4. In the **HTTP trigger** window, make the following selections:
     - **Allowed Http methods:** Selected methods
@@ -53,7 +51,7 @@ By default, HTTP triggers support GET and POST methods. This function will only 
 7. In the **New Output** window, select **Azure Queue Storage**
 8. In the **New Output** window, select **Select**
 9. In the **Azure Queue Storage output** window, enter the following:
-    - **Message parameter name:** blobUrlCollector
+    - **Message parameter name:** blobNameCollector
     - **Queue name:** processblobqueue
     - **Storage account connection:** AzureWebJobStorage
 10. In the **Azure Queue Storage output** dashboard, click **Save**
@@ -74,7 +72,7 @@ You'll actually implement the sending of this data later in this part, but for n
 
 1. On the left-hand side of the Azure Functions Dashboard, select **UploadPhoto**
 2. In the **UploadPhoto** window, scroll to right-to-left until the right-hand menu is visible
-3. On the right-hand menu, select **View Files** 
+3. On the right-hand menu, select **View Files**
 4. In the **View Files** window, click the **+ Add**
 5. In the **file name** entry, enter `function.proj`
 6. Press the **Return** key on the keyboard to save the new file
@@ -98,9 +96,7 @@ You'll actually implement the sending of this data later in this part, but for n
 
     > **Note**: This is a C# script file that contains the code that the function will run. The default new function contains a basic "Hello World" style function, which we will overwrite.
 
-10. In the **run.csx** editor, clear (delete) the existing Hello World code
-
-11. In the **run.csx** editor, enter the following code:
+10. In the **run.csx** editor, enter the following code:
 
 ```csharp
 #r "Microsoft.WindowsAzure.Storage"
@@ -115,7 +111,7 @@ using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
 using Microsoft.WindowsAzure.Storage;
 
-public static async Task<IActionResult> Run(HttpRequestMessage req, IAsyncCollector<string> blobUrlCollector, ILogger log)
+public static async Task<IActionResult> Run(HttpRequestMessage req, IAsyncCollector<string> blobNameCollector, ILogger log)
 {
     dynamic data = await req.Content.ReadAsAsync<object>();
     string photo = data?.Photo;
@@ -138,7 +134,7 @@ public static async Task<IActionResult> Run(HttpRequestMessage req, IAsyncCollec
 
     log.LogInformation($"Blob {blobName} created");
 
-    await blobUrlCollector.AddAsync(blobName);
+    await blobNameCollector.AddAsync(blobName);
 
     log.LogInformation($"Blob Name Added to Queue");
 
@@ -162,17 +158,17 @@ public static async Task<IActionResult> Run(HttpRequestMessage req, IAsyncCollec
 >
 > `return new CreatedResult(blockBlob.Uri, blockBlob);` returns an HTTP result status of **201 - Created**
 
-12. In the **run.csx** editor, click **Save**
+11. In the **run.csx** editor, click **Save**
 
 ## 2. Calling the Azure Function from the Mobile App
 
 When you create an Azure Function, the API end point for the function defaults to `https://<FunctionsAppName>.azurewebsites.net/api/<FunctionName>` or `https://<FunctionsAppName>.azurewebsites.net/api/{Route template}`
 
-    > **E.g.** `https://HappyXamDevsFunction-Minnick.azurewebsites.net/api/UploadPhoto` or `https://HappyXamDevsFunction-Minnick.azurewebsites.net/api/photo`
+- **E.g.** `https://HappyXamDevsFunction-Minnick.azurewebsites.net/api/UploadPhoto` or `https://HappyXamDevsFunction-Minnick.azurewebsites.net/api/photo`
 
 To call this function we will send a POST request to this end point passing a JSON payload with the photo encoded as a Base64 string, and because it is behind authentication you would also need to pass an authentication token as an HTTP header.
 
-To make it easier to use Azure Functions, the `MobileClient` class you used earlier to authenticate provides a way to call an API - essentially any function in the `api` path, and it will automatically pass the required authentication headers for you. All you have to do is call a method on the mobile client, passing the HTTP method you want to use, the function name and the payload.
+To make it easier to use Azure Functions, the `MobileClient` class we used earlier to authenticate provides a way to call an API - essentially any function in the `api` path, and it will automatically pass the required authentication headers for you. All you have to do is call a method on the mobile client, passing the HTTP method you want to use, the function name and the payload.
 
 ### 2a. Adding `UploadPhoto(MediaFile photo)` to BaseAzureService.cs
 

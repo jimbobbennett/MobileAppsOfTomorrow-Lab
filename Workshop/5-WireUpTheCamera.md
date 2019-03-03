@@ -2,13 +2,11 @@
 
 The app you are building is for sharing photos of happy Xamarin developers, so it needs access to the camera and image library to allow the user to take and upload photos. The APIs to access the camera are very different on each platform, so instead of accessing them directly we will use a Xamarin Plugin.
 
-## 1. Install Xam.Plugin.Media NuGet Package
+## 1. Installing `Xam.Plugin.Media` NuGet Package
 
 The [Xamarin Media Plugin](https://www.nuget.org/packages/Xam.Plugin.Media/) provides a simple, cross-platform abstraction over the various camera APIs for iOS, Android and UWP.
 
 1. Open the Xamarin.Forms app in Visual Studio
-
-    > **Note:** The completed app from Section 1 is available in **FinishedWorkshopSteps** > **1-CreateSolution**
 
 2. (PC) In Visual Studio, right-click the `HappyXamDevs` solution > **Manage NuGet Packages For Solution..**
 
@@ -52,7 +50,7 @@ The [Xamarin Media Plugin](https://www.nuget.org/packages/Xam.Plugin.Media/) pro
 
 ## 2. Configure iOS Camera Settings
 
-1. (PC) In Visual Studio Solution Explorer, right-click on **HappyXamDevs.iOS** > **Info.plist** > **Open with...**
+1. (PC) In the Visual Studio Solution Explorer, right-click on **HappyXamDevs.iOS** > **Info.plist** > **Open with...**
     - (Mac) In Visual Studio Solution Explorer, double-click **HappyXamDevs.iOS** > **Info.plist**
 
 2. (PC) In the **Open With** window, select **Generic PList editor** > **OK**.
@@ -291,7 +289,7 @@ When the application runs, the UWP framework will automatically select the best 
 
 9. In the file explorer, double-click **SelectFromLibrary.scale-300**
 
-## 5. Import TakePhoto.png
+## 5. Importing TakePhoto.png
 
 For the UI, you will need to add a couple of toolbar buttons to **MainPage.xaml**, one to use the camera to take a photo, the other to select a photo from the users photo library. 
 
@@ -414,7 +412,7 @@ When the application runs, the UWP framework will automatically select the best 
 
 9. In the file explorer, double-click **TakePhoto.scale-300**
 
-## 6. Add Toolbar Buttons to MainPage.xaml
+## 6. Adding Toolbar Buttons to `MainPage.xaml`
 
 1. In the Visual Studio Solution Explorer, open **HappyXamDevs** > **MainPage.xaml**
 
@@ -428,12 +426,12 @@ When the application runs, the UWP framework will automatically select the best 
     xmlns:local="clr-namespace:HappyXamDevs" 
     x:Class="HappyXamDevs.MainPage"
     Title="Happy Developers">
-    
+
     <ContentPage.ToolbarItems>
         <ToolbarItem Order="Primary" Icon="TakePhoto.png" Priority="0" />
         <ToolbarItem Order="Primary" Icon="SelectFromLibrary.png" Priority="1" />
     </ContentPage.ToolbarItems>
-    
+
 </ContentPage>
 ```
 
@@ -464,15 +462,14 @@ namespace HappyXamDevs.ViewModels
 {
     public class MainViewModel : BaseViewModel
     {
-        public ICommand SelectFromLibraryCommand { get; }
-
-        public ICommand TakePhotoCommand { get; }
-
         public MainViewModel()
         {
             TakePhotoCommand = new Command(async () => await TakePhoto());
             SelectFromLibraryCommand = new Command(async () => await SelectFromLibrary());
         }
+
+        public ICommand SelectFromLibraryCommand { get; }
+        public ICommand TakePhotoCommand { get; }
 
         private async Task SelectFromLibrary()
         {
@@ -532,13 +529,16 @@ namespace HappyXamDevs.ViewModels
 > **About the Code**
 >
 > `xmlns:viewModels="clr-namespace:HappyXamDevs.ViewModels"` adds the XML Namespace `HappyXamDevs.ViewModels`
+>
 > `<ContentPage.BindingContext>` tells the view, `MainPage.xaml`, to be bound to a ViewModel, `MainViewModel.cs`
+>
 > `Command="{Binding TakePhotoCommand}"` will trigger `MainViewModel.TakePhotoCommand` any time the TakePhoto ToolbarItem is tapped
+>
 > `Command="{Binding SelectFromLibraryCommand}"` will trigger `MainViewModel.SelectFromLibraryCommand` any time the SelectFromLibrary ToolbarItem is tapped
 
 ## 8. Test Camera & Photo Library Functionality
 
-> The iOS Simulator does not have support for the camera, so if you use the take photo button your app will crash. In a production-quality app you would need to handle this. The media plugin had methods to check to see if the camera and photo library is supported and you could show or hide the buttons based off these values.
+> The iOS Simulator does not have support for the camera, so if you use the take photo button your app will crash. In a production-quality app you would need to handle this. The media plugin has methods to check to see if the camera and photo library is supported and you could show or hide the buttons based off these values.
 
 ### 8a. Test Camera & Photo Library Functionality, Android
 

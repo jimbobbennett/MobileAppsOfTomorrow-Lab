@@ -12,15 +12,15 @@ Before you can use the Computer Vision API, you will need an API key. You can ge
 
 1. In the browser, navigate to the [Azure Portal](https://portal.azure.com/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn)
 
-2. On the left-hand toolbar, click **Create a resource**  
+2. On the left-hand toolbar, click **+ Create a resource**  
 
 > **Note:** If the toolbar is collapsed, it will be shown as a green **+**
 
 2. In the **New** dashboard, in the search bar, enter **Computer Vision**
 
-3. On the keyboard, select the **Return** key
+3. On the keyboard, press the **Return** key
 
-4. In th search results, select **Computer Vision**
+4. In the search results, select **Computer Vision**
 
     ![Searching for Computer Vision in the Azure portal](../Images/PortalSearchComputerVision.png)
 
@@ -51,13 +51,11 @@ Before you can use the Computer Vision API, you will need an API key. You can ge
 
     > **Note:** We will add the base url to our Azure Functions' Application Settings later
 
-## 2. Creating a Blob Trigger Azure Function
+## 2. Creating a Queue Trigger Azure Function
 
-In a previous part, we created an Azure Function with an HTTP Trigger - an Azure Function invoked by call to its HTTP end point. We can also create functions that are triggered when blobs are [saved into Azure Blob Storage](https://docs.microsoft.com/azure/azure-functions/functions-create-storage-blob-triggered-function/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn), similar to how a database trigger is fired on an INSERT in a traditional relational database like SQL Server.
+In a previous part, we created an Azure Function with an HTTP Trigger - an Azure Function invoked by call to its HTTP end point. We can also create functions that are triggered when an object is added to a queue.
 
-Functions can also have bindings to other Azure resources such as storage and Cosmos DB. These bindings can be input bindings so that data from the resource is passed to the function as an input parameter, or output bindings so that data returned from the function or passed as an `out` parameter can be sent to a resource. For example, you can bind the return value of a function to a Cosmos DB database and have the returned value inserted as a document into the database once the function completes, simply by configuring the bindings.
-
-### Creating the Blob trigger
+Functions can also have bindings to other Azure resources such as storage and Cosmos DB. These bindings can be input bindings so that data from the resource is passed to the function as an input parameter, or output bindings so that data returned from the function or passed to a `IAsyncCollector` parameter can be sent to a resource. For example, you can bind the return value of a function to a Cosmos DB database and have the returned value inserted as a document into the database once the function completes, simply by configuring the bindings.
 
 1. In the [Azure Portal](https://portal.azure.com/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn), navigate to the Azure Function resource, **HappXamDevsFunction-[Your Last Name]**
     - E.g. HappyXamDevsFunction-Minnick
@@ -104,9 +102,6 @@ Functions can also have bindings to other Azure resources such as storage and Co
 16. In the **View Files** window, click the **+ Add**
 17. In the **file name** entry, enter `function.proj`
 18. Press the **Return** key on the keyboard to save the new file
-
-    ![Adding a new file to the Azure Function](../Images/PortalAddFileToFunction.png)
-
 19. In the **function.proj** text editor, enter the following:
 
 ```xml
@@ -123,9 +118,7 @@ Functions can also have bindings to other Azure resources such as storage and Co
 ```
 
 20. In the **function.proj** text editor, click **Save**
-
 21. In the the **View Files** window, select **run.csx**
-
 22. In the **run.csx** editor, enter the following code:
 
 ```cs
@@ -214,7 +207,7 @@ public static async Task Run(string blobName, IAsyncCollector<object> documentCo
 
 ## 3. Setting up an output binding to Cosmos DB
 
-Now that we have a function that returns an object with the results of the vision analysis, we need to bind this output to your Cosmos DB database. Once this binding is set up, every time this trigger runs the returned object will be saved as a JSON document inside your Cosmos DB instance.
+Now that we have a function that returns an object with the results of the vision analysis, we need to bind this output to our Cosmos DB database. Once this binding is set up, every time this trigger runs the returned object will be saved as a JSON document inside our Cosmos DB instance.
 
 1. On the **Azure Functions** dashboard, on the left-hand menu, select **ProcessPhotoFromBlob** > **Integrate**
 2. On the **Integrate** page, under **Outputs**, click **+ New Output**
@@ -229,7 +222,7 @@ Now that we have a function that returns an object with the results of the visio
     - **Azure Cosmos Db account connection**: [Click **new**]
         - **Subscription:** [Your Azure Subscription]
         - **Database Account:** happyxamdevs-[Your Last Name]
-            -E.g. happyxamdevs-minnick
+            - E.g. happyxamdevs-minnick
         - Click **Select**
     - **Partition key** [Leave Blank]
     - **Collection throughput** [Leave Blank]

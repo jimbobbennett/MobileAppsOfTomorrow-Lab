@@ -4,11 +4,11 @@ We now have an app that can take a photograph and check for happy faces.
 
 We now need to be able to upload this photo to Azure so it can be shared with other users of our app. For this we will be using two types of storage that you will configure from the Azure portal - [blob storage](https://docs.microsoft.com/azure/storage/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn) to store the actual photos as raw binary blobs (Binary Large OBject), and [Cosmos DB](https://docs.microsoft.com/azure/cosmos-db/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn) to save metadata about each image.
 
-### 1. Create a Container in Azure Blob Storage
+## 1. Create a Container in Azure Blob Storage
 
 In Azure Blob Storage, blobs are stored in containers, similar to how a folder holds files on a PC. We will be creating our container using the Azure Portal UI, but containers can also be created in code.
 
-1. In the [Azure Portal](https://portal.azure.com/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn), navigate to the Azure Blob Storage resource, **xamhappydevsstorage**
+1. In the [Azure Portal](https://portal.azure.com/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn), navigate to the Azure Storage resource, **xamhappydevsstorage**
 
 2. On the **Azure Storage** page, on the left-hand menu, select **Blobs**
 3. On the **Blobs** page, select **+ Container**
@@ -50,11 +50,9 @@ The second type of storage to configure is Cosmos DB. This is a NoSQL database t
 7. In the **Create Azure Cosmos DB Account** page, click **Review + create**
 8. In the **Create Azure Cosmos DB Account** page, click **Create**
 
-## 2. Configure CosmosDb
+## 3. Configure CosmosDb
 
 We will create a database that contains a collection in which we will add our photos metadata.
-
-We will create a database and container now in the Azure portal.
 
 1. In the [Azure Portal](https://portal.azure.com/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn), navigate to the newly created Cosmos Db resource, **happyxamdevs-[Your Last Name]**
     - E.g. happyxamdevs-minnick

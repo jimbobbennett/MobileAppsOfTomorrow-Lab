@@ -4,19 +4,19 @@
 
 > **Note:** If you are using Visual Studio for Mac, skip this UWP implementation
 
-### 1. Create AzureService.cs
+## 1. Creating AzureService.cs
 
-1. In the Visual Studio Solution Explorer, right-click on the `HappyXamDevs.UWP` project > **Add** > **New Folder**
+1. In the Visual Studio Solution Explorer, right-click `HappyXamDevs.UWP` > **Add** > **New Folder**
 
 2. In the Visual Studio Solution Explorer, name the new folder `Services`
 
-3. In the Visual Studio Solution Explorer, right-click on the newly created `Services` folder > **Add** > **Class**
+3. In the Visual Studio Solution Explorer, right-click on the newly created **Services** folder > **Add** > **Class**
 
-    - (Mac) On Visual Studio for Mac, right-click on the newly created `Services` folder > **Add** > **New File**
+    - (Mac) On Visual Studio for Mac, right-click on the newly created **Services** folder > **Add** > **New File**
 
 4. In the Add New Item window, name the new file `AzureService.cs`
 
-5. In the `AzureService.cs` editor, enter the following code:
+5. In the **AzureService.cs** editor, enter the following code:
 
 ```cs
 using System.Threading.Tasks;
@@ -37,11 +37,12 @@ namespace HappyXamDevs.UWP.Services
 ```
 
 > **About the Code**
-> > `Task AuthenticateUser()` calls `LoginAsync` requesting a login using Facebook. The `"happyxamdevs"` parameter is the name of the URL scheme that we registered in the Facebook App's **ALLOWED EXTERNAL REDIRECT URLS** settings
-
+>
+> `Task AuthenticateUser()` calls `LoginAsync` requesting a login using Facebook. The `"happyxamdevs"` parameter is the name of the URL scheme that we registered in the Facebook App's **ALLOWED EXTERNAL REDIRECT URLS** settings
+>
 > `[assembly: Xamarin.Forms.Dependency(typeof(HappyXamDevs.UWP.Services.AzureService))]` is the [Xamarin.Forms dependency service](https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/dependency-service/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn). This is a way to create a platform-specific implementation and access them from the Xamarin.Forms project. This registers a Android implementation for `IAzureService`.
 
-## 2. Configure the URL scheme
+## 2. Configuring the URL scheme
 
 Just like with Android and iOS you will need to configure your app to handle the call back from the URL scheme.
 
@@ -104,7 +105,7 @@ protected override void OnNavigatedTo(NavigationEventArgs e)
 12. In the **Declarations** tab, make the following selections:
     - **Display Name**: Happy Xamarin Developers
     - **Name**: happyxamdevs
-        > **Note:** `Name` must match the domain of **Allowed external redirect URLs** configured in your Azure Functions
+    > **Note:** `Name` must match the domain of **Allowed external redirect URLs** configured in your Azure Functions
 
     ![Configuring the UWP protocol](../Images/VS2017ConfigureUWPProtocol.PNG)
 

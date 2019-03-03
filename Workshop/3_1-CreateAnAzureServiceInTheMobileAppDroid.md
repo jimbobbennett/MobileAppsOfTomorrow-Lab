@@ -2,7 +2,7 @@
 
 > **Warning:** Complete steps in [3-CreateAnAzureServiceInTheMobileApp](./3-CreateAnAzureServiceInTheMobileApp.md) before beginning the steps below
 
-## 1. Add NuGet Package, Plugin.CurrentActivity
+## 1. Adding a NuGet Package, Plugin.CurrentActivity
 
 1. (PC) In Visual Studio, right-click the `HappyXamDevs.Android` project > **Manage NuGet Packages For Solution..**
 
@@ -22,32 +22,40 @@
 
 6. In the Visual Studio Solution Explorer, open `HappyXamDevs.Android` > `MainActivity.cs` 
 
-7. In the `MainActivity.cs` editor, in the `OnCreate` method before `LoadApplication(new App()`, add this line of code: 
+7. In the `MainActivity.cs` editor, enter the following code: 
 
 ```csharp
-Plugin.CurrentActivity.CrossCurrentActivity.Current.Init(this, savedInstanceState);
-```
+using Android.App;
+using Android.Content.PM;
+using Android.OS;
 
-8. In the `MainActivity.cs` editor, ensure the updated `OnCreate` method matches the following code:
-
-```csharp
-protected override void OnCreate(Bundle savedInstanceState)
+namespace HappyXamDevs.Droid
 {
-    TabLayoutResource = Resource.Layout.Tabbar;
-    ToolbarResource = Resource.Layout.Toolbar;
+    [Activity(Label = "HappyXamDevs", Icon = "@mipmap/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
+    public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
+    {
+        protected override void OnCreate(Bundle bundle)
+        {
+            TabLayoutResource = Resource.Layout.Tabbar;
+            ToolbarResource = Resource.Layout.Toolbar;
 
+            base.OnCreate(bundle);
 
-    base.OnCreate(savedInstanceState);
-
-    global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
-    Plugin.CurrentActivity.CrossCurrentActivity.Current.Init(this, savedInstanceState);
-    LoadApplication(new App());
+            global::Xamarin.Forms.Forms.Init(this, bundle);
+            Plugin.CurrentActivity.CrossCurrentActivity.Current.Init(this, bundle);
+            LoadApplication(new App());
+        }
+    }
 }
 ```
 
+> **About the Code**
+>
+> `Plugin.CurrentActivity.CrossCurrentActivity.Current.Init(this, bundle);` initialized the `Plugin.CurrentActivity` library
+
 ## 2. Create AzureService.cs
 
-1. In the Visual Studio Solution Explorer, right-click on the `HappyXamDevs.Android` project > **Add** > **New Folder**
+1. In the Visual Studio Solution Explorer, right-click on the project `HappyXamDevs.Android` > **Add** > **New Folder**
 
 2. In the Visual Studio Solution Explorer, name the new folder `Services`
 
@@ -81,14 +89,14 @@ namespace HappyXamDevs.Droid.Services
 ```
 
 > **About the Code**
-
+>
 > `Task AuthenticateUser()` calls `LoginAsync` requesting a login using Facebook. The `"happyxamdevs"` parameter is the name of the URL scheme that we registered in the Facebook App's **ALLOWED EXTERNAL REDIRECT URLS** settings
-
+>
 > `[assembly: Xamarin.Forms.Dependency(typeof(HappyXamDevs.Droid.Services.AzureService))]` is the [Xamarin.Forms dependency service](https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/dependency-service/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn). This is a way to create a platform-specific implementation and access them from the Xamarin.Forms project. This registers a Android implementation for `IAzureService`.
 
 ## 3. Configure the Android Manifest
 
-`AuthenticateUser()` will launch a WebView that redirects to the Facebook login page were we will enter our Facebook credentials. To automatically return to the app after logging in, the app needs to register a **URL scheme** that it can handle, similar to how mail apps can handle `mailto://<email>` URLs. Apps can register custom URLs with the Android OS, so that when a web view loads these URLs, it is redirected to your app to handle.
+`AuthenticateUser()` will launch a WebView that redirects to the Facebook login page where we enter our Facebook credentials. To automatically return to the app after logging in, the app needs to register a **URL scheme** that it can handle (similar to how mail apps can handle `mailto://<email>` URLs). Apps can register custom URLs with the Android OS, so that when a web view loads these URLs, it is redirected to your app to handle.
 
 We configured **Allowed external redirect URLs** in the Azure Function App as the return URL. We now need to configure our Android app to be able to handle this URL. This configuration is done in `HappyXamDevs.Android` > `Properties` > `AndroidManifest.xml`.
 
@@ -117,7 +125,7 @@ We configured **Allowed external redirect URLs** in the Azure Function App as th
 ```
 
 > **About the Code**
-
+>
 > `<data android:scheme="happyxamdevs" android:host="easyauth.callback" />`  registers your app with the OS as responding to any calls from a website to `happyxamdevs://easyauth.callback`.
 
 ## Next step

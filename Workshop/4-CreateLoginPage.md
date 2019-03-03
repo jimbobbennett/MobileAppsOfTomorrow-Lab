@@ -1,6 +1,6 @@
 # Create a login page
 
-Now that we have our AzureService configured, it's time to add a login page.
+Now that we have our Azure Service configured, it's time to add a login page.
 
 The app will have two pages - the main page showing our Happy Xamarin Developers, and a login page.
 
@@ -8,9 +8,9 @@ The app will have two pages - the main page showing our Happy Xamarin Developers
 
 We'll be using the [MVVM design pattern](https://docs.microsoft.com/xamarin/xamarin-forms/enterprise-application-patterns/mvvm/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn) for these pages as it is a simple way to get started and is baked in to Xamarin.Forms.
 
-## 1. Create the Login Page
+## 1. Creating the Login Page
 
-We are going to create a `ContentPage`, a Xamarin.Forms control that contains some form of content, normally a layout control containing other controls.
+We are going to create a `Xamarin.Forms.ContentPage`, a Xamarin.Forms control that contains some form of content, normally a layout control containing other controls.
 
 1. (PC) In the Visual Studio Solution Explorer, right-click **HappyXamDevs** > **Add** > **New Item...**
 
@@ -37,23 +37,6 @@ We are going to create a `ContentPage`, a Xamarin.Forms control that contains so
 5. In the Visual Studio Solution Explorer, open **HappyXamDevs** > **LoginPage.xaml**
 
 6. In the `LoginPage.xaml` editor, replace the provided template with the following code:
-
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<ContentPage 
-    xmlns="http://xamarin.com/schemas/2014/forms" 
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
-    xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core" 
-    ios:Page.UseSafeArea="true" 
-    x:Class="HappyXamDevs.LoginPage">
-</ContentPage>
-```
-
-> **About the Code**
-
-> `ios:Page.UseSafeArea="true"` enables [Safe Areas](https://blog.xamarin.com/making-ios-11-even-easier-xamarin-forms/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn) for iOS; this ensures that the UI will not overlap the iPhone notch
-
-7. In the `LoginPage.xaml` editor, add the `ContentPage.Content`:
 
 ```xml
 <?xml version="1.0" encoding="utf-8" ?>
@@ -86,24 +69,26 @@ We are going to create a `ContentPage`, a Xamarin.Forms control that contains so
 ```
 
 > **About the Code**
-
+>
+> `ios:Page.UseSafeArea="true"` enables [Safe Areas](https://blog.xamarin.com/making-ios-11-even-easier-xamarin-forms/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn) for iOS; this ensures that the UI will not overlap the iPhone notch
+>
 > `Grid` is the layout for our ContentPage. `Grid` allows us to place UI controls into specified rows and columns on the page. We have created a `Grid` with 3 rows.
-
+>
 > `Button` is a UI control that the user can tap on. We have placed our Button in. We have added our Button to Row 0.
-
+>
 > `Image` allows us to display an image on the screen. The source for our image is a png file, `Bit_Learning.png` (which we will be importing to our project in the next section). We have added our Image to Row 1.
 
-## 2. Import Bit_Learning.png
+## 2. Importing Bit_Learning.png for our Image
 
-The image file must be added to each app project because iOS, Android and UWP handle images slightly differently.
+The png file must be added to each app project because iOS, Android and UWP handle images slightly differently.
 
-The image is provided in multiple resolutions and, at runtime, each device will automatically select the correct image to display based on its screen density, ensuring the image is not pixelated, regardless of the screen density.
+The image is provided in multiple resolutions and, at runtime, each device will automatically select the correct image to display based on its screens pixel-density, ensuring the image is not pixelated, regardless of the screen size.
 
 You can read more about this [in the Xamarin docs](https://docs.microsoft.com/xamarin/xamarin-forms/user-interface/images?tabs=vswin&WT.mc_id=mobileappsoftomorrow-workshop-jabenn).
 
-### 2a. Import Bit_Learning.png, Android
+### 2a. Importing Bit_Learning.png, Android
 
-Android stores images in the `Resources/drawable` folders, with different `drawable` folders for different device resolutions - so `drawable-hdpi` for high density screens, `drawable-xhdpi` for extra high density screens and so on. Images of different resolutions are put into these folders.
+Android stores images in the `Resources/drawable` folders, with different `drawable` folders for different device resolutions; `drawable-hdpi` for high density screens, `drawable-xhdpi` for extra high density screens, etc. Images of different resolutions are put into these folders.
 
 1. In the Visual Studio Solution Explorer, navigate to **HappyXamDevs.Android** > **Resources**
 
@@ -192,7 +177,7 @@ At runtime, the iOS device will select the appropriate image based on its screen
 
 13. In Visual Studio, save the **Assesst.xcassets** file by selecting **File** > **Save All**
 
-### 2c. Import Bit_Learning.png, UWP
+### 2c. Importing Bit_Learning.png, UWP
 
 Images are added to the root folder of the UWP project; it is not recommended to add pictures to a sub-folder for a Xamarin.Forms.UWP app.
 
@@ -239,7 +224,7 @@ When the application runs, the UWP framework will automatically select the best 
 ```
 
 > **About the Code**
-
+>
 > `ResourceDictionary` is a static dictionary where we can define run-time constants to be used anywhere in our Xamarin.Forms project
 
 3. In the Visual Studio Solution Explorer, open **HappyXamDevs** > **LoginPage.xaml**
@@ -255,16 +240,18 @@ When the application runs, the UWP framework will automatically select the best 
 ```
 
 > **About the Code**
-
+>
 > `StaticResource` is a markup extension that tells the code to lookin the `ResourceDictionary` for a resource called `CoolPurple`, and use that value for the property
 
 ## 4. Creating the ViewModel
 
-Xamarin.Forms supports data binding, allowing you to wire a page up to a view model and synchronize data back and forth. To make data binding work, the ViewModel must implement `INotifyPropertyChanged`, an interface that contains an event to notify when data changes. The view will detect these changes and update what is displayed. For interactive controls such as buttons, there is a `Command` property on the control that can be bound to a command on the view model - a command being a property of type `ICommand` which is a wrapper for code you can execute.
+Xamarin.Forms supports data binding, allowing us to link a page to a ViewModel and synchronize data back and forth. To make data binding work, the ViewModel must implement `INotifyPropertyChanged`, an interface that contains an event to notify when data changes. The view will detect these changes and update what is displayed. 
 
-To provide functionality to the Login page, you will need to create a `LoginViewModel` and bind this to the page.
+For interactive controls such as buttons, there is a `Command` property on the control that can be bound to a command on the view model - a command being a property of type `ICommand` which is a wrapper for code you can execute.
 
-To help with creating view models, you can create a `BaseViewModel` that provides an implementation of `INotifyPropertyChanged`. Add a folder called `ViewModels` to the core `HappyXamDevs` project, and add a class in that folder called `BaseViewModel`. The code for this class is below.
+To provide functionality to the Login page, we will create a `LoginViewModel` and bind this to `LoginPage`.
+
+To help with creating view models, we will create a `BaseViewModel` that provides an implementation of `INotifyPropertyChanged`. 
 
 1. In the Visual Studio Solution Explorer, right-click on the `HappyXamDevs` project > **Add** > **New Folder**
 
@@ -282,12 +269,12 @@ To help with creating view models, you can create a `BaseViewModel` that provide
 6. In the **BaseViewModel.cs** editor, enter the following code
 
 ```cs
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 namespace HappyXamDevs.ViewModels
 {
-
     public abstract class BaseViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
@@ -308,9 +295,9 @@ namespace HappyXamDevs.ViewModels
 ```
 
 > **About the Code** 
-
+>
 > This abstract base class implements the `INotifyPropertyChanged` interface which contains a single member - the `PropertyChanged` event. 
-
+>
 > `Set` is a helper method to allow you to update a field and if the value of the field changes, raise the `PropertyChanged` event. The `CallerMemberName` attribute on the `propertyName` parameter means the compiler will pass the name of the calling method or property in for you. This is allows us to call `Set` from a property setter and the compiler will automatically pass in the property name, ensuring the change notification is raised for the correct property.
 
 3. In the Visual Studio Solution Explorer, right-click on the `ViewModels` folder > **Add** > **Class**
@@ -322,7 +309,7 @@ namespace HappyXamDevs.ViewModels
 5. (PC) In the **Add New Item** window, click **Add**
     - (Mac) In the **Add New Item** window, click **New**
 
-6. In the **BaseViewModel.cs** editor, enter the following code:
+6. In the **LoginViewModel.cs** editor, enter the following code:
 
 ```csharp
 using System.Threading.Tasks;
@@ -334,12 +321,12 @@ namespace HappyXamDevs.ViewModels
 {
     public class LoginViewModel : BaseViewModel
     {
-        public ICommand LoginCommand { get; }
-
         public LoginViewModel()
         {
             LoginCommand = new Command(async () => await Login());
         }
+
+        public ICommand LoginCommand { get; }
 
         private async Task Login()
         {
@@ -355,7 +342,7 @@ namespace HappyXamDevs.ViewModels
 
 > **About the Code**
 >
-> `LoginViewModel` inherits from `BaseViewModel
+> `LoginViewModel` inherits from `BaseViewModel`
 >
 > `LoginCommand` will be used when the user taps the `LoginButton` (We will wire `LoginCommand` to `LoginButton` in the next step)
 >
@@ -363,7 +350,7 @@ namespace HappyXamDevs.ViewModels
 
 ## 5. Binding the View to the ViewModel
 
-Now you have a view model, it needs to be set as the binding context of the page, and the login button needs to be wired up to the command.
+Now we have a ViewModel, it needs to be set as the binding context of the page, and the login button needs to be wired up to the command.
 
 1. In the Visual Studio Solution Explorer, open **HappyXamDevs** > **LoginPage.xaml**
 
@@ -406,11 +393,7 @@ Now you have a view model, it needs to be set as the binding context of the page
 </ContentPage>
 ```
 
-```xml
-xmlns:viewModels="clr-namespace:HappyXamDevs.ViewModels"
-```
-
-> **About the Code
+> **About the Code**
 >
 > `xmlns:viewModels` adds the XML Namespace `viewModels`
 >
@@ -418,11 +401,11 @@ xmlns:viewModels="clr-namespace:HappyXamDevs.ViewModels"
 >
 > `Command="{Binding LoginCommand}"` allows button taps to trigger `LoginViewModel.LoginCommand`
 
-## 6. Launch the login page if the user is not logged in
+## 6. Launching the login page if the user is not logged in
 
-The Blank Forms App template just contained a static page.
+The Blank Forms App template just contained one `ContentPage`, `MainPage.xaml`.
 
-We will wrap the page in a `NavigationPage` which is a page that provides page level navigation allowing the user to navigate back and forth. You can read more on navigation pages in the [Xamarin docs](https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/navigation/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn).
+We will wrap the page in a `NavigationPage` which provides page-level navigation allowing the user to navigate back and forth. You can read more on navigation pages in the [Xamarin docs](https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/navigation/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn).
 
 1. In the Visual Studio Solution Explorer, open **HappyXamDevs** > **App.xaml.cs**
 
@@ -490,9 +473,6 @@ namespace HappyXamDevs
         {
             base.OnAppearing();
 
-            if (!firstAppear)
-                return;
-
             var azureService = DependencyService.Get<IAzureService>();
 
             if (!azureService.IsLoggedIn())
@@ -512,7 +492,7 @@ namespace HappyXamDevs
 
 ## 7. Test the Login Flow
 
-## 7a. Test the Login Flow, Web Browser
+### 7a. Test the Login Flow, Web Browser
 
 1. Open a web browser and navigate to your Azure Functions App url
     - E.g. https://happyxamdevsfunction-minnick.azurewebsites.net
@@ -524,7 +504,7 @@ namespace HappyXamDevs
 4. After completing the Facebook login, ensure you are redirected to your Azure Functions App url
     - E.g. https://happyxamdevsfunction-minnick.azurewebsites.net
 
-## 7b. Test the Login Flow, Android
+### 7b. Test the Login Flow, Android
 
 1. In Visual Studio, right-click on **HappyXamDevs.Android** > **Set as Startup Project**
 
@@ -542,7 +522,7 @@ namespace HappyXamDevs
 7. On the Android device, ensure **LoginPage** disappears and you are returned to **MainPage**
     > **Note:** **MainPage** should say **Welcome to Xamarin.Forms**
 
-## 7b. Test the Login Flow, UWP
+### 7c. Test the Login Flow, UWP
 
 1. (PC) In Visual Studio, right-click on **HappyXamDevs.UWP** > **Set as Startup Project**
     - (Mac) _Skip this step_
@@ -565,7 +545,7 @@ namespace HappyXamDevs
     > **Note:** **MainPage** should say **Welcome to Xamarin.Forms**
     - (Mac) _Skip this step_
 
-## 7b. Test the Login Flow, iOS
+### 7d. Test the Login Flow, iOS
 
 1. (PC) _Skip this step_
     - (Mac) In Visual Studio, right-click on **HappyXamDevs.iOS** > **Set as Startup Project**
@@ -591,7 +571,7 @@ namespace HappyXamDevs
 
 ## 8. Persist the login between sessions
 
-When we run the app more than once, we are required to log in each time. 
+When we run the app more than once, we are required to log in each time.
 
 After completing the login flow, `MobileServicesClient.LoginAsync()` returns an authorization token and a user id from the Azure Function app authentication; these values can be persisted to the mobile device. By reusing the authorization token the user does not need to log in each time the app launches.
 
@@ -601,7 +581,7 @@ For the sake of simplicity during this workshop we will be persisting these usin
 
 1. In Visual Studio Solution Explorer, open **HappyXamDevs** > **Services** > **AzureServiceBase.cs**
 
-1. In the **AzureServiceBase.cs** editor, define two constants:
+2. In the **AzureServiceBase.cs** editor, define two constant fields:
 
 ```csharp
 const string AuthTokenKey = "auth-token";
@@ -649,7 +629,12 @@ public bool IsLoggedIn()
 >
 >`bool IsLoggedIn()` will first try to initialize `MobileServicesClient.CurrentUser` using `TryLoadUserDetails()` before checking `CurrentUser`
 
-5. In the `Authenticate` method, after tha successful call to `AuthenticateUser` the authentication token and user id will need to be saved to the application properties. You will also need to call `SavePropertiesAsync` on the current application to save these property values.
+> **Note:** If you skipped the Facebook authentication use the following code instead:
+    ```csharp
+    public bool IsLoggedIn() => true;
+    ```
+
+5. In the **AzureServiceBase.cs** editor, add the following method:
 
 ```csharp
 public async Task<bool> Authenticate()

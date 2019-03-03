@@ -1,28 +1,28 @@
 # Set up an Azure Functions app
 
-For this app, we will create an Azure Functions app as a back-end.
+For this app, we will create our back-end using Azure Functions.
 
-This back-end will use Facebook authentication, meaning that any calls to Functions inside this app will only be permitted from authenticated users.
+This back-end will use Facebook authentication, meaning that any calls to our Azure Function will only be permitted from authenticated users.
 
 ## 1. Create the Functions app in the Azure portal
 
 1. In your browser, navigate to the [Azure portal](https://portal.azure.com/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn)
 
-2. On the left-hand toolbar, click **Create a resource**  
+2. In the Azure Portal, on the left-hand toolbar, click **+ Create a resource**  
 
-> **Note:** If the toolbar is collapsed, it will be shown as a green **+**
+    > **Note:** If the toolbar is collapsed, it will be shown as a green **+**
 
 3. In the **Search the marketplace** box, type **Function app**  
 
-4. Tap the **Return** key on the keyboard
+4. On your keyboard, tap the **Return** key
 
 5. In the search results, select **Function App**
 
-6. At the bottom of the **Function App** window, click **Create**
-
    ![Searching for function app in the portal](../Images/PortalSearchFuncApp.png)
 
-7. In the **Function App** window, make the following selections:
+6. At the bottom of the **Function App** window, click **Create**
+
+7. In the **Function App** window, enter the following:
 
     - **App Name**: HappyXamDevsFunction-[Your Last Name]
       - E.g. `HappyXamDevsFunction-Minnick`
@@ -34,41 +34,34 @@ This back-end will use Facebook authentication, meaning that any calls to Functi
     > Note: As a reminder, if you don't have an Azure account, [you can create a free one](https://azure.microsoft.com/free?WT.mc_id=mobileappsoftomorrow-workshop-jabenn).
 
     - **Resource Group**
-        - **Create new**
+        - [x] Create new
         - **Name:** HappyXamDevs
     - **OS:** Windows
-    - **Hosting Plan:** App Service Plan
-    - **App Service Plan/Location:** > **Create New**
-        - **App Service Plan Name:** HappyXamDevsAppServicePlan
-        - **Location:** West US
-        - **Pricing Tier:** S1 Standard
-        - Click **OK**
+    - **Hosting Plan:** Consumption
     - **Location:** West US
     - **Runtime Stack**: .NET
     - **Storage** 
-        - **Create New**
+        - [x] Create new
         - happyxamdevsstorage
     - **Applictaion Insights**
         - **Disabled**
 
 8. Click **Create**
 
-    ![Configuring the function app](../Images/PortalConfigureFuncApp.png)
-
-9. Standby while for a few minutes while the app is provisioned
+9. Standby while the Functions App is provisioned in Azure
 
 ## 2. Setup Facebook Authentication
 
-1. Once the Function app has been provisioned, open it
+1. In the Azure Portal, navigate to the newly created Function App has been provisioned, **HappyXamDevs-[Your Last Name]**
 
-2. Locate the overview of your Function app, with no functions created
+2. On the **Functions** page, click the **Overview** tab,
 
-3. Copy the URL of your Function App
-    - We will use these values later when configuring the Facebook authentication and again when creating our Xamarin mobile app
+3. On the **Overview** tab, copy the **URL**
+    - We will use this value later when configuring the Facebook authentication and again when creating our Xamarin mobile app
 
 ![The Azure portal showing the newly created function app](../Images/PortalNewFunction.png)
 
-### 3. Set up Facebook App
+## 3. Set up Facebook App
 
 To set up authentication using Facebook, you will need to create an app in Facebook and configure it there.
 
@@ -76,16 +69,17 @@ To set up authentication using Facebook, you will need to create an app in Faceb
 
 2. Click **Log in**
     > **Note:** The **Log In** button may be in the **≡** menu
-    
+
     > **Note:** If you are already logged into Facebook, skip this step
 
-3. If you have not already registered as a Facebook Developer, click **Apps** > **Register as a Developer**, then accept the policy and follow the registration steps.
+3. If you have not already registered as a Facebook Developer, in the **Facebook Developer portal**, click **Apps** > **Register as a Developer**, then accept the policy and follow the registration steps.
 
 4. On the login page, enter your Facebook username & password
 
     > **Note:** If you are already logged into Facebook, skip this step
 
-5. On the **Facebook for Developers** page, expand the browser until the **≡** menu disappears
+5. On the **Facebook for Developers** page, expand the browser window until the **≡** menu disappears
+    > **Note:** The **Facebook for Developers** page is a mobile-responsive website and the **≡** menu is only meant for mobile
 
 6. On the **Facebook for Developers** page, select **My Apps** > **Add new app**
 
@@ -121,13 +115,13 @@ To set up authentication using Facebook, you will need to create an app in Faceb
 15. Copy the **App Id** and **App Secret**
     - We will use these values later when configuring the Azure Functions Authentication
 
-### 4. Setup Function App Authentication
+## 4. Setup Function App Authentication
 
-Now that you have your Facebook app configured, head back to the Azure portal to configure your Function app.
+Now that we have our Facebook app configured, head back to the Azure portal to configure your Function app.
 
 1. In your browser, navigate to the [Azure portal](https://portal.azure.com/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn)
 
-2. In the Azure Portal, navigate to your Function App, **HappyXamDevsFunction-[Your Last Name]**
+2. In the Azure Portal, navigate to our Function App, **HappyXamDevsFunction-[Your Last Name]**
 
 3. In the Function App dashboard, select the **Platform features** tab
 
@@ -136,7 +130,7 @@ Now that you have your Facebook app configured, head back to the Azure portal to
 5. On the **Authentication / Authorization** page, make the following selection:
     - **App service authentication**: On
     - **Action to take when request is not authenticated**: Log in with Facebook
-    - **Advanced Settings**
+    - **Advanced Settings** (At the bottom of the page)
       - **ALLOWED EXTERNAL REDIRECT URLS**: happyxamdevs://easyauth.callback
 
 6. On the **Authentication / Authorization** page, select **Facebook**
