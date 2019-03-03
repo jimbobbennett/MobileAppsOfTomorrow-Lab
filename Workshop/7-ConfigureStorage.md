@@ -62,7 +62,7 @@ We will create a database that contains a collection in which we will add our ph
 4. In the **New Collection** pane, enter the following:
     - **Database id** 
         - [x] Create New
-        - **Type a new database id:** Photos
+        - Photos
     - **Collection Id:** PhotoMetadata
     - **Partition Key:** /name
     - **Throughput:** 400
