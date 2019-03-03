@@ -68,7 +68,7 @@ We'll be using the [Microsoft.Azure.Mobile.Client](https://www.nuget.org/package
 5. (PC) In the **Add New Item** window, click **Add**
     - (Mac) In the **Add New Item** window, click **New**
 
-6. In the `IAzureService.cs` editor, add the following code"
+6. In the `IAzureService.cs` editor, add the following code:
 
 ```csharp
 using System.Threading.Tasks;
