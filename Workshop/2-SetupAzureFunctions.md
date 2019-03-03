@@ -42,7 +42,7 @@ This back-end will use Facebook authentication, meaning that any calls to our Az
     - **Runtime Stack**: .NET
     - **Storage** 
         - [x] Create new
-        - happyxamdevsstorage
+        - happyxamdevs-[Your Last Name]
     - **Applictaion Insights**
         - **Disabled**
 
