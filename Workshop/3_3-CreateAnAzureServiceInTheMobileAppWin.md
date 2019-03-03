@@ -1,25 +1,22 @@
 # Implement a UWP-specific version of the AzureService
 
-1. Add a new folder to the `HappyXamDevs.UWP` project called `Services`, and add a new class to that folder called `AzureService`.
+> **Warning:** Complete steps in [3-CreateAnAzureServiceInTheMobileApp](./3-CreateAnAzureServiceInTheMobileApp.md) before beginning the steps below
 
-2. Make this class derive from `AzureServiceBase`. You'll need to add a using statement for the `HappyXamDevs.Services` namespace.
+> **Note:** If you are using Visual Studio for Mac, skip this UWP implementation
 
-    ```cs
-    public class AzureService : AzureServiceBase
-    ...
-    ```
+## 1. Creating AzureService.cs
 
-3. You next need to implement the abstract `AuthenticateUser` method. Unlike Android and iOS this doesn't need access to anything else.
+1. In the Visual Studio Solution Explorer, right-click `HappyXamDevs.UWP` > **Add** > **New Folder**
 
-    ```cs
-    protected override async Task AuthenticateUser()
-    {
-        await Client.LoginAsync(MobileServiceAuthenticationProvider.Facebook,
-                                "happyxamdevs");
-    }
-    ```
+2. In the Visual Studio Solution Explorer, name the new folder `Services`
 
-The completed class is shown below.
+3. In the Visual Studio Solution Explorer, right-click on the newly created **Services** folder > **Add** > **Class**
+
+    - (Mac) On Visual Studio for Mac, right-click on the newly created **Services** folder > **Add** > **New File**
+
+4. In the Add New Item window, name the new file `AzureService.cs`
+
+5. In the **AzureService.cs** editor, enter the following code:
 
 ```cs
 using System.Threading.Tasks;
@@ -30,64 +27,89 @@ namespace HappyXamDevs.UWP.Services
 {
     public class AzureService : AzureServiceBase
     {
-        protected override async Task AuthenticateUser()
+        protected override Task AuthenticateUser()
         {
-            await Client.LoginAsync(MobileServiceAuthenticationProvider.Facebook,
+            return Client.LoginAsync(MobileServiceAuthenticationProvider.Facebook,
                                     "happyxamdevs");
         }
     }
 }
 ```
 
-## Register the Windows-specific version with the Dependency Service
+> **About the Code**
+>
+> `Task AuthenticateUser()` calls `LoginAsync` requesting a login using Facebook. The `"happyxamdevs"` parameter is the name of the URL scheme that we registered in the Facebook App's **ALLOWED EXTERNAL REDIRECT URLS** settings
+>
+> `[assembly: Xamarin.Forms.Dependency(typeof(HappyXamDevs.UWP.Services.AzureService))]` is the [Xamarin.Forms dependency service](https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/dependency-service/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn). This is a way to create a platform-specific implementation and access them from the Xamarin.Forms project. This registers a Android implementation for `IAzureService`.
 
-This class needs to be registered with the dependency service, but unlike iOS and Android this can't always be done with an attribute. If your app uses .NET native compilation (and by default, release builds of UWP apps do), then you need to register your service in code. Open the `App.xaml.cs` file from the `HappyXamDevs.UWP` project (**not** the one in the cross-platform `HappyXamDevs` project) by expanding the `App.xaml` node in the Solution explorer, and add the following code in the `OnLaunched` method after the call to `Xamarin.Forms.Forms.Init(e);` :
-
-```cs
-Xamarin.Forms.DependencyService.Register<Services.AzureService>();
-```
-
-## Configure the URL scheme
+## 2. Configuring the URL scheme
 
 Just like with Android and iOS you will need to configure your app to handle the call back from the URL scheme.
 
-1. In the `App.xaml.cs` file, override the `OnActivated` method.
+1. In the Visual Studio Solution Explorer, open **HappyXamDevs.UWP** > **App.xaml.cs**
 
-    ```cs
-    protected override void OnActivated(IActivatedEventArgs args)
+2. In the `App.xaml.cs` editor, add the `OnActivated` method:
+
+```csharp
+protected override void OnActivated(IActivatedEventArgs args)
+{
+    if (args.Kind is ActivationKind.Protocol)
     {
-        if (args.Kind == ActivationKind.Protocol)
+        var protocolArgs = args as ProtocolActivatedEventArgs;
+        var content = Window.Current.Content as Frame;
+        if (content.Content.GetType() == typeof(MainPage))
         {
-            var protocolArgs = args as ProtocolActivatedEventArgs;
-            var content = Window.Current.Content as Frame;
-            if (content.Content.GetType() == typeof(MainPage))
-            {
-                content.Navigate(typeof(MainPage), protocolArgs.Uri);
-            }
-        }
-        Window.Current.Activate();
-        base.OnActivated(args);
-    }
-    ```
-
-2. Open the `MainPage.xaml.cs` file from the `HappyXamDevs.UWP` app (**not** the one in the cross-platform `HappyXamDevs` project) by expanding the `MainPage.xaml` node in the solution explorer and double-clicking on the .cs file.
-
-3. Override the `OnNavigatedTo` method with code to handle the URL using the mobile service client. You will need to add using directives for the `HappyXamDevs.Services`, `HappyXamDevs.Services.UWP` and `Microsoft.WindowsAzure.MobileServices` namespaces.
-
-    ```cs
-    protected override void OnNavigatedTo(NavigationEventArgs e)
-    {
-        if (e.Parameter is Uri)
-        {
-            var azureService = Xamarin.Forms.DependencyService.Get<IAzureService>() as AzureService;
-            azureService.Client.ResumeWithURL(e.Parameter as Uri);
+            content.Navigate(typeof(MainPage), protocolArgs.Uri);
         }
     }
-    ```
+    Window.Current.Activate();
+    base.OnActivated(args);
+}
+```
 
-4. Open the `Package.appxmanifest` file and switch to the _Declarations_ tab. Drop down the _Available Declarations_ list, select _Protocol_ and click "Add". Set the _Display Name_ to be the name of your app (for example "Happy Xamarin Developers"), and the _Name_ to be `happyxamdevs`. This needs to match the first part of the _Allowed external redirect URLs_ you configured in your Azure functions app, so the _URL scheme_ is be `happyxamdevs` without the `://easyauth.callback`.
+3. In the Visual Studio Solution Explorer, open **HappyXamDevs.UWP** > **MainPage.xaml.cs**
+
+4. In the `MainPage.xaml.cs` editor, at the top of the file, add the following using statements:
+
+```csharp
+using HappyXamDevs.Services;
+using HappyXamDevs.UWP.Services;
+using Microsoft.WindowsAzure.MobileServices;
+```
+
+5. In the `MainPage.xaml.cs` editor, add the following method:
+
+```csharp
+protected override void OnNavigatedTo(NavigationEventArgs e)
+{
+    if (e.Parameter is Uri)
+    {
+        var azureService = Xamarin.Forms.DependencyService.Get<IAzureService>() as AzureService;
+        azureService.Client.ResumeWithURL(e.Parameter as Uri);
+    }
+}
+```
+
+6. In the Visual Studio Solution Explorer, open **HappyXamDevs.UWP** > **Package.appxmanifest**
+
+7. In the **Package.appxmanifest** editor, select the **Declarations** tab.
+
+8. In the **Declarations** tab, open the **Available Declarations** drop-down
+
+9. In the **Available Declarations** drop-down, select **Protocol**
+
+10. In the **Declarations** tab, click **Add**
+
+11. In the **Declarations** tab, in the **Supported Definitions** window, select the newly created **Protocol** declaration
+
+12. In the **Declarations** tab, make the following selections:
+    - **Display Name**: Happy Xamarin Developers
+    - **Name**: happyxamdevs
+    > **Note:** `Name` must match the domain of **Allowed external redirect URLs** configured in your Azure Functions
 
     ![Configuring the UWP protocol](../Images/VS2017ConfigureUWPProtocol.PNG)
+
+13. In Visual Studio, save the **Package.appxmanifest** by selecting **File** > **Save All**
 
 ## Next step
 

@@ -1,6 +1,7 @@
-﻿using Plugin.Media.Abstractions;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using HappyXamDevs.Models;
+using Plugin.Media.Abstractions;
 
 namespace HappyXamDevs.Services
 {
@@ -8,9 +9,9 @@ namespace HappyXamDevs.Services
     {
         Task<bool> Authenticate();
 
-        Task DownloadPhoto(PhotoMetadata photoMetadata);
+        Task DownloadPhoto(PhotoMetadataModel photoMetadata);
 
-        Task<IEnumerable<PhotoMetadata>> GetAllPhotoMetadata();
+        Task<IEnumerable<PhotoMetadataModel>> GetAllPhotoMetadata();
 
         bool IsLoggedIn();
 

@@ -1,69 +1,59 @@
-﻿using Microsoft.Azure.CognitiveServices.Vision.Face;
-using Microsoft.Azure.CognitiveServices.Vision.Face.Models;
-using Microsoft.WindowsAzure.MobileServices;
-using Newtonsoft.Json.Linq;
-using Plugin.Media.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using HappyXamDevs.Models;
+using Microsoft.Azure.CognitiveServices.Vision.Face;
+using Microsoft.Azure.CognitiveServices.Vision.Face.Models;
+using Microsoft.WindowsAzure.MobileServices;
+using Newtonsoft.Json.Linq;
+using Plugin.Media.Abstractions;
 using Xamarin.Forms;
 
 namespace HappyXamDevs.Services
 {
     public abstract class AzureServiceBase : IAzureService
     {
-        private const string AuthTokenKey = "auth-token";
-        private const string PhotoResource = "photo";
-        private const string UserIdKey = "user-id";
-        private FaceAPI faceApi;
-
 #error REPLACE [YOUR AZURE APP NAME HERE]
         protected const string AzureAppName = "[YOUR AZURE APP NAME HERE]";
         protected readonly static string FunctionAppUrl = $"https://{AzureAppName}.azurewebsites.net";
 
-        public MobileServiceClient Client { get; }
+        private const string AuthTokenKey = "auth-token";
+        private const string PhotoResource = "photo";
+        private const string UserIdKey = "user-id";
+#error REPLACE [YOUR API KEY HERE]
+#error REPLACE [YOUR FACE API BASE URL]
+        private readonly FaceClient faceApiClient = new FaceClient(new ApiKeyServiceClientCredentials("[YOUR API KEY HERE]"))
+        {
+            Endpoint = "[YOUR FACE API BASE URL]"
+            //Example Face API Base Url: "https://westus.api.cognitive.microsoft.com/"
+        };
 
         protected AzureServiceBase()
         {
             Client = new MobileServiceClient(FunctionAppUrl);
-
-#error REPLACE [YOUR API KEY HERE]
-            var creds = new ApiKeyServiceClientCredentials("[YOUR API KEY HERE]");
-            faceApi = new FaceAPI(creds)
-            {
-                AzureRegion = AzureRegions.Westeurope
-            };
         }
 
-        private void TryLoadUserDetails()
-        {
-            if (Client.CurrentUser != null) return;
-
-            if (Application.Current.Properties.TryGetValue(AuthTokenKey, out var authToken) &&
-                Application.Current.Properties.TryGetValue(UserIdKey, out var userId))
-            {
-                Client.CurrentUser = new MobileServiceUser(userId.ToString())
-                {
-                    MobileServiceAuthenticationToken = authToken.ToString()
-                };
-
-                MessagingCenter.Send<IAzureService>(this, "LoggedIn");
-            }
-        }
-
-        protected abstract Task AuthenticateUser();
+        public MobileServiceClient Client { get; }
 
         public async Task<bool> Authenticate()
         {
-            if (IsLoggedIn()) return true;
-            await AuthenticateUser();
+            if (IsLoggedIn())
+                return true;
+
+            try
+            {
+                await AuthenticateUser();
+            }
+            catch (InvalidOperationException)
+            {
+                return false;
+            }
 
             if (Client.CurrentUser != null)
             {
-                MessagingCenter.Send<IAzureService>(this, "LoggedIn");
                 Application.Current.Properties[AuthTokenKey] = Client.CurrentUser.MobileServiceAuthenticationToken;
                 Application.Current.Properties[UserIdKey] = Client.CurrentUser.UserId;
                 await Application.Current.SavePropertiesAsync();
@@ -72,7 +62,7 @@ namespace HappyXamDevs.Services
             return IsLoggedIn();
         }
 
-        public async Task DownloadPhoto(PhotoMetadata photoMetadata)
+        public async Task DownloadPhoto(PhotoMetadataModel photoMetadata)
         {
             if (File.Exists(photoMetadata.FileName))
                 return;
@@ -81,16 +71,16 @@ namespace HappyXamDevs.Services
                                                        HttpMethod.Get,
                                                        new Dictionary<string, string>());
 
-            var photo = response["Photo"].Value<string>();
+            var photo = response["photo"].Value<string>();
             var bytes = Convert.FromBase64String(photo);
 
             using (var fs = new FileStream(photoMetadata.FileName, FileMode.CreateNew))
                 await fs.WriteAsync(bytes, 0, bytes.Length);
         }
 
-        public async Task<IEnumerable<PhotoMetadata>> GetAllPhotoMetadata()
+        public async Task<IEnumerable<PhotoMetadataModel>> GetAllPhotoMetadata()
         {
-            var allMetadata = await Client.InvokeApiAsync<List<PhotoMetadata>>(PhotoResource,
+            var allMetadata = await Client.InvokeApiAsync<List<PhotoMetadataModel>>(PhotoResource,
                                                                                HttpMethod.Get,
                                                                                new Dictionary<string, string>());
 
@@ -108,10 +98,10 @@ namespace HappyXamDevs.Services
 
         public async Task UploadPhoto(MediaFile photo)
         {
-            using (var s = photo.GetStream())
+            using (var photoStream = photo.GetStream())
             {
-                var bytes = new byte[s.Length];
-                await s.ReadAsync(bytes, 0, Convert.ToInt32(s.Length));
+                var bytes = new byte[photoStream.Length];
+                await photoStream.ReadAsync(bytes, 0, Convert.ToInt32(photoStream.Length));
 
                 var content = new
                 {
@@ -126,11 +116,31 @@ namespace HappyXamDevs.Services
 
         public async Task<bool> VerifyHappyFace(MediaFile photo)
         {
-            using (var s = photo.GetStream())
+            using (var photoStream = photo.GetStream())
             {
                 var faceAttributes = new List<FaceAttributeType> { FaceAttributeType.Emotion };
-                var faces = await faceApi.Face.DetectWithStreamAsync(s, returnFaceAttributes: faceAttributes);
-                return faces.Any() && faces.All(f => f.FaceAttributes.Emotion.Happiness > 0.75);
+
+                var faces = await faceApiClient.Face.DetectWithStreamAsync(photoStream, returnFaceAttributes: faceAttributes);
+
+                var areHappyFacesDetected = faces.Any(f => f.FaceAttributes.Emotion.Happiness > 0.75);
+                return areHappyFacesDetected;
+            }
+        }
+
+        protected abstract Task AuthenticateUser();
+
+        private void TryLoadUserDetails()
+        {
+            if (Client.CurrentUser != null)
+                return;
+
+            if (Application.Current.Properties.TryGetValue(AuthTokenKey, out var authToken) &&
+                Application.Current.Properties.TryGetValue(UserIdKey, out var userId))
+            {
+                Client.CurrentUser = new MobileServiceUser(userId.ToString())
+                {
+                    MobileServiceAuthenticationToken = authToken.ToString()
+                };
             }
         }
     }

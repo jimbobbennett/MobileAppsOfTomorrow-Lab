@@ -2,7 +2,7 @@
 
 This is an indicative schedule for the workshop in VS Live Las Vegas 2019.
 
-__Time__ | __Title__ | __Presenter__
+__Time__ | __Title__
 ---------|------|----------
 9:00 | Introduction | Brandon + Laurent
 9:15 | Lecture 1: Intro to Xamarin + Forms | Brandon

@@ -1,100 +1,172 @@
 # Implement an iOS-specific version of the AzureService
 
-1. Add a new folder to the `HappyXamDevs.iOS` project called `Services`, and add a new class to that folder called `AzureService`.
-2. Make this class derive from `AzureServiceBase`. You'll need to add a using statement for the `HappyXamDevs.Services` namespace.
+> **Warning:** Complete steps in [3-CreateAnAzureServiceInTheMobileApp](./3-CreateAnAzureServiceInTheMobileApp.md) before beginning the steps below
 
-    ```cs
-    public class AzureService : AzureServiceBase
-    ...
-    ```
+## 1. Creating AzureService.cs
 
-3. You next need to implement the abstract `AuthenticateUser` method. This method will call the `LoginAsync` method on the mobile service client, and this call needs a view controller to be passed in. View controllers represent full screen views inside your app (or parts of a screen, for example the tabs on a tab page), and the login method uses the current view controller to launch a web view to allow you to log in. Before you can implement this method you will need to get the top-most view controller to pass to the login call using the following method which you should add to the `AzureService` class. You might also need to add a using directive for the `UIKit` namespace.
+1. In the Visual Studio Solution Explorer, right-click on the `HappyXamDevs.iOS` project > **Add** > **New Folder**
 
-     ```cs
-    static UIViewController GetTopmostViewController()
-    {
-        var window = UIApplication.SharedApplication.KeyWindow;
-        var vc = window.RootViewController;
-        while (vc.PresentedViewController != null)
-        {
-            vc = vc.PresentedViewController;
-        }
-        return vc;
-    }
-    ```
+2. In the Visual Studio Solution Explorer, name the new folder `Services`
 
-4. Implement the `AuthenticateUser`, calling the `LoginAsync` method on the mobile service client, requesting a login using Facebook. Note that we also declare this method `async` because of the use of the keyword `await` inside the method. You will need to add a using statement for the `Microsoft.WindowsAzure.MobileServices` namespace.
+3. (PC) In the Visual Studio Solution Explorer, right-click on the newly created `Services` folder > **Add** > **Class**
+    - (Mac) On Visual Studio for Mac, right-click on the newly created `Services` folder > **Add** > **New File**
 
-    ```cs
-    protected override async Task AuthenticateUser()
-    {
-        await Client.LoginAsync(GetTopmostViewController(),
-                                MobileServiceAuthenticationProvider.Facebook,
-                                "happyxamdevs");
-    }
-    ```
+4. In the Add New Item window, name the new file `AzureService.cs`
 
-5. Register this class with the dependency service by adding the following code *before* the namespace declaration:
+5. In the `AzureService.cs` editor, enter the following code:
 
-    ```cs
-    [assembly: Xamarin.Forms.Dependency(typeof(HappyXamDevs.iOS.Services.AzureService))]
-    ```
-
-The completed class is shown below:
-
-```cs
+```csharp
 using System.Threading.Tasks;
+using CoreFoundation;
 using HappyXamDevs.Services;
 using Microsoft.WindowsAzure.MobileServices;
 using UIKit;
 
 [assembly: Xamarin.Forms.Dependency(typeof(HappyXamDevs.iOS.Services.AzureService))]
-
 namespace HappyXamDevs.iOS.Services
 {
     public class AzureService : AzureServiceBase
     {
         protected override async Task AuthenticateUser()
         {
-            await Client.LoginAsync(GetTopmostViewController(),
+            var currentViewController = await GetCurrentViewController();
+
+            await Client.LoginAsync(currentViewController,
                                     MobileServiceAuthenticationProvider.Facebook,
                                     "happyxamdevs");
         }
 
-        static UIViewController GetTopmostViewController()
+        private static Task<UIViewController> GetCurrentViewController()
         {
-            var window = UIApplication.SharedApplication.KeyWindow;
-            var vc = window.RootViewController;
-            while (vc.PresentedViewController != null)
-            {
-                vc = vc.PresentedViewController;
-            }
+            var tcs = new TaskCompletionSource<UIViewController>();
 
-            return vc;
+            DispatchQueue.MainQueue.DispatchAsync(() =>
+            {
+                var rootController = UIApplication.SharedApplication.KeyWindow.RootViewController;
+
+                switch (rootController.PresentedViewController)
+                {
+                    case UINavigationController navigationController:
+                        tcs.SetResult(navigationController.TopViewController);
+                        break;
+
+                    case UITabBarController tabBarController:
+                        tcs.SetResult(tabBarController.SelectedViewController);
+                        break;
+
+                    case null:
+                        tcs.SetResult(rootController);
+                        break;
+
+                    default:
+                        tcs.SetResult(rootController.PresentedViewController);
+                        break;
+                }
+            });
+
+            return tcs.Task;
         }
     }
 }
 ```
 
-## Configure the PList
+> **About the Code**
+>
+> `AuthenticateUser()` calls `LoginAsync()` to allow the user to authenticate via Facebook
+>
+> `GetCurrentViewController()` returns the `UIViewController` (aka the UI page) that is currently showing on the screen. This uses `DispatchQueue.MainQueue.DispatchAsync` to ensure it runs on the Main Thread.
 
-Just like with Android, you will need to configure the callback URL scheme, and this is done in the `info.plist` file. Open this file from the solution explorer.
+## 2. Configuring Info.plist
 
-1. Head to the _Application_ tab and copy the value of the _Bundle Identifier_. This will be something like `com.companyname.happyxamdevs`.
+We will configure the callback URL scheme in `info.plist`.
 
-2. Switch to the _Advanced_ tab, expand the _URL types_ node and click _Add URL type_. Set the _Identifier_ to be the value of your _Bundle Identifier_, and the _URL Schemes_ to be `happyxamdevs`. This matches the first part of the _Allowed external redirect URLs_ you configured in your Azure functions app, so the redirect URL of `happyxamdevs://easyauth.callback` would have a _URL scheme_ of `happyxamdevs` without the `://easyauth.callback`.
+1. In the Visual Studio Solution Explorer, open the following file: **HappyXamDevs.iOS** > **Info.plist**
 
-   ![Setting the URL scheme](../Images/VS2017AddUriScheme.png)
+2. In the `Info.plist` editor, locate the **Bundle Identifier**
+    - E.g. `com.companyname.happyxamdevs`
 
-3. After this is configured, you will need to tell your iOS app what to do when it is called using the URL scheme. Open the `AppDelegate` class and add the following method along with appropriate using directives for the `Xamarin.Forms`, `HappyXamDevs.Services`, `HappyXamDevs.iOS.Services` and `Microsoft.WindowsAzure.MobileServices` namespaces.
+3. (PC) In the `Info.plist` editor, select the **Advanced** tab
+    - (Mac) In the `Info.plist` editor, select the **Source** tab
 
-    ```cs
-    public override bool OpenUrl(UIApplication app, NSUrl url, NSDictionary options)
+4. (PC) In the `Info.plist` editor's **Advanced** tab, expand the **URL Types** drop-down
+    - (Mac) In the `Info.plist` editor's **Source** tab, at the bottom, double-click **Add new entry**
+
+5. (PC) In the **URL Types** drop-down, click **Add URL Type**
+    - (Mac) In the **Custom Property** drop-down, select **URL Types**
+
+6. (PC) In the **Add URL Type** menu, add the following:
+    - **Identifier**: [Your Bundle Identifier]
+        - E.g. `com.companyname.happyxamdevs`
+    - **URL Schemes**: happyxamdevs
+
+7. (Mac) On the keyboard, press **Return**
+
+8. (PC) In Visual Studio, save the changes to `Info.plist` by selecting **File** > **Save All**
+    - (Mac) In the **Document Role** drop-down, select **URL Identifier**
+
+9. (PC) _Skip this step_
+    - (Mac) In the **URL Identifier** property field, enter [Your Bundle Id]
+        - E.g. `com.companyname.happyxamdevs`
+
+10. (PC) _Skip this step_
+    - (Mac) Under **URL Identifier**, double-click **Add new entry**
+
+11. (PC) _Skip this step_
+    - (Mac) In the new **Document Role** drop-down, select **URL Schemes** 
+
+12. (PC) _Skip this step_
+    - (Mac) On the keyboard, press **Return**
+
+13. (PC) _Skip this step_
+    - (Mac) In the empty `string` field right + below **URL Schemes**, enter `happyxamdevs`
+
+14. (PC) _Skip this step_
+
+    ![Setting the URL scheme, VS2017](../Images/VS2017AddUriScheme.png)
+
+    - (Mac) In Visual Studio for Mac, save the changes to `Info.plist` by selecting **File** > **Save All**
+
+
+    ![Setting the URL scheme, VS for Mac](../Images/InfoPListVSMac.png)
+
+
+    > **Note:** The URL Scheme `happyxamdevs` matches the settings configured for the Facebook App's  **Allowed external redirect URLs**
+
+15. In the Visual Studio Solution Explorer, open **HappyXamDevs.iOS** > **AppDelegate.cs**
+
+16. In the **AppDelegate.cs** editor, add the following code:
+```csharp
+using Foundation;
+using HappyXamDevs.iOS.Services;
+using HappyXamDevs.Services;
+using Microsoft.WindowsAzure.MobileServices;
+using UIKit;
+
+namespace HappyXamDevs.iOS
+{
+    [Register(nameof(AppDelegate))]
+    public partial class AppDelegate : global::Xamarin.Forms.Platform.iOS.FormsApplicationDelegate
     {
-        var azureService = DependencyService.Get<IAzureService>() as AzureService;
-        return azureService.Client.ResumeWithURL(url);
+        public override bool OpenUrl(UIApplication app, NSUrl url, NSDictionary options)
+        {
+            var azureService = Xamarin.Forms.DependencyService.Get<IAzureService>() as AzureService;
+            return azureService.Client.ResumeWithURL(url);
+        }
+
+        public override bool FinishedLaunching(UIApplication app, NSDictionary options)
+        {
+            global::Xamarin.Forms.Forms.Init();
+            LoadApplication(new App());
+
+            return base.FinishedLaunching(app, options);
+        }
     }
-    ```
+}
+```
+
+> **About The Code**
+>
+>  `bool AppDelegate.OpenUrl` instructs the iOS app how to handle the `NSUrl` provided when our app is launched using its its URL scheme, `happyxamdecs`
 
 ## Next step
 

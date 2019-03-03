@@ -1,119 +1,162 @@
-# Creating functions to load the photos
+# Creating Azure Function to Load Photos
 
-So far you have an app that can take a photo, check for happy faces then upload the photo to an Azure function that saves it in Blob storage. A trigger is then fired that analyses the photo to get a description and tags, and stores this data in Cosmos DB.
+So far we have an app that can take a photo, check for happy faces then upload the photo to an Azure function that saves it in Blob Storage. A queue trigger is then fired that analyses the photo to get a description and tags, and stores this data in Cosmos DB.
 
-The next step is to show a timeline on the mobile app of all the photos taken. To do this you will need two more APIs, one to retrieve the metadata for all the photos that have been taken, and one to download the Blobs for each photo.
+The next step is to show a timeline on the mobile app of all the photos taken. To do this we will need two more APIs, one to retrieve the metadata for all the photos that have been taken, and one to download the Blobs for each photo.
 
 > Having 2 APIs is more efficient as the mobile device can cache images locally and only request new ones that it needs. In a production app you would normally take this further and only return metadata for new photos using some kind of timestamp.
 
-## Creating a function to load metadata for all photos
+## 1. Creating a function to load metadata for all photos
 
-The first Function to create is the one to return the metadata for all photos. To do this you could write a function that queries Cosmos DB directly, but it is easier to do this with another function binding - this time an input binding. You can bind a Cosmos DB collection to the input parameter of a Function, either returning the whole collection or just a query. For this Function, you will need the entire collection.
+The first Function to create will return the metadata for all photos using a Cosmos DB function binding - this time an input binding. We will bind a Cosmos DB collection to the input parameter of the Function, either returning the whole collection or just a query. For this Function, you will need the entire collection.
 
-### Creating the GetAllPhotos function
+1. In the browser, navigate to the [Azure Portal](https://portal.azure.com/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn)
+2. In the Azure Portal, navigate to **HappyXamDevsFunction-[Your Last Name]**
+    - E.g. HappyXamDevsFunction-Minnick
 
-1. From the Azure Portal, create a new Function inside your Azure Functions app. This will need to be a C# HTTP trigger. Set the _Name_ as "GetAllPhotos" and the _Authorization level_ as "Anonymous".
-2. Head to the _Integrate_ tab and set the _Route Template_ to be "photo".
-3. Ensure only GET is checked for the _Selected HTTP methods_ as this function will only need to support this one method. Then click "Save".
+3. In the **Functions** dashboard, on the left-hand menu, click **Functions**
+4. In the **Functions** window, click **+ Add New Function**
+5. In the **Add new..** window, select **HTTP trigger**
+6. In the **Http trigger** slide out, enter the following:
+    - **Name:** GetAllPhotosMetadata
+    - **Authorization level:** Anonymous
+7. In the **Http trigger** slide out, click **Create**
+8. In the **run.csx editor**, enter the following code:
 
-    ![Setting the route template and HTTP method for the GetAllPhotos function](../Images/PortalGetAllPhotosIntegrate.png)
+```csharp
+using Microsoft.AspNetCore.Mvc;
 
-    > This route template is the same as the `UploadPhotos` Function, but because the supported HTTP method is different the Azure Functions app is able to call the right Function when this resource is accessed.
-
-### Creating the Cosmos DB input binding
-
-1. Under _Inputs_ in the _Integrate_ tab, click "+ New Input". Select _Azure Cosmos DB_ then click "Select".
-2. Set the _Document parameter name_ to be "documents". This is the name of the parameter in your function that the documents will be passed to.
-3. Set the database name to be "Photos" and collection name to be "PhotoMetadata".
-4. Leave the _Document ID_, _Partition key_ and _SQL Query_ blank.
-5. Set the _Azure Cosmos DB account connection_ to be your connection string that you set up when creating the Blob trigger. Then click "Save".
-
-    ![Configuring the Cosmos DB input binding](../Images/PortalConfigureCosmosInputBinding.png)
-
-### Implementing the GetAllPhotos function
-
-Unfortunately just creating this binding doesn't update your function code to reflect the new input, so you will have to make the relevant code change manually.
-
-1. Select the top-level _GetAllPhotos_ function node to view the code for the function.
-2. Change the function parameters to include an `IEnumerable<dynamic>`. Using a `dynamic` here means you do not have to define an explicit type that matches your documents and allows you to change the document structure at any time without re-writing this function. The type is immaterial anyway, as it will be automatically converted to JSON when returned.
-
-    ```cs
-    public static HttpResponseMessage Run(HttpRequestMessage req, IEnumerable<dynamic> documents, TraceWriter log)
-    ```
-
-3. Delete the existing contents of this function, and add a simple return statement to return a new response wrapping the collection of documents. Doing this will cause the documents to be serialized to JSON automatically and returned as the body of the HTTP response. Then save the function.
-
-    ```cs
-    return req.CreateResponse(HttpStatusCode.OK, documents);
-    ```
-
-## Creating a function to load a photo
-
-Next you need a function that will take the name of a Blob and return that Blob, encoded as Base64 to allow it to be returned in a JSON object. Once again, you can use an input binding to bind to Blob storage, even providing a way to automatically take an input parameter passed to the function as a REST resource identifier.
-
-### Creating the GetPhoto function
-
-This function will be routed to the `photo/{name}` REST resource, so making an HTTP GET method call to `https://<YourFunctionApp>.azurewebsites.net/api/photo/<photo name>` with the photo name set to the name of the Blob (taken from the Cosmos DB document) will return that blob.
-
-1. From the Azure Portal, create a new function inside your function app. This will need to be a C# HTTP trigger. Set the _Name_ as "GetPhoto" and the _Authorization level_ as "Anonymous".
-2. Head to the _Integrate_ tab and set the _Route Template_ to "photo/{name}". This will allow you to add a parameter called `name` to your function and have this automatically populated with the resource name from the URL.
-3. Set the _Selected HTTP Methods_ to GET. The click "Save".
-
-    ![Setting the route template and HTTP method for the GetPhoto function](../Images/PortalGetPhotoIntegrate.png)
-
-### Creating the Blob input binding
-
-1. From the _Integrate Tab_, click the "+ New Input" button under _Inputs_, select _Azure Blob Storage_ and click "Select".
-2. Set the _Blob parameter name_ to be "blob". This is the name of the parameter in your function that the Blob will be passed to.
-3. Set the _Path_ to be "photos/{name}". This maps to the `photos` Blob collection, and will return the Blob whose name matches the value passed as the `name` from the REST resource.
-4. Set the _Storage account connection_ to be your Blob storage connection string. Then click "Save".
-
-    ![Configuring the Blob storage input binding](../Images/PortalConfigureBlobsInputBinding.png)
-
-### Implementing the GetPhoto function
-
-1. Head to the Azure Function code, and update the Function signature to include the new binding and route template parameter by adding two new parameters - a `string` called `name` and a `Stream` called `blob`. These parameters will be populated by the photo name from the URL and the Blob from the input binding.
-
-    ```cs
-    public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, string name, Stream blob, TraceWriter log)
-    ```
-
-2. Read the contents of the Blob stream and encode it as a Base64 string.
-
-    ```cs
-    var bytes = new byte[blob.Length];
-    await blob.ReadAsync(bytes, 0, Convert.ToInt32(blob.Length));
-    var photo = Convert.ToBase64String(bytes);
-    ```
-
-3. Create a new anonymous object containing the photo and return it as part of the HTTP response. Then save the function.
-
-    ```cs
-    var retVal = new
-    {
-        Photo = photo
-    };
-    return req.CreateResponse(HttpStatusCode.OK, retVal);
-    ```
-
-The complete code for this function is below.
-
-```cs
-using System.Net;
-
-public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, string name, Stream blob, TraceWriter log)
+public static IActionResult Run(HttpRequestMessage req, IEnumerable<dynamic> documents, ILogger log)
 {
-    var bytes = new byte[blob.Length];
-    await blob.ReadAsync(bytes, 0, Convert.ToInt32(blob.Length));
-    var photo = Convert.ToBase64String(bytes);
-
-    var retVal = new
-    {
-        Photo = photo
-    };
-    return req.CreateResponse(HttpStatusCode.OK, retVal);
+    return new OkObjectResult(documents);
 }
 ```
+> **About the Code**
+>
+> `IEnumerable<dynamic> documents` contains all documents from CosmosDb
+>
+> `return new OkObjectResult(documents)` returns an **OK - 200** message containing the CosmosDb documents in the response body
+
+9. On the **Functions** dashboard, on the left-hand menu, select **GetAllPhotosMetadata** > **Integrate**
+10. On the **Integrate** window, select **HTTP (req)**
+11. On the **HTTP (req)** window, enter the following:
+    - **Allowed Http methods:** Selected methods
+    - **Request parameter name:** req
+    - **Route Template**: photo
+    - **Authorization level:** Anonymous
+    - **Selected HTTP methods**: Get
+
+    > Note: Uncheck all other **Selected HTTP methods**
+
+12. On the **HTTP (req)** window, click **Save**
+13. On the **Integrate** window, under **Inputs**, select **+ New Input**
+14. In the **New Input** window, scroll to the bottom and select **Azure Cosmos DB**
+15. In the **New Input** window, click **Select**
+16. In the **Azure Cosmos DB input** window, enter the following:
+    - **Document parameter name:** documents
+    - **Database name:** Photos
+    - **Collection name:** PhotoMetadata
+    - **Azure Cosmos DB account connection** happyxamdevs-[Your Last Name]_DOCUMENTDB
+    - **Document ID:** [Leave Blank]
+    - **Partition Key:** [Leave Blank]
+    - **SQL Query:** [Leave Blank]
+17. In the **Azure Cosmos DB input** window, click **Save**
+
+## 2. Creating a function to retrieve a photo
+
+Next we will write a function that will take the name of a Blob and return that Blob, encoded as Base64 string in a JSON object.
+
+This function will be routed to the `photo/{blobName}` REST resource, such that making an HTTP GET call to `https://<YourFunctionApp>.azurewebsites.net/api/photo/<photo blobName>`  will return that photo blob.
+
+1. In the **Functions** dashboard, on the left-hand menu, click **Functions**
+2. In the **Functions** window, click **+ Add New Function**
+3. In the **Add new..** window, select **HTTP trigger**
+4. In the **HTTP trigger** slide out, enter the following:
+    - **Name:** GetPhoto
+    - **Authorization Level:** Anonymous
+5. On the **HTTP trigger** slide out, click **Create**
+6. In the **run.csx** editor, enter the following code:
+
+```csharp
+#r "Microsoft.WindowsAzure.Storage"
+
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.WindowsAzure.Storage;
+
+public static async Task<IActionResult> Run(HttpRequestMessage req, string blobName, ILogger log)
+{
+    var connectionString = Environment.GetEnvironmentVariable("AzureWebJobsStorage");
+
+    CloudStorageAccount.TryParse(connectionString, out var storageAccount);
+    var blobClient = storageAccount.CreateCloudBlobClient();
+
+    var blobContainer = blobClient.GetContainerReference("photos");
+    var photoBlob = blobContainer.GetBlockBlobReference(blobName);
+
+    var filePath = $"D:\\home\\blobPhoto{System.DateTime.UtcNow.Ticks}.jpeg";
+    using (var fileStream = System.IO.File.OpenWrite(filePath))
+    {
+        await photoBlob.DownloadToStreamAsync(fileStream);
+    }
+
+    using (var fileStream = System.IO.File.OpenRead(filePath))
+    using (var memoryStream = new MemoryStream())
+    {
+        fileStream.CopyTo(memoryStream);
+
+        var resultObject = new
+        {
+            Photo = memoryStream.ToArray()
+        };
+
+        return new OkObjectResult(resultObject);
+    }
+}
+```
+
+> **About the Code**
+>
+> `string blobName` is the parameter name sent from the mobile app
+>
+> `await photoBlob.DownloadToStreamAsync(fileStream);` downloads the blob to a file
+>
+> `memoryStream.ToArray()` converts the `Stream` to a Base64 array
+>
+> `return new OkObjectResult(resultObject);` returns an **OK - 200** response containing the photoBlob
+
+7. On the **Functions** page, on the left-hand menu, select **GetPhoto** > **Integrate**
+8. On the **Integrate** window, select **Http (req)**
+9. In the **Http trigger** window, enter the following:
+    - **Allowed Http methods:** Selected methods
+    - **Request parameter name:** req
+    - **Route Template**: photo/{blobName}
+    - **Authorization level:** Anonymous
+    - **Selected HTTP methods**: Get
+
+    > Note: Uncheck all other **Selected HTTP methods**
+
+10. In the **Http trigger** window, click **Save**
+11. In the **Functions** page, scroll to right-to-left until the right-hand menu is visible
+12. On the right-hand menu, select **View Files** 
+13. In the **View Files** window, click the **+ Add**
+14. In the **file name** entry, enter `function.proj`
+15. Press the **Return** key on the keyboard to save the new file
+16. In the **function.proj** text editor, enter the following:
+
+```xml
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="WindowsAzure.Storage" Version="9.3.3" />
+    </ItemGroup>
+</Project>
+```
+
+17. In the **function.proj** editor, click **Save**
+
 
 ## Next step
 
