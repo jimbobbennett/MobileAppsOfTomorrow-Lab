@@ -60,49 +60,49 @@ Functions can also have bindings to other Azure resources such as storage and Co
 1. In the [Azure Portal](https://portal.azure.com/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn), navigate to the Azure Function resource, **HappXamDevsFunction-[Your Last Name]**
     - E.g. HappyXamDevsFunction-Minnick
 
-2. On the **Azure Functions** dashboard, on the left-hand menu, click **Functions**
+2. On the **Azure Functions** dashboard, on the left-hand menu, click **HappXamDevsFunction-[Your Last Name]**
 
-4. On the **Overview** page, click **Application settings**
+3. On the **Overview** page, click **Application settings**
 
-5. On the **Application settings** page, in the **Application settings** frame, click **+ Add new setting**
+4. On the **Application settings** page, in the **Application settings** frame, click **+ Add new setting**
 
-6. On the **Application settings** page, in the **Application settings** frame, enter the following:
+5. On the **Application settings** page, in the **Application settings** frame, enter the following:
     - **App Setting:** ComputerVisionApiKey
     - **Value:** [Your Computer Vision API Key]
 
-5. On the **Application settings** page, in the **Application settings** frame, click **+ Add new setting**
+6. On the **Application settings** page, in the **Application settings** frame, click **+ Add new setting**
 
-6. On the **Application settings** page, in the **Application settings** frame, enter the following:
+7. On the **Application settings** page, in the **Application settings** frame, enter the following:
     - **App Setting:** ComputerVisionBaseUrl
     - **Value:** [Your Computer Vision Base Url]
 
-7. On the **Application settings** page, at the top, click **Save**
+8. On the **Application settings** page, at the top, click **Save**
 
-8. On the **Functions** page, on the left-hand menu, click **Functions**
+9. On the **Functions** page, on the left-hand menu, click **Functions**
 
-9. On the **Functions** page, click **+ New Function**
+10. On the **Functions** page, click **+ New Function**
 
-10. On the **Choose a template...** page, select **Azure Queue Storage Trigger**
+11. On the **Choose a template...** page, select **Azure Queue Storage Trigger**
 
-11. On the **Azure Queue Storage Trigger** popout, if prompted to install extensions, select **Install**
+12. On the **Azure Queue Storage Trigger** popout, if prompted to install extensions, select **Install**
 
-11. On the **Azure Queue Storage Trigger** popout, if prompted to install extensions, select **Continue**
+13. On the **Azure Queue Storage Trigger** popout, if prompted to install extensions, select **Continue**
 
-12. On the **Azure Queue Storage Trigger** popout, enter the following:
+14. On the **Azure Queue Storage Trigger** popout, enter the following:
     - **Name:** ProcessPhotoFromBlob
     - **Queue name:** processblobqueue
     - **Storage account connection:** AzureWebJobStorage
 
-13. On the **Azure Blob Storage Trigger** popout, click **Create**
+15. On the **Azure Blob Storage Trigger** popout, click **Create**
 
-14. In the **ProcessPhotoFromBlob** Function page, scroll to the right until **View files** is visible
+16. In the **ProcessPhotoFromBlob** Function page, scroll to the right until **View files** is visible
 
-15. In the **ProcessPhotoFromBlob** Function page, select **View files**
+17. In the **ProcessPhotoFromBlob** Function page, select **View files**
 
-16. In the **View Files** window, click the **+ Add**
-17. In the **file name** entry, enter `function.proj`
-18. Press the **Return** key on the keyboard to save the new file
-19. In the **function.proj** text editor, enter the following:
+18. In the **View Files** window, click the **+ Add**
+19. In the **file name** entry, enter `function.proj`
+20. Press the **Return** key on the keyboard to save the new file
+21. In the **function.proj** text editor, enter the following:
 
 ```xml
 <Project Sdk="Microsoft.NET.Sdk">
@@ -117,9 +117,9 @@ Functions can also have bindings to other Azure resources such as storage and Co
 </Project>
 ```
 
-20. In the **function.proj** text editor, click **Save**
-21. In the the **View Files** window, select **run.csx**
-22. In the **run.csx** editor, enter the following code:
+22. In the **function.proj** text editor, click **Save**
+23. In the the **View Files** window, select **run.csx**
+24. In the **run.csx** editor, enter the following code:
 
 ```cs
 #r "Microsoft.WindowsAzure.Storage"
@@ -203,7 +203,7 @@ public static async Task Run(string blobName, IAsyncCollector<object> documentCo
 >
 > `await documentCollector.AddAsync` outputs the metadata to CosmosDb
 
-23. In the **run.csx** editor, click **Save**
+25. In the **run.csx** editor, click **Save**
 
 ## 3. Setting up an output binding to Cosmos DB
 
