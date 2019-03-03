@@ -63,6 +63,7 @@ We will create a database that contains a collection in which we will add our ph
     - **Database id** 
         - [x] Create New
         - Photos
+    - [ ] **Provision database throughput**
     - **Collection Id:** PhotoMetadata
     - **Partition Key:** /name
     - **Throughput:** 400
