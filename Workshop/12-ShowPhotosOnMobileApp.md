@@ -58,6 +58,7 @@ namespace HappyXamDevs.Models
 ```csharp
 using System.Collections.ObjectModel;
 using System.Linq;
+using HappyXamDevs.Models;
 ```
 
 6. In the **MainViewModel.cs** editor, add the following field:
@@ -83,7 +84,7 @@ public bool IsRefreshing
 8. In the **MainViewModel.cs** editor, add the following properties:
 
 ```csharp
-public ObservableCollection<PhotoViewModel> Photos { get; } = new ObservableCollection<PhotoViewModel>();
+public ObservableCollection<PhotoModel> Photos { get; } = new ObservableCollection<PhotoModel>();
 public ICommand RefreshCommand { get; }
 ```
 
