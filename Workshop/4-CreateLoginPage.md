@@ -151,7 +151,7 @@ At runtime, the iOS device will select the appropriate image based on its screen
 2. (PC) In the **Assets.xcassets** window, select **Add** (box with green **+**) > **Add Image Set**
     - (Mac) In the **Assets.xcassets** window, on the left-hand menu, right-click **AppIcon** > **New Image Set**
 
-3. In the **Assets.xcassets** window, rename the newly created Image set from **Images** to **Bit_Learning**
+3. In the **Assets.xcassets** window, rename the newly created Image set from **Image** to **Bit_Learning**
     > **Note:** The name is case-sensitive and must contain the underscore
 
 4. In the **Bit_Learning** catalog, select the first **1x** box
@@ -459,6 +459,7 @@ namespace HappyXamDevs
 4. In the **MainPage.xaml.cs** editor, enter the following code:
 
 ```csharp
+using System.Linq;
 using HappyXamDevs.Services;
 using Xamarin.Forms;
 
@@ -477,9 +478,9 @@ namespace HappyXamDevs
 
             var azureService = DependencyService.Get<IAzureService>();
 
-            if (!azureService.IsLoggedIn())
+            if (!azureService.IsLoggedIn() && !Navigation.ModalStack.Any())
             {
-                await Navigation.PushModalAsync(new LoginPage(), false);
+                    await Navigation.PushModalAsync(new LoginPage(), false);
             }
         }
     }
@@ -641,35 +642,6 @@ public bool IsLoggedIn()
     ```csharp
     public bool IsLoggedIn() => true;
     ```
-
-6. In the **AzureServiceBase.cs** editor, add the following method:
-
-```csharp
-public async Task<bool> Authenticate()
-{
-    if (IsLoggedIn())
-        return true;
-
-    try
-    {
-        await AuthenticateUser();
-    }
-    catch (InvalidOperationException)
-    {
-        return false;
-    }
-
-    if (Client.CurrentUser != null)
-    {
-        Application.Current.Properties[AuthTokenKey] = Client.CurrentUser.MobileServiceAuthenticationToken;
-        Application.Current.Properties[UserIdKey] = Client.CurrentUser.UserId;
-
-        await Application.Current.SavePropertiesAsync();
-    }
-
-    return IsLoggedIn();
-}
-```
 
 ## Next step
 
