@@ -642,35 +642,6 @@ public bool IsLoggedIn()
     public bool IsLoggedIn() => true;
     ```
 
-6. In the **AzureServiceBase.cs** editor, add the following method:
-
-```csharp
-public async Task<bool> Authenticate()
-{
-    if (IsLoggedIn())
-        return true;
-
-    try
-    {
-        await AuthenticateUser();
-    }
-    catch (InvalidOperationException)
-    {
-        return false;
-    }
-
-    if (Client.CurrentUser != null)
-    {
-        Application.Current.Properties[AuthTokenKey] = Client.CurrentUser.MobileServiceAuthenticationToken;
-        Application.Current.Properties[UserIdKey] = Client.CurrentUser.UserId;
-
-        await Application.Current.SavePropertiesAsync();
-    }
-
-    return IsLoggedIn();
-}
-```
-
 ## Next step
 
 Now that your app can authenticate successfully, the next step is to [wire up the camera using a Xamarin plugin](./5-WireUpTheCamera.md).
