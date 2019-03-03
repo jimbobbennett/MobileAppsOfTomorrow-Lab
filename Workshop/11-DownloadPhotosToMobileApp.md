@@ -116,9 +116,9 @@ We will  create a simple C# data object in our mobile app that deserializes thes
 
 2. In the Visual Studio Solution Explorer, name the new folder `Models`
 
-3. In the Visual Studio Solution Explorer, right-click on the newly created `Services` folder > **Add** > **Class**
+3. In the Visual Studio Solution Explorer, right-click on the newly created **Models** folder > **Add** > **Class**
 
-    - (Mac) On Visual Studio for Mac, right-click on the newly created `Services` folder > **Add** > **New File**
+    - (Mac) On Visual Studio for Mac, right-click on the newly created **Models** folder > **Add** > **New File**
 
 4. In the **Add New Item** window, name the file `PhotoMetadata.cs`
 
