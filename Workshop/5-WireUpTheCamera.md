@@ -142,13 +142,37 @@ The [Xamarin Media Plugin](https://www.nuget.org/packages/Xam.Plugin.Media/) pro
 
 10. In the Visual Studio Solution Explorer, open **HappyXamDevs.Android** > **MainActivity.cs**
 
-11. In the **MainActivity.cs** editor, add the following method:
+11. In the **MainActivity.cs** editor, enter the following code:
 
 ```csharp
-public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Permission[] grantResults)
+using Android.App;
+using Android.Content.PM;
+using Android.OS;
+using Android.Runtime;
+
+namespace HappyXamDevs.Droid
 {
-    Plugin.Permissions.PermissionsImplementation.Current.OnRequestPermissionsResult(requestCode, permissions, grantResults);
-    base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+    [Activity(Label = "HappyXamDevs", Icon = "@mipmap/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
+    public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
+    {
+        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Permission[] grantResults)
+        {
+            Plugin.Permissions.PermissionsImplementation.Current.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+            base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+
+        protected override void OnCreate(Bundle bundle)
+        {
+            TabLayoutResource = Resource.Layout.Tabbar;
+            ToolbarResource = Resource.Layout.Toolbar;
+
+            base.OnCreate(bundle);
+
+            global::Xamarin.Forms.Forms.Init(this, bundle);
+            Plugin.CurrentActivity.CrossCurrentActivity.Current.Init(this, bundle);
+            LoadApplication(new App());
+        }
+    }
 }
 ```
 
