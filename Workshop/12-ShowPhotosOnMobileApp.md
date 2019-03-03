@@ -57,6 +57,8 @@ namespace HappyXamDevs.Models
 5. In the **MainViewModel.cs** editor, add the following using statement:
 ```csharp
 using System.Collections.ObjectModel;
+using System.Linq;
+using HappyXamDevs.Models;
 ```
 
 6. In the **MainViewModel.cs** editor, add the following field:
@@ -82,7 +84,7 @@ public bool IsRefreshing
 8. In the **MainViewModel.cs** editor, add the following properties:
 
 ```csharp
-public ObservableCollection<PhotoViewModel> Photos { get; } = new ObservableCollection<PhotoViewModel>();
+public ObservableCollection<PhotoModel> Photos { get; } = new ObservableCollection<PhotoModel>();
 public ICommand RefreshCommand { get; }
 ```
 
@@ -95,7 +97,7 @@ public ICommand RefreshCommand { get; }
 9. In the **MainViewModel.cs** editor, add the following method:
 
 ```csharp
-async Task Refresh()
+private async Task Refresh()
 {
     var photos = await azureService.GetAllPhotoMetadata();
 
@@ -178,6 +180,7 @@ public MainViewModel()
 
     <ListView x:Name="PhotosListView"
               ItemsSource="{Binding Photos}"
+              IsRefreshing="{Binding IsRefreshing}"
               RefreshCommand="{Binding RefreshCommand}"
               IsPullToRefreshEnabled="true"
               SelectionMode="None">
