@@ -37,9 +37,11 @@ public static IActionResult Run(HttpRequestMessage req, IEnumerable<dynamic> doc
 >
 > `return new OkObjectResult(documents)` returns an **OK - 200** message containing the CosmosDb documents in the response body
 
-9. On the **Functions** dashboard, on the left-hand menu, select **GetAllPhotosMetadata** > **Integrate**
-10. On the **Integrate** window, select **HTTP (req)**
-11. On the **HTTP (req)** window, enter the following:
+9. In the **run.csx editor**, click **Save**
+
+10. On the **Functions** dashboard, on the left-hand menu, select **GetAllPhotosMetadata** > **Integrate**
+11. On the **Integrate** window, select **HTTP (req)**
+12. On the **HTTP (req)** window, enter the following:
     - **Allowed Http methods:** Selected methods
     - **Request parameter name:** req
     - **Route Template**: photo
@@ -48,11 +50,11 @@ public static IActionResult Run(HttpRequestMessage req, IEnumerable<dynamic> doc
 
     > Note: Uncheck all other **Selected HTTP methods**
 
-12. On the **HTTP (req)** window, click **Save**
-13. On the **Integrate** window, under **Inputs**, select **+ New Input**
-14. In the **New Input** window, scroll to the bottom and select **Azure Cosmos DB**
-15. In the **New Input** window, click **Select**
-16. In the **Azure Cosmos DB input** window, enter the following:
+13. On the **HTTP (req)** window, click **Save**
+14. On the **Integrate** window, under **Inputs**, select **+ New Input**
+15. In the **New Input** window, scroll to the bottom and select **Azure Cosmos DB**
+16. In the **New Input** window, click **Select**
+17. In the **Azure Cosmos DB input** window, enter the following:
     - **Document parameter name:** documents
     - **Database name:** Photos
     - **Collection name:** PhotoMetadata
@@ -60,7 +62,7 @@ public static IActionResult Run(HttpRequestMessage req, IEnumerable<dynamic> doc
     - **Document ID:** [Leave Blank]
     - **Partition Key:** [Leave Blank]
     - **SQL Query:** [Leave Blank]
-17. In the **Azure Cosmos DB input** window, click **Save**
+18. In the **Azure Cosmos DB input** window, click **Save**
 
 ## 2. Creating a function to retrieve a photo
 
