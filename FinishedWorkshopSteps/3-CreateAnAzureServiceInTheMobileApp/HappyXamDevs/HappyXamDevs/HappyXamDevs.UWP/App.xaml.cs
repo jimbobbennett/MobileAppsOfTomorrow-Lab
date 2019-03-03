@@ -81,7 +81,6 @@ namespace HappyXamDevs.UWP
                 rootFrame.NavigationFailed += OnNavigationFailed;
 
                 Xamarin.Forms.Forms.Init(e);
-                Xamarin.Forms.DependencyService.Register<Services.AzureService>();
 
                 if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
                 {
