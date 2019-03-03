@@ -131,11 +131,18 @@ Once you have your new view cell, it's time to use it inside your list view.
               IsPullToRefreshEnabled="True"
               RefreshCommand="{Binding RefreshCommand}"
               IsRefreshing="{Binding IsRefreshing}"
-              RefreshControlColor="White"
               HasUnevenRows="True"
               SeparatorVisibility="None"
               BackgroundColor="#DCDCDC"
               SelectionMode="None">
+        
+        <ListView.RefreshControlColor>
+            <OnPlatform x:TypeArguments="Color">
+                <On Platform="iOS" Value="White"/>
+                <On Platform="Android, UWP" Value="{StaticResource CoolPurple}" />
+            </OnPlatform>
+        </ListView.RefreshControlColor>
+        
         <ListView.ItemTemplate>
             <DataTemplate>
                 <local:PhotoCell />
