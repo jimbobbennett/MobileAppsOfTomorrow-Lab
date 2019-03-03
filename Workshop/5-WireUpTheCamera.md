@@ -237,7 +237,7 @@ At runtime, the iOS device will select the appropriate image based on its screen
 2. (PC) In the **Assets.xcassets** window, select **Add** (box with green **+**) > **Add Image Set**
     - (Mac) In the **Assets.xcassets** window, on the left-hand menu, right-click **AppIcon** > **New Image Set**
 
-3. In the **Assets.xcassets** window, rename the newly created Image set from **Images** to **SelectFromLibrary**
+3. In the **Assets.xcassets** window, rename the newly created Image set from **Image** to **SelectFromLibrary**
     > **Note:** The name is case-sensitive and must contain the underscore
 
 4. In the **SelectFromLibrary** catalog, select the first **1x** box
@@ -360,7 +360,7 @@ At runtime, the iOS device will select the appropriate image based on its screen
 2. (PC) In the **Assets.xcassets** window, select **Add** (box with green **+**) > **Add Image Set**
     - (Mac) In the **Assets.xcassets** window, on the left-hand menu, right-click **AppIcon** > **New Image Set**
 
-3. In the **Assets.xcassets** window, rename the newly created Image set from **Images** to **TakePhoto**
+3. In the **Assets.xcassets** window, rename the newly created Image set from **Image** to **TakePhoto**
     > **Note:** The name is case-sensitive and must contain the underscore
 
 4. In the **TakePhoto** catalog, select the first **1x** box
