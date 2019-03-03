@@ -8,7 +8,7 @@ We now need to be able to upload this photo to Azure so it can be shared with ot
 
 In Azure Blob Storage, blobs are stored in containers, similar to how a folder holds files on a PC. We will be creating our container using the Azure Portal UI, but containers can also be created in code.
 
-1. In the [Azure Portal](https://portal.azure.com/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn), navigate to the Azure Storage resource, **xamhappydevsstorage**
+1. In the [Azure Portal](https://portal.azure.com/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn), navigate to the Azure Storage resource, **storage[Your Last Name]**
 
 2. On the **Azure Storage** page, on the left-hand menu, select **Blobs**
 3. On the **Blobs** page, select **+ Container**
