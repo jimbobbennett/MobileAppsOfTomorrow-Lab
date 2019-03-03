@@ -60,8 +60,9 @@ We will create a database that contains a collection in which we will add our ph
 2. On the **CosmosDb** page, on the left-hand menu, select **Data Explorer**
 3. In the **Data Explorer** page, click **New Collection**
 4. In the **New Collection** pane, enter the following:
-    - **Database id:** Create New
-    - **Type a new database id:** Photos
+    - **Database id:** 
+        - [x] Create New
+        - **Type a new database id:** Photos
     - **Collection Id:** PhotoMetadata
     - **Partition Key:** /name
     - **Throughput:** 400
