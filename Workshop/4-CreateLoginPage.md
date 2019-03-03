@@ -260,13 +260,17 @@ To help with creating view models, we will create a `BaseViewModel` that provide
 3. In the Visual Studio Solution Explorer, right-click on the newly created `ViewModels` folder > **Add** > **Class**
 
     - (Mac) On Visual Studio for Mac, right-click on the newly created `ViewModels` folder > **Add** > **New File**
+    
+4. (Mac) In the **New File** window, on the left-hand menu, select **General**
 
-4. In the **Add New Item** window, name the file `BaseViewModel.cs`
+5. (Mac) In the **New File** window, select **Empty Class**
 
-5. (PC) In the **Add New Item** window, click **Add**
+6. In the **Add New Item** window, name the file `BaseViewModel.cs`
+
+7. (PC) In the **Add New Item** window, click **Add**
     - (Mac) In the **Add New Item** window, click **New**
 
-6. In the **BaseViewModel.cs** editor, enter the following code
+8. In the **BaseViewModel.cs** editor, enter the following code
 
 ```cs
 using System.Collections.Generic;
@@ -300,16 +304,16 @@ namespace HappyXamDevs.ViewModels
 >
 > `Set` is a helper method to allow you to update a field and if the value of the field changes, raise the `PropertyChanged` event. The `CallerMemberName` attribute on the `propertyName` parameter means the compiler will pass the name of the calling method or property in for you. This is allows us to call `Set` from a property setter and the compiler will automatically pass in the property name, ensuring the change notification is raised for the correct property.
 
-3. In the Visual Studio Solution Explorer, right-click on the `ViewModels` folder > **Add** > **Class**
+9. In the Visual Studio Solution Explorer, right-click on the `ViewModels` folder > **Add** > **Class**
 
     - (Mac) On Visual Studio for Mac, right-click on the  `ViewModels` folder > **Add** > **New File**
 
-4. In the **Add New Item** window, name the file `LoginViewModel.cs`
+10. In the **Add New Item** window, name the file `LoginViewModel.cs`
 
-5. (PC) In the **Add New Item** window, click **Add**
+11. (PC) In the **Add New Item** window, click **Add**
     - (Mac) In the **Add New Item** window, click **New**
 
-6. In the **LoginViewModel.cs** editor, enter the following code:
+12. In the **LoginViewModel.cs** editor, enter the following code:
 
 ```csharp
 using System.Threading.Tasks;
