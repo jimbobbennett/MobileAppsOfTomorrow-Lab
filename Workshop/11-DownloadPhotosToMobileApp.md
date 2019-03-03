@@ -190,6 +190,7 @@ namespace HappyXamDevs.Services
 
 ```csharp
 using System.IO;
+using System.Net.Http;
 using Xamarin.Essentials;
 using HappyXamDevs.Models;
 ```
