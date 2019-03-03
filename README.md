@@ -72,7 +72,7 @@ You can find links to relevant documentation below:
 
 ## Contributors
 
-This lab was built by [Jim Bennett](https://developer.microsoft.com/advocates/jim-bennett?WT.mc_id=mobileappsoftomorrow-workshop-jabenn) and [Laurent Bugnion](https://developer.microsoft.com/advocates/laurent-bugnion?WT.mc_id=mobileappsoftomorrow-workshop-jabenn) and [Brandon Minnick](https://twitter.com/intent/user?user_id=3418408341).
+This lab was built by [Jim Bennett](https://developer.microsoft.com/advocates/jim-bennett?WT.mc_id=mobileappsoftomorrow-workshop-jabenn), [Laurent Bugnion](https://developer.microsoft.com/advocates/laurent-bugnion?WT.mc_id=mobileappsoftomorrow-workshop-jabenn) and [Brandon Minnick](https://twitter.com/intent/user?user_id=3418408341).
 
 ![Xamarin Azure Advocates](./Images/Xamarin.png)
 
