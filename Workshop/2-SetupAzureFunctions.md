@@ -52,7 +52,7 @@ This back-end will use Facebook authentication, meaning that any calls to our Az
 
 ## 2. Setup Facebook Authentication
 
-1. In the Azure Portal, navigate to the newly created Function App has been provisioned, **HappyXamDevs-[Your Last Name]**
+1. In the Azure Portal, navigate to the newly created Function App, **HappyXamDevsFunction-[Your Last Name]**
 
 2. On the **Functions** page, click the **Overview** tab,
 
