@@ -93,7 +93,7 @@ namespace HappyXamDevs.Droid
     }
 }
 ```
-*** About the Code**
+**About the Code**
 >
 > `Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);` allows `Xamarin.Essentials` to handle Android permissions requests
 >
