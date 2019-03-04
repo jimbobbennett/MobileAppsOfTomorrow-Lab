@@ -480,8 +480,8 @@ namespace HappyXamDevs
 
             if (!azureService.IsLoggedIn())
             {
-                    if(!Navigation.ModalStack.Any())
-                        await Navigation.PushModalAsync(new LoginPage(), false);
+                if (!Navigation.ModalStack.Any())
+                    await Navigation.PushModalAsync(new LoginPage(), false);
             }
         }
     }
