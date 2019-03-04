@@ -17,8 +17,9 @@ namespace HappyXamDevs
 
             var azureService = DependencyService.Get<IAzureService>();
 
-            if (!azureService.IsLoggedIn() && !Navigation.ModalStack.Any())
+            if (!azureService.IsLoggedIn())
             {
+                if(!Navigation.ModalStack.Any())
                     await Navigation.PushModalAsync(new LoginPage(), false);
             }
             else
