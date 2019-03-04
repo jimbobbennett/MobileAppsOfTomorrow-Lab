@@ -30,7 +30,7 @@ We'll be using the [Microsoft.Azure.Mobile.Client](https://www.nuget.org/package
 
 7. (PC) _Skip this step_
 
-    - (Mac) In Visual Studio for Mac, right-click the `HappyXamDevs.Android` project > **Add** > **Add NuGet Packages**
+    - (Mac) In Visual Studio for Mac, right-click the **HappyXamDevs.Android** project > **Add** > **Add NuGet Packages**
 
 8. (PC) _Skip this step_
 
@@ -43,7 +43,7 @@ We'll be using the [Microsoft.Azure.Mobile.Client](https://www.nuget.org/package
 
 10. (PC) _Skip this step_
 
-    - (Mac) In Visual Studio for Mac, right-click the `HappyXamDevs.iOS` project > **Add** > **Add NuGet Packages**
+    - (Mac) In Visual Studio for Mac, right-click the **HappyXamDevs.iOS** project > **Add** > **Add NuGet Packages**
 
 11. (PC) _Skip this step_
 
@@ -55,7 +55,8 @@ We'll be using the [Microsoft.Azure.Mobile.Client](https://www.nuget.org/package
 
 ## 2. Creating a cross-platform Azure service
 
-1. In the Visual Studio Solution Explorer, right-click on the project **HappyXamDevs** > **Add** > **New Folder**
+1. In the Visual Studio Solution Explorer, right-click on the second-from-the-top **HappyXamDevs** option > **Add** > **New Folder**
+    > **Warning:** Do not select **Add Solution Folder**. If you are given the option **Add Solution Folder**, you have right-clicked on top-most **HappyXamDevs** option.
 
 2. In the Visual Studio Solution Explorer, name the new folder `Services`
 
