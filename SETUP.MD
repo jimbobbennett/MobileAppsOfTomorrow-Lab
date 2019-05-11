@@ -6,6 +6,8 @@ Xamarin requires a few components to collaborate for a satisfying development ex
 
 > Note: If you start from scratch, you will automatically get the latest and greatest version of each components. If however you already had Visual Studio or Xamarin installed, you might need to upgrade your installation. For more information, see [the corresponding section below](#upgrading-your-android-sdk-to-the-latest-version).
 
+In the workshop we will use the Android SDK 9.0 (Pie).
+
 ## Configurations
 
 You can develop for Xamarin using Windows or Mac. However if you use Windows and want to build Xamarin apps for iOS, you need a Mac computer too. This is because of Apple restrictions and cannot be avoided. During the workshop, we will support the following configurations:
@@ -31,11 +33,9 @@ __Keys to success:__
 
 You can see the requirements and follow the steps in the [Xamarin environment setup on Windows](https://docs.microsoft.com/xamarin/cross-platform/get-started/installation/windows/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn).
 
-1. Install Visual Studio 2017 from [VisualStudio.com](https://www.visualstudio.com/vs/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn). The free Community Edition is sufficient for this workshop.
+1. Install Visual Studio 2019 from [VisualStudio.com](https://www.visualstudio.com/vs/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn). The free Community Edition is sufficient for this workshop.
 2. Make sure to select the _"Mobile development with .NET"_ workload in the installer screen:
-   ![The Xamarin workload selected in the installer](./Images/Setup/VS2017Workload.png)
-3. You don’t need all options selected but you should choose the following:
-   ![The required components in the installation](./Images/Setup/VS2017SelectedBits.png)
+   ![The Xamarin workload selected in the installer](./Images/Setup/VS2019Workload.png)
 
 > There can be issues running emulators or connecting to physical devices if you are running Visual Studio in a Virtual Machine. Ideally you should run on the natively installed OS, but if you are using a virtual machine it is important to validate the setup before attempting the workshop.
 
@@ -44,13 +44,18 @@ You can see the requirements and follow the steps in the [Xamarin environment se
 After the installation is complete, test the setup with the following steps:
 
 1. In Visual Studio, select File, New, Project.
-2. In the "New Project" dialog, select the Cross-Platform category.
-3. Select "Mobile App (Xamarin.Forms)".
-4. In the "New Cross Platform App" dialog, select "Blank App".
+2. In the "Create a new project" dialog, type "xamarin" in the search box.
+3. Select "Mobile App (Xamarin.Forms)" and click on `Next`.
+
+![Searching for Xamarin.Forms template](./Images/Setup/VS2019CreateNewProject.png)
+
+4. In the "Configure your new project" dialog box, enter a name and a location for your new application.
+
+![Configure your project](./Images/Setup/VS2019ConfigureNewProject.png)
+
+4. In the "New Cross Platform App" dialog, select "Blank".
 5. Under Platform, select "Windows (UWP)" and "Android". Deselect "iOS".
-6. Under Code Sharing Strategy, select ".NET Standard".
-   ![Creating a new Xamarin project](./Images/Setup/VS2017CreateNewProject.png)
-7. Press OK.
+6. Press OK.
 
 With the application created in Visual Studio, we will now test on Windows and on the Android emulator. If this works fine, we will guide you during the workshop to deploy to your devices.
 
@@ -72,12 +77,12 @@ Now we will try running the application in Windows and Android to see if everyth
 1. In the Solution Explorer, right click on the Android application and select "Set as Startup Project" from the context menu.
    ![Setting the Android app as the startup app](./Images/Setup/VS2017SetAndroidAsStartup.png)
 2. In the Start button, the Android emulator should be selected as shown below:
-   ![The Android emulator selected in the start button](./Images/Setup/VS2017RunningAndroid.png)
+   ![The Android emulator selected in the start button](./Images/Setup/VS2019RunningAndroid.png)
 3. Click on the Start button to run the Android emulator.
    > You might have to select a video device when the emulator starts for the first time. You don’t have to select anything, you can just press OK. The emulator takes some time to boot, but once it is up and running, you don’t need to shut it down. It can just stay up.
 
    After the emulator runs, you should be able to see the application:
-   ![The UWP app running on the emulator](./Images/Setup/VS2017RunningAndroidEmulator.png)
+   ![The UWP app running on the emulator](./Images/Setup/VS2019RunningAndroidEmulator.png)
 
 ## Prerequisites on a Mac
 
