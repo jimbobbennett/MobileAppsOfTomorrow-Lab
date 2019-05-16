@@ -57,7 +57,7 @@ The individual steps are linked below.
 
 ## Cleaning up
 
-During this workshop you will have created different Azure services, and some have an associated cost. The final step contains [instructions to clean up these resources](./Workshop/16-CleaningUp.md), so to save paying unnecessarily, remember to work through this step to delete the resource group you created regardless of how far through the workshop you manage to get.
+During this workshop you will have created different Azure services, and some have an associated cost. The final step contains [instructions to clean up these resources](./Workshop/14-CleaningUp.md), so to save paying unnecessarily, remember to work through this step to delete the resource group you created regardless of how far through the workshop you manage to get.
 
 ## Further reading
 
