@@ -198,8 +198,6 @@ Before you can access the camera or the photo library, you have to add a privacy
 
 For the UI, you will need to add a couple of toolbar buttons to **MainPage.xaml**, one to use the camera to take a photo, the other to select a photo from the users photo library.
 
-At this point we will just implement the code to take the photo or access the photo library.
-
 ### Android
 
 Android stores images in the `Resources/drawable` folders, with different `drawable` folders for different device resolutions - so `drawable-hdpi` for high density screens, `drawable-xhdpi` for extra high density screens and so on. Images of different resolutions are put into these folders.
@@ -213,6 +211,8 @@ Android stores images in the `Resources/drawable` folders, with different `drawa
 #### PC
 
 Repeat the following steps for all the different `drawable-` folders (for example `drawable-hdpi`, `drawable-xxxhdpi`):
+
+> You will not need to do this for the basic `drawable` folder, just the various `drawable-something` folders.
 
 1. In the Visual Studio Solution Explorer, right-click on the first **drawable-** folder > **Add** > **Existing Item...**
 
@@ -235,6 +235,7 @@ Repeat the following steps for all the different `drawable-` folders (for exampl
 3. In the file explorer window, select **SelectFromLibrary.png** and **TakePhoto.png**.
 
 4. Click **Open**
+5. Click **OK** to select to copy these files
 
 Repeat this for all the **drawable-** folders.
 
@@ -315,7 +316,44 @@ When the application runs, the UWP framework will automatically select the best 
     >
     > `ToolbarItem` is a button that appears in Navigation Bar
 
-## 6. Create a base view model
+## 6. Making the main page appear in a navigation bar
+
+To show a toolbar, a page has to live inside a navigation page - a page that provides a banner at the top and navigation back and forward between pages.
+
+1. In the Visual Studio Solution Explorer, open **HappyXamDevs** >  **App.xaml.cs**. You will need to expand the **App.xaml** file to see this **.cs** file.
+
+2. In the  `App()` constructor, replace the code that sets the `MainPage` with the following code:
+
+   ```csharp
+   public App()
+   {
+       ...
+       var navigationPage = new Xamarin.Forms.NavigationPage(new MainPage());
+       MainPage = navigationPage;
+   }
+   ```
+
+    > **About the Code**
+    >
+    > `NavigationPage` is a page that provides navigation, and wraps the first page to show
+
+3. Add some styling to the navigation page to give a nice purple navigation bar with white text.
+
+    ```cs
+    navigationPage.BarBackgroundColor = Color.FromHex("#b2169c");
+    navigationPage.BarTextColor = Color.White;
+    ```
+
+4. Make the navigation page look nice on the iPhoneX by turning on the safe areas. You will need to add using directives for the `Xamarin.Forms.PlatformConfiguration` and `Xamarin.Forms.PlatformConfiguration.iOSSpecific` namespaces.
+
+    ```cs
+    navigationPage.On<iOS>().SetPrefersLargeTitles(true);
+    navigationPage.On<iOS>().SetUseSafeArea(true);
+    ```
+
+5. Adding these using directives will confuse the compiler around the `Application` class, so change the base class to `Xamarin.Forms.Application`.
+
+## 7. Create a base view model
 
 Xamarin.Forms supports data binding, allowing you to wire a page up to a view model and synchronize data back and forth. To make data binding work, the view model must implement the `INotifyPropertyChanged` interface, an interface that contains an event to notify when data changes. The view will detect these changes and update what is displayed. For interactive controls such as buttons, there is a `Command` property on the control that can be bound to a command on the view model - a command being a property of type `ICommand` which is a wrapper for code you can execute.
 
@@ -326,7 +364,7 @@ To help with creating view models, you can create a `BaseViewModel` that provide
 1. In the Visual Studio Solution Explorer, right-click on the **HappyXamDevs** project > **Add** > **New Folder**
     > **Warning:** Do not select **Add Solution Folder**. If you are given the option **Add Solution Folder**, you have right-clicked on the **HappyXamDevs** solution, not the project.
 
-1. In the Visual Studio Solution Explorer, name the new folder `ViewModels`
+2. In the Visual Studio Solution Explorer, name the new folder `ViewModels`
 
 ### PC
 
@@ -380,7 +418,7 @@ namespace HappyXamDevs.ViewModels
 > 
 > This is incredibly useful, you can call `Set` from a property setter and the compiler will automatically pass the property name in so that the property change notification is raised for the correct property.
 
-### 7. Add a MainViewModel
+### 8. Add a MainViewModel
 
 In this section you will add behavior to your main page using a view model.
 
@@ -495,7 +533,7 @@ In this section you will add behavior to your main page using a view model.
     >
     > `Command="{Binding SelectFromLibraryCommand}"` will trigger `MainViewModel.SelectFromLibraryCommand` any time the SelectFromLibrary ToolbarItem is tapped
 
-## 8. Test Camera & Photo Library Functionality
+## 9. Test Camera & Photo Library Functionality
 
 ### Android
 
