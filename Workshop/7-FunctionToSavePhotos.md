@@ -190,21 +190,21 @@ namespace HappyXamDevs.Services
 }
 ```
 
-3. In the Visual Studio Solution explorer, open **HappyXamDevs** > **Services** > **AzureServiceBase.cs**
+3. In the Visual Studio Solution explorer, open **HappyXamDevs** > **Services** > **AzureService.cs**
 
-4. In the **AzureServiceBase.cs** editor, add the following `using` statement:
+4. In the **AzureService.cs** editor, add the following `using` statement:
 
 ```csharp
 using Newtonsoft.Json.Linq;
 ```
 
-5. In the **AzureServiceBase.cs** editor, add the following constant field:
+5. In the **AzureService.cs** editor, add the following constant field:
 
 ```csharp
 private const string PhotoResource = "photo";
 ```
 
-6. In the **AzureServiceBase.cs** editor, add the following method:
+6. In the **AzureService.cs** editor, add the following method:
 
 ```csharp
 public async Task UploadPhoto(MediaFile photo)

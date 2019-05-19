@@ -97,6 +97,7 @@ We'll be using the [Microsoft.Azure.Mobile.Client](https://www.nuget.org/package
 
    namespace HappyXamDevs.Services
    {
+       [assembly: Xamarin.Forms.Dependency(typeof(HappyXamDevs.Droid.Services.AzureService))]
        public class AzureService : IAzureService
        {
            protected const string AzureAppName = "[Your Function App Name]";
@@ -113,6 +114,8 @@ We'll be using the [Microsoft.Azure.Mobile.Client](https://www.nuget.org/package
    ```
 
    > **About The Code**
+   >
+   > `Xamarin.Forms.Dependency` registers this class with the dependency service
    >
    >`string AzureAppName` and `string FunctionAppUrl` will be used to connect to your Function back end
    >

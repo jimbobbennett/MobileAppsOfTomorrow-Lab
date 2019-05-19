@@ -4,102 +4,7 @@ Our back end is now complete with APIs to upload and download photos. The mobile
 
 The next step is to extend `IAzureService` to be able to download photos to the mobile device. Head back to your Xamarin mobile app, where you will need to add code to the Azure service to download all the photo metadata as well as downloading the individual photos.
 
-## 1. Installing Xamarin.Essentials NuGet Package
-
-Each platform has different rules around file storage, and different locations where files are stored. Handling the different cases for iOS, Android and UWP is complicated and involves some platform specific code.
-
-To make life easier for Xamarin developers, Microsoft created a NuGet package called [Xamarin.Essentials](https://www.nuget.org/packages/Xamarin.Essentials) that provides cross-platform implementations of common platform-specific functionality including a helper to provide a storage location that works on all platforms.
-
-[Xamarin.Essentials.FileSystem](https://docs.microsoft.com/xamarin/essentials/file-system-helpers/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn) class has two directories available; `CacheDirectory` is a local cache for transient data; and `AppDataDirectory` for application data that should be backed.
-
-1. Open the Xamarin.Forms app in Visual Studio
-
-2. (PC) In Visual Studio, right-click the `HappyXamDevs` solution > **Manage NuGet Packages For Solution..**
-
-    - (Mac) In Visual Studio for Mac, right-click the `HappyXamDevs` project > **Add** > **Add NuGet Packages**
-
-3. (PC) In the **NuGet Package Manager** window, select **Browse**
-
-    - (Mac) _Skip this step_
-
-4. In the **NuGet Package Manager** window, in the search bar, enter **Xamarin.Essentials**
-
-5. In the **NuGet Package Manager** window, in the search results, select **Xamarin.Essentials**
-
-6. (PC) In the **NuGet Package Manager** window, select **Install**
-
-    - (Mac) In the **NuGet Package Manager** window, select **Add Package**
-
-7. (PC) _Skip this step_
-
-    - (Mac) In Visual Studio for Mac, right-click the `HappyXamDevs.Android` project > **Add** > **Add NuGet Packages**
-
-8. (PC) _Skip this step_
-
-    - (Mac) In the **NuGet Package Manager** window, in the search results, select **Xamarin.Essentials**
-
-
-9. (PC) _Skip this step_
-
-    - (Mac) In the **NuGet Package Manager** window, select **Add Package**
-
-10. (PC) _Skip this step_
-
-    - (Mac) In Visual Studio for Mac, right-click the `HappyXamDevs.iOS` project > **Add** > **Add NuGet Packages**
-
-11. (PC) _Skip this step_
-
-    - (Mac) In the **NuGet Package Manager** window, in the search results, select **Xamarin.Essentials**
-
-12. (PC) _Skip this step_
-
-    - (Mac) In the **NuGet Package Manager** window, select **Add Package**
-
-13. In the Visual Studio Solution Explorer, open **HappyXamDevs.Android** > **MainActivity.cs**
-
-14. In the **MainActivity.cs** editor, enter the following code:
-
-```csharp
-using Android.App;
-using Android.Content.PM;
-using Android.OS;
-using Android.Runtime;
-
-namespace HappyXamDevs.Droid
-{
-    [Activity(Label = "HappyXamDevs", Icon = "@mipmap/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
-    public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
-    {
-        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Permission[] grantResults)
-        {
-            Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
-            Plugin.Permissions.PermissionsImplementation.Current.OnRequestPermissionsResult(requestCode, permissions, grantResults);
-
-            base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
-        }
-
-        protected override void OnCreate(Bundle bundle)
-        {
-            TabLayoutResource = Resource.Layout.Tabbar;
-            ToolbarResource = Resource.Layout.Toolbar;
-
-            base.OnCreate(bundle);
-
-            global::Xamarin.Forms.Forms.Init(this, bundle);
-            Plugin.CurrentActivity.CrossCurrentActivity.Current.Init(this, bundle);
-            Xamarin.Essentials.Platform.Init(this, bundle);
-            LoadApplication(new App());
-        }
-    }
-}
-```
-**About the Code**
->
-> `Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);` allows `Xamarin.Essentials` to handle Android permissions requests
->
-> `Xamarin.Essentials.Platform.Init(this, bundle);` ensures the `Xamarin.Essentials` libraries are initialized on startup
-
-## 2. Creating a data object for photo metadata
+## 1. Creating a data object for photo metadata
 
 The Azure Function, `GetAllPhotosMetadata`, returns a collection of JSON objects with a load of fields; some that we want, some that we don't.
 
@@ -152,7 +57,7 @@ namespace HappyXamDevs.Models
 
 > **Note:** For a production quality app we should also think about how the app will work without an internet connection by caching the metadata and reducing network load. We should also consider connectivity and try not to download if the device is offline, something you can check using [Xamarin.Essentials.Connectivity](https://docs.microsoft.com/xamarin/essentials/connectivity/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn). 
 
-## 3. Downloading individual photos
+## 2. Downloading individual photos
 
 For each photo metadata item that will be downloaded, our app will download the actual photos. This is a slow network call, so ideally the app should cache these photos locally to avoid having to re-download the files each time. The method to do this should check if the file exists using the Blob name as the file name, and if it doesn't exist, download the image.
 
@@ -222,7 +127,7 @@ public async Task DownloadPhoto(PhotoMetadataModel photoMetadata)
 >
 > `await fs.WriteAsync(bytes, 0, bytes.Length);` saves the photo to the file system on our mobile device
 
-## 4. Downloading the photo metadata
+## 3. Downloading the photo metadata
 
 1. In the **AzureServiceBase.cs** editor, add the following method:
 

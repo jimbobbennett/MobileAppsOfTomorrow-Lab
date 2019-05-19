@@ -26,7 +26,7 @@ We will use the power of artificial intelligence (AI), thanks to [Azure Cognitiv
 
     - **Name:** HappyXamDevs-Face
     - **Subscription:** [Select your subscription]
-    - **Location:** West Us
+    - **Location:** Pick the location closest to you, for example West Europe
     - **Pricing tier** F0
     - **Resource Group** HappyXamDevs
 
@@ -40,7 +40,7 @@ We will use the power of artificial intelligence (AI), thanks to [Azure Cognitiv
 
     ![Keys resource management](../Images/PortalFaceKeys.png)
 
-12. On the **Keys** window, copy the value of `KEY 1` 
+12. On the **Keys** window, copy the value of `KEY 1`
     > **Note:** We will use this value in our mobile app
 
 13. In the **XamHappyDevs-Face** dashboard, on the left-hand menu, select **Overview**
@@ -79,7 +79,9 @@ The Azure Cognitive Services FaceAPI is accessible from a NuGet package that pro
 
 5. In the **NuGet Package Manager** window, select **Add Package**
 
-6. Repeat these steps for the `HappyXamDevs.Android` and  `HappyXamDevs.iOS` projects
+6. You will see a licence agreement dialog, accept the licence to continue.
+
+7. Repeat these steps for the `HappyXamDevs.Android` and  `HappyXamDevs.iOS` projects
 
 ## 3. Creating `VerifyHappyFace`
 
@@ -238,47 +240,43 @@ Now that you have a method on your Azure service to detect a happy face, you can
 
 1. In Visual Studio Solution Explorer, open **HappyXamDevs** > **ViewModels** > **MainViewModel.cs**
 
-2. In the **MainViewModel.cs** editor, set a breakpoint on `if(isHappy)`
+2. In Visual Studio, right-click on **HappyXamDevs.Android** > **Set as Startup Project**
 
-3. In Visual Studio, right-click on **HappyXamDevs.Android** > **Set as Startup Project**
-
-4. - (PC) In Visual Studio, select **Debug** > **Start Debugging**
+3. - (PC) In Visual Studio, select **Debug** > **Start Debugging**
     - (Mac) In Visual Studio for Mac, select **Run** > **Start Debugging**
 
-5. On the Android device, on the **MainPage**, tap the Camera icon
+4. On the Android device, on the **MainPage**, tap the Camera icon
 
-6. On the Android device, if prompted for permission, tap **Allow**
+5. On the Android device, if prompted for permission, tap **Allow**
 
-7. On the Android device, ensure the Camera appears
+6. On the Android device, ensure the Camera appears
 
-8. On the Android device, take a happy-looking selfie
+7. On the Android device, take a happy-looking selfie
 
-9.  In Visual Studio, ensure the breakpoint on `if(isHappy)` triggers
+8. You will not see an alert in the app
 
-10. In the **MainViewModel.cs** editor, verify the value of `isHappy` is true
+9. Repeat this with a sad looking selfie, and you will see an alert in the app.
 
 ### iOS
 
 1. In Visual Studio Solution Explorer, open **HappyXamDevs** > **ViewModels** > **MainViewModel.cs**
 
-2. In the **MainViewModel.cs** editor, set a breakpoint on `if(isHappy)`
+2. In Visual Studio, right-click on **HappyXamDevs.iOS** > **Set as Startup Project**
 
-3. In Visual Studio, right-click on **HappyXamDevs.iOS** > **Set as Startup Project**
-
-4. - (PC) In Visual Studio, select **Debug** > **Start Debugging**
+3. - (PC) In Visual Studio, select **Debug** > **Start Debugging**
     - (Mac) In Visual Studio for Mac, select **Run** > **Start Debugging**
 
-5. On the iOS device, on the **MainPage**, tap the Camera icon
+4. On the iOS device, on the **MainPage**, tap the Camera icon
 
-6. On the iOS device, if prompted for permission, tap **Allow**
+5. On the iOS device, if prompted for permission, tap **Allow**
 
-7. On the iOS device, ensure the Camera appears
+6. On the iOS device, ensure the Camera appears
 
-8. On the iOS device, take a happy-looking selfie
+7. On the iOS device, take a happy-looking selfie
 
-9.  In Visual Studio, ensure the breakpoint on `if(isHappy)` triggers
+8. You will not see an alert in the app
 
-10. In the **MainViewModel.cs** editor, verify the value of `isHappy` is true
+9. Repeat this with a sad looking selfie, and you will see an alert in the app.
 
 ### UWP
 
@@ -286,23 +284,21 @@ UWP only works on Windows, so if you are using Visual Studio for Mac, skip this 
 
 1. In Visual Studio Solution Explorer, open **HappyXamDevs** > **ViewModels** > **MainViewModel.cs**
 
-2. In the **MainViewModel.cs** editor, set a breakpoint on `if(isHappy)`
+2. In Visual Studio, right-click on **HappyXamDevs.UWP** > **Set as Startup Project**
 
-3. In Visual Studio, right-click on **HappyXamDevs.UWP** > **Set as Startup Project**
+3. In Visual Studio, select **Debug** > **Start Debugging**
 
-4. In Visual Studio, select **Debug** > **Start Debugging**
+4. On the UWP device, on the **MainPage**, tap the Camera icon
 
-5. On the UWP device, on the **MainPage**, tap the Camera icon
+5. On the UWP device, if prompted for permission, tap **Allow**
 
-6. On the UWP device, if prompted for permission, tap **Allow**
+6. On the UWP device, ensure the Camera appears
 
-7. On the UWP device, ensure the Camera appears
+7. On the UWP device, take a happy-looking selfie
 
-8. On the UWP device, take a happy-looking selfie
+8. You will not see an alert in the app
 
-9.  In Visual Studio, ensure the breakpoint on `if(isHappy)` triggers
-
-10. In the **MainViewModel.cs** editor, verify the value of `isHappy` is true
+9. Repeat this with a sad looking selfie, and you will see an alert in the app.
 
 ## Next step
 
