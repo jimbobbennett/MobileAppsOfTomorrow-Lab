@@ -26,11 +26,11 @@ We'll be using the [Microsoft.Azure.Mobile.Client](https://www.nuget.org/package
 
 1. In the **NuGet Package Manager** window, in the search results, select **Microsoft.Azure.Mobile.Client**
 
-1. You will see a licence agreement dialog, accept the licence to continue.
-
 1. In the **NuGet Package Manager** window, select **Add Package**
 
     ![Adding the Microsoft.Azure.Mobile.Client NuGet package on Mac](../Images/VSMacAddMobileClientNuget.png)
+
+1. You will see a licence agreement dialog, accept the licence to continue.
 
 1. Repeat the above steps for the `HappyXamDevs.Android` and `HappyXamDevs.iOS` projects
 
