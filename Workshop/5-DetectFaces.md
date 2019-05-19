@@ -22,7 +22,6 @@ We will use the power of artificial intelligence (AI), thanks to [Azure Cognitiv
 
 7. In the **Face** window, click **Create**
 
-
 8. In the **Create** window, enter the following:
 
     - **Name:** HappyXamDevs-Face
@@ -31,7 +30,7 @@ We will use the power of artificial intelligence (AI), thanks to [Azure Cognitiv
     - **Pricing tier** F0
     - **Resource Group** HappyXamDevs
 
-> **Note:** **Pricing tier** "F0" is a free tier with a limited number of API calls; it is limited to 20 calls per minute, and 30,000 per month
+   > **Note:** **Pricing tier** "F0" is a free tier with a limited number of API calls; it is limited to 20 calls per minute, and 30,000 per month
 
 9. In the Azure Portal, navigate to the Resource Group **HappyXamDevs**
 
@@ -55,52 +54,32 @@ We will use the power of artificial intelligence (AI), thanks to [Azure Cognitiv
 
 The Azure Cognitive Services FaceAPI is accessible from a NuGet package that provides wrappers around the available services. This can be used to detect faces in your photo.
 
-1. Open the Xamarin.Forms app in Visual Studio
+### PC
 
-2. (PC) In Visual Studio, right-click the `HappyXamDevs` solution > **Manage NuGet Packages For Solution..**
+1. In Visual Studio, right-click the `HappyXamDevs` solution > **Manage NuGet Packages For Solution..**
 
-    - (Mac) In Visual Studio for Mac, right-click the `HappyXamDevs` project > **Add** > **Add NuGet Packages**
+2. In the **NuGet Package Manager** window, select **Browse**
 
-3. (PC) In the **NuGet Package Manager** window, select **Browse**
+3. In the **NuGet Package Manager** window, check **Include prerelease**
 
-    - (Mac) _Skip this step_
+4. In the **NuGet Package Manager** window, in the search bar, enter **Microsoft.Azure.CognitiveServices.Vision.Face**
 
-4. (PC) In the **NuGet Package Manager** window, check **Include prerelease**
+5. In the **NuGet Package Manager** window, in the search results, select **Microsoft.Azure.CognitiveServices.Vision.Face**
 
-    - (Mac) In the **NuGet Package Manager**, check **Show pre-release packages**
+6. In the **NuGet Package Manager** window, select **Install**
 
-5. In the **NuGet Package Manager** window, in the search bar, enter **Microsoft.Azure.CognitiveServices.Vision.Face**
+### Mac
 
-6. In the **NuGet Package Manager** window, in the search results, select **Microsoft.Azure.CognitiveServices.Vision.Face**
+1. In Visual Studio for Mac, right-click the `HappyXamDevs` project > **Add** > **Add NuGet Packages**
+2. In the **NuGet Package Manager**, check **Show pre-release packages**
 
-6. (PC) In the **NuGet Package Manager** window, select **Install**
+3. In the **NuGet Package Manager** window, in the search bar, enter **Microsoft.Azure.CognitiveServices.Vision.Face**
 
-    - (Mac) In the **NuGet Package Manager** window, select **Add Package**
+4. In the **NuGet Package Manager** window, in the search results, select **Microsoft.Azure.CognitiveServices.Vision.Face**
 
-7. (PC) _Skip this step_
+5. In the **NuGet Package Manager** window, select **Add Package**
 
-    - (Mac) In Visual Studio for Mac, right-click the `HappyXamDevs.Android` project > **Add** > **Add NuGet Packages**
-
-8. (PC) _Skip this step_
-
-    - (Mac) In the **NuGet Package Manager** window, in the search results, select **Microsoft.Azure.CognitiveServices.Vision.Face**
-
-
-9. (PC) _Skip this step_
-
-    - (Mac) In the **NuGet Package Manager** window, select **Add Package**
-
-10. (PC) _Skip this step_
-
-    - (Mac) In Visual Studio for Mac, right-click the `HappyXamDevs.iOS` project > **Add** > **Add NuGet Packages**
-
-11. (PC) _Skip this step_
-
-    - (Mac) In the **NuGet Package Manager** window, in the search results, select **Microsoft.Azure.CognitiveServices.Vision.Face**
-
-12. (PC) _Skip this step_
-
-    - (Mac) In the **NuGet Package Manager** window, select **Add Package**
+6. Repeat these steps for the `HappyXamDevs.Android` and  `HappyXamDevs.iOS` projects
 
 ## 3. Creating `VerifyHappyFace`
 
@@ -108,70 +87,71 @@ The Azure Cognitive Services FaceAPI is accessible from a NuGet package that pro
 
 2. In the **IAzureService.cs** editor, enter the following code:
 
-```csharp
-using System.Threading.Tasks;
-using Plugin.Media.Abstractions;
+    ```csharp
+    using System.Threading.Tasks;
+    using Plugin.Media.Abstractions;
 
-namespace HappyXamDevs.Services
-{
-    public interface IAzureService
+    namespace HappyXamDevs.Services
     {
-        Task<bool> VerifyHappyFace(MediaFile photo);
+        public interface IAzureService
+        {
+            Task<bool> VerifyHappyFace(MediaFile photo);
+        }
     }
-}
-```
+    ```
 
 3. In the Visual Studio Solution Explorer, open **HappyXamDevs** > **Services** > **AzureServiceBase.cs**
 
 4. In the **AzureServiceBase.cs** editor, add the following using statements:
 
-```csharp
-using System.Linq;
-using System.Collections.Generic;
-using Microsoft.Azure.CognitiveServices.Vision.Face;
-using Microsoft.Azure.CognitiveServices.Vision.Face.Models;
-using Plugin.Media.Abstractions;
-```
+    ```csharp
+    using System.Linq;
+    using System.Collections.Generic;
+    using Microsoft.Azure.CognitiveServices.Vision.Face;
+    using Microsoft.Azure.CognitiveServices.Vision.Face.Models;
+    using Plugin.Media.Abstractions;
+    ```
 
 5. In the **AzureServiceBase.cs** editor, add the following `readonly` field:
 
-```csharp
-private readonly FaceClient faceApiClient = new FaceClient(new ApiKeyServiceClientCredentials("[YOUR API KEY HERE]"))
-{
-    Endpoint = "[YOUR FACE API BASE URL]"
-};
-```
-> **Note:** Replace `[Your API Key]` with the value from `KEY 1`
->
-> **Note:** Replace `[Your Face API Base Url]` with the Base Url of the **Face API**
-> > **Warning:** Do not use the full URL; only use the base url
+    ```csharp
+    private readonly FaceClient faceApiClient = new FaceClient(new ApiKeyServiceClientCredentials("[YOUR API KEY HERE]"))
+    {
+        Endpoint = "[YOUR FACE API BASE URL]"
+    };
+    ```
 
-- **Correct Base Url:** `https://westus.api.cognitive.microsoft.com/`
-- **Incorrect Base Url:** `https://westus.api.cognitive.microsoft.com/face/v1.0`
+    > **Note:** Replace `[Your API Key]` with the value from `KEY 1`
+    >
+    > **Note:** Replace `[Your Face API Base Url]` with the Base Url of the **Face API**
+    > > **Warning:** Do not use the full URL; only use the base url
+
+    - **Correct Base Url:** `https://westus.api.cognitive.microsoft.com/`
+    - **Incorrect Base Url:** `https://westus.api.cognitive.microsoft.com/face/v1.0`
 
 6. In the **AzureServiceBase.cs** editor, add the following method:
 
-```csharp
-public async Task<bool> VerifyHappyFace(MediaFile photo)
-{
-    using (var photoStream = photo.GetStream())
+    ```csharp
+    public async Task<bool> VerifyHappyFace(MediaFile photo)
     {
-        var faceAttributes = new List<FaceAttributeType> { FaceAttributeType.Emotion };
+        using (var photoStream = photo.GetStream())
+        {
+            var faceAttributes = new List<FaceAttributeType> { FaceAttributeType.Emotion };
 
-        var faces = await faceApiClient.Face.DetectWithStreamAsync(photoStream, returnFaceAttributes: faceAttributes);
+            var faces = await faceApiClient.Face.DetectWithStreamAsync(photoStream, returnFaceAttributes: faceAttributes);
 
-        return faces.Any(f => f.FaceAttributes.Emotion.Happiness > 0.75);
+            return faces.Any(f => f.FaceAttributes.Emotion.Happiness > 0.75);
+        }
     }
-}
-```
+    ```
 
-> ** About the Code**
->
-> `using (var photoStream = photo.GetStream())` creates an object, `photoStream`, using the photo from the user
->
-> `faceApi.Face.DetectWithStreamAsync` returns the emotion results from the Face API
->
-> `faces.Any(f => f.FaceAttributes.Emotion.Happiness > 0.75)` searches the Face API results for `Happiness` value above 0.75; 0.75 is a confidence interval indicating that there is a 75% chance a happy face was found in the photo
+    > ** About the Code**
+    >
+    > `using (var photoStream = photo.GetStream())` creates an object, `photoStream`, using the photo from the user
+    >
+    > `faceApi.Face.DetectWithStreamAsync` returns the emotion results from the Face API
+    >
+    > `faces.Any(f => f.FaceAttributes.Emotion.Happiness > 0.75)` searches the Face API results for `Happiness` value above 0.75; 0.75 is a confidence interval indicating that there is a 75% chance a happy face was found in the photo
 
 ## 4. Adding Face Detection to `MainViewModel.cs`
 
@@ -181,81 +161,80 @@ Now that you have a method on your Azure service to detect a happy face, you can
 
 2. In the **MainViewModel.cs** editor, enter the following code:
 
-```csharp
-using System.Threading.Tasks;
-using System.Windows.Input;
-using HappyXamDevs.Services;
-using Plugin.Media;
-using Plugin.Media.Abstractions;
-using Xamarin.Forms;
+    ```csharp
+    using System.Threading.Tasks;
+    using System.Windows.Input;
+    using HappyXamDevs.Services;
+    using Plugin.Media;
+    using Plugin.Media.Abstractions;
+    using Xamarin.Forms;
 
-namespace HappyXamDevs.ViewModels
-{
-    public class MainViewModel : BaseViewModel
+    namespace HappyXamDevs.ViewModels
     {
-        readonly IAzureService azureService;
-
-        public MainViewModel()
+        public class MainViewModel : BaseViewModel
         {
-            TakePhotoCommand = new Command(async () => await TakePhoto());
-            SelectFromLibraryCommand = new Command(async () => await SelectFromLibrary());
-            azureService = DependencyService.Get<IAzureService>();
-        }
+            readonly IAzureService azureService;
 
-        public ICommand SelectFromLibraryCommand { get; }
-        public ICommand TakePhotoCommand { get; }
-
-        private async Task SelectFromLibrary()
-        {
-            var options = new PickMediaOptions { PhotoSize = PhotoSize.Medium };
-            var photo = await CrossMedia.Current.PickPhotoAsync(options);
-
-            if (await ValidatePhoto(photo))
-                return;
-        }
-
-        private async Task TakePhoto()
-        {
-            var options = new StoreCameraMediaOptions
+            public MainViewModel()
             {
-                PhotoSize = PhotoSize.Medium,
-                DefaultCamera = CameraDevice.Front
-            };
-            var photo = await CrossMedia.Current.TakePhotoAsync(options);
+                TakePhotoCommand = new Command(async () => await TakePhoto());
+                SelectFromLibraryCommand = new Command(async () => await SelectFromLibrary());
+                azureService = DependencyService.Get<IAzureService>();
+            }
 
-            if (await ValidatePhoto(photo))
-                return;
-        }
+            public ICommand SelectFromLibraryCommand { get; }
+            public ICommand TakePhotoCommand { get; }
 
-        private async Task<bool> ValidatePhoto(MediaFile photo)
-        {
-            if (photo is null)
+            private async Task SelectFromLibrary()
+            {
+                var options = new PickMediaOptions { PhotoSize = PhotoSize.Medium };
+                var photo = await CrossMedia.Current.PickPhotoAsync(options);
+
+                if (await ValidatePhoto(photo))
+                    return;
+            }
+
+            private async Task TakePhoto()
+            {
+                var options = new StoreCameraMediaOptions
+                {
+                    PhotoSize = PhotoSize.Medium,
+                    DefaultCamera = CameraDevice.Front
+                };
+                var photo = await CrossMedia.Current.TakePhotoAsync(options);
+
+                if (await ValidatePhoto(photo))
+                    return;
+            }
+
+            private async Task<bool> ValidatePhoto(MediaFile photo)
+            {
+                if (photo is null)
+                    return false;
+
+                var isHappy = await azureService.VerifyHappyFace(photo);
+
+                if (isHappy)
+                    return true;
+
+                await Application.Current.MainPage.DisplayAlert("Sad panda",
+                                                    "I can't find any happy Xamarin developers in this picture. Please try again.",
+                                                    "Will do!");
                 return false;
-
-            var isHappy = await azureService.VerifyHappyFace(photo);
-
-            if (isHappy)
-                return true;
-
-            await Application.Current.MainPage.DisplayAlert("Sad panda",
-                                                "I can't find any happy Xamarin developers in this picture. Please try again.",
-                                                "Will do!");
-            return false;
+            }
         }
     }
-}
-```
+    ```
 
-> **About the Code**
->
-> `DependencyService.Get<IAzureService>();` retrieves the platform-specific implementation of `IAzureService`; i.e. If the app is running on an Android device, it will return `HappyXamDevs.Android.Services.AzureService`
->
-> `ValidatePhoto` uses `IAzureService.VerifyHappyFace` to ensure a happy face is found in the photo
-
+    > **About the Code**
+    >
+    > `DependencyService.Get<IAzureService>();` retrieves the platform-specific implementation of `IAzureService`; i.e. If the app is running on an Android device, it will return `HappyXamDevs.Android.Services.AzureService`
+    >
+    > `ValidatePhoto` uses `IAzureService.VerifyHappyFace` to ensure a happy face is found in the photo
 
 ## 5. Test the Face API
 
-### 5a. Test The Face API, Android
+### Android
 
 1. In Visual Studio Solution Explorer, open **HappyXamDevs** > **ViewModels** > **MainViewModel.cs**
 
@@ -263,7 +242,7 @@ namespace HappyXamDevs.ViewModels
 
 3. In Visual Studio, right-click on **HappyXamDevs.Android** > **Set as Startup Project**
 
-4. (PC) In Visual Studio, select **Debug** > **Start Debugging**
+4. - (PC) In Visual Studio, select **Debug** > **Start Debugging**
     - (Mac) In Visual Studio for Mac, select **Run** > **Start Debugging**
 
 5. On the Android device, on the **MainPage**, tap the Camera icon
@@ -278,7 +257,7 @@ namespace HappyXamDevs.ViewModels
 
 10. In the **MainViewModel.cs** editor, verify the value of `isHappy` is true
 
-## 5b. Test The Face API, iOS
+### iOS
 
 1. In Visual Studio Solution Explorer, open **HappyXamDevs** > **ViewModels** > **MainViewModel.cs**
 
@@ -286,7 +265,7 @@ namespace HappyXamDevs.ViewModels
 
 3. In Visual Studio, right-click on **HappyXamDevs.iOS** > **Set as Startup Project**
 
-4. (PC) In Visual Studio, select **Debug** > **Start Debugging**
+4. - (PC) In Visual Studio, select **Debug** > **Start Debugging**
     - (Mac) In Visual Studio for Mac, select **Run** > **Start Debugging**
 
 5. On the iOS device, on the **MainPage**, tap the Camera icon
@@ -301,7 +280,9 @@ namespace HappyXamDevs.ViewModels
 
 10. In the **MainViewModel.cs** editor, verify the value of `isHappy` is true
 
-## 5c. Test The Face API, UWP
+### UWP
+
+UWP only works on Windows, so if you are using Visual Studio for Mac, skip this step.
 
 1. In Visual Studio Solution Explorer, open **HappyXamDevs** > **ViewModels** > **MainViewModel.cs**
 
@@ -309,8 +290,7 @@ namespace HappyXamDevs.ViewModels
 
 3. In Visual Studio, right-click on **HappyXamDevs.UWP** > **Set as Startup Project**
 
-4. (PC) In Visual Studio, select **Debug** > **Start Debugging**
-    - (Mac) In Visual Studio for Mac, select **Run** > **Start Debugging**
+4. In Visual Studio, select **Debug** > **Start Debugging**
 
 5. On the UWP device, on the **MainPage**, tap the Camera icon
 

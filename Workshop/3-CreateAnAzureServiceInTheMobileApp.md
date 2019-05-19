@@ -90,33 +90,33 @@ We'll be using the [Microsoft.Azure.Mobile.Client](https://www.nuget.org/package
 1. In the `AzureService.cs` editor, add the following code
     > **Note:** Replace `[Your Function App Name]` with the name of your Azure Function App, e.g. `HappyXamDevsFunction-Minnick`
 
-```csharp
-using System;
-using System.Threading.Tasks;
-using Microsoft.WindowsAzure.MobileServices;
+   ```csharp
+   using System;
+   using System.Threading.Tasks;
+   using Microsoft.WindowsAzure.MobileServices;
 
-namespace HappyXamDevs.Services
-{
-    public class AzureService : IAzureService
-    {
-        protected const string AzureAppName = "[Your Function App Name]";
-        protected readonly static string FunctionAppUrl = $"https://{AzureAppName}.azurewebsites.net";
+   namespace HappyXamDevs.Services
+   {
+       public class AzureService : IAzureService
+       {
+           protected const string AzureAppName = "[Your Function App Name]";
+           protected readonly static string FunctionAppUrl = $"https://{AzureAppName}.azurewebsites.net";
 
-        public AzureService()
-        {
-            Client = new MobileServiceClient(FunctionAppUrl);
-        }
+           public AzureService()
+           {
+               Client = new MobileServiceClient(FunctionAppUrl);
+           }
 
-        public MobileServiceClient Client { get; }
-    }
-}
-```
+           public MobileServiceClient Client { get; }
+       }
+   }
+   ```
 
-> **About The Code**
->
->`string AzureAppName` and `string FunctionAppUrl` will be used in the platform-specific projects to connect to your Function back end
->
-> `MobileServiceClient Client` provides APIs for back-end services
+   > **About The Code**
+   >
+   >`string AzureAppName` and `string FunctionAppUrl` will be used to connect to your Function back end
+   >
+   > `MobileServiceClient Client` provides APIs for back-end services
 
 ## Next step
 

@@ -1,21 +1,37 @@
 # Creating the solution
 
-Let's begin by opening the *MobileAppsOfTomorrow-Lab* template, a cross-platform Xamarin.Forms app. Clone this repository, or download the Zip file.
+Let's begin by creating a new cross-platform Xamarin.Forms app. Clone this repository, or download the Zip file as you will need some image files from this repo later.
 
-## 1. Open the Workshop's Created Solution Template
+## 1. Create a new Xamarin Forms project
 
 ### PC
 
-1. Copy the **MobileAppsOfTomorrow-Lab** > **FinishedWorkshopSteps** > **1-CreateSolution** > **HappyXamDevs** folder somewhere with a shorter path name, such as to **C:\Projects**. This is because the Android SDK has a path length limitation, and the path created by cloning this repo will be too long for Android to work with.
-1. In File Explorer, double-click **HappyXamDevs.sln** inside the copied folder.
-1. Ensure the **HappyXamDevs** solution launches in Visual Studio
+1. Launch Visual Studio 2019
 
 ### Mac
 
-1. In Finder, navigate to **MobileAppsOfTomorrow-Lab** > **FinishedWorkshopSteps** > **1-CreateSolution** > **HappyXamDevs**
-1. In Finder, double-click **HappyXamDevs.sln**
-1. Ensure the **HappyXamDevs** solution launches in Visual Studio
-1. The **HappyXamDevs.UWP** project will not load on Visual Studio for Mac, soright-click this project and select *Delete* to remove it. Select **Delete from Disk** from the popup, then confirm that you want to delete the project and the entire project directory.
+1. Launch Visual Studio for Mac
+2. Select **+ New** from the **Getting Started** dialog
+
+   ![The Visual Studio for Mac getting started dialog](../Images/VSMGettingStarted.png)
+
+3. Select **Multiplatform->App->Blank Forms App**
+4. Ensure the language drop down is set to **C#**
+
+   ![The Visual Studio for Mac new project dialog](../Images/VSMNewProject.png)
+
+5. Click **Next**
+6. Name the project **HappyXamDewvs**, leave the organization identifier as it is, ensure **iOS** and **Android** are both ticked, and that the **Shared code** option is set to **Use .NET Standard Library**
+
+   ![The Visual Studio for Mac configure project dialog](../Images/VSMConfigureProject2.png)
+
+7. Click **Next**
+8. Leave the project and solution name as **HappyXamDevs**, and select a suitable location for the project.
+9. Unselect the **App Center Test->Add an automated UI test project** option.
+    
+    ![The Visual Studio for Mac configure app dialog](../Images/VSMConfigureApp2.png)
+
+10. Click **Create**
 
 ## 2. Explore the project
 
@@ -26,7 +42,7 @@ This solution contains 4 projects
 | **HappyXamDevs** | The .NET Standard shared code project. This project is shared between all the target platforms and is where most of your code and the user interface files (XAML) will go. |
 | **HappyXamDevs.Android** | The Xamarin.Android project which generates the Android-specific binary package to be deployed onto Android devices. |
 | **HappyXamDevs.iOS** | The Xamarin.iOS project which generates the iOS-specific binary package to be deployed onto iPhone and iPad devices. |
-| **HappyXamDevs.UWP** | The Universal Windows project which can be run on Windows 10 devices. This project is only available when you create the solution with Visual Studio on Windows. If you are using Visual Studio for Mac, right-click this project and select *Delete* to remove it. |
+| **HappyXamDevs.UWP** | The Universal Windows project which can be run on Windows 10 devices. This project is only available when you create the solution with Visual Studio on Windows. |
 
 ## 3. Build & Run
 
