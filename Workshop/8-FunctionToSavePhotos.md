@@ -2,7 +2,7 @@
 
 Now that we have Azure Blob Storage configured, we need a way to put images into this storage.
 
-Although it is possible to make your blob storage publicly writable from your app, this is a security hole. It is better to use a function to write to the blob storage instead, as this function can be secured behind the Facebook authentication you set up earlier in this workshop.
+> Although it is possible to make your blob storage publicly writable from your app, this is a security hole. It is better to use a function to write to the blob storage instead, as this function can be secured behind some form of authentication.
 
 In this section you will be creating and configuring Azure Functions from inside the portal as this is the quickest way to get going. In a real world app you would develop these functions using [Visual Studio](https://docs.microsoft.com/azure/azure-functions/functions-develop-vs/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn), or [Visual Studio Code](https://code.visualstudio.com/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn) using the [Azure Functions Extension](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-azurefunctions&WT.mc_id=mobileappsoftomorrow-workshop-jabenn).
 
@@ -168,9 +168,7 @@ When you create an Azure Function, the API end point for the function defaults t
 
 - **E.g.** `https://HappyXamDevsFunction-Minnick.azurewebsites.net/api/UploadPhoto` or `https://HappyXamDevsFunction-Minnick.azurewebsites.net/api/photo`
 
-To call this function we will send a POST request to this end point passing a JSON payload with the photo encoded as a Base64 string, and because it is behind authentication you would also need to pass an authentication token as an HTTP header.
-
-To make it easier to use Azure Functions, the `MobileClient` class we used earlier to authenticate provides a way to call an API - essentially any function in the `api` path, and it will automatically pass the required authentication headers for you. All you have to do is call a method on the mobile client, passing the HTTP method you want to use, the function name and the payload.
+To call this function we will send a POST request to this end point passing a JSON payload with the photo encoded as a Base64 string.
 
 ### 2a. Adding `UploadPhoto(MediaFile photo)` to BaseAzureService.cs
 
@@ -186,8 +184,6 @@ namespace HappyXamDevs.Services
 {
     public interface IAzureService
     {
-        bool IsLoggedIn();
-        Task<bool> Authenticate();
         Task<bool> VerifyHappyFace(MediaFile photo);
         Task UploadPhoto(MediaFile photo);
     }
@@ -238,7 +234,7 @@ public async Task UploadPhoto(MediaFile photo)
 >
 > `var json = JToken.FromObject(content);` serializes `content` into JSON
 >
-> `await Client.InvokeApiAsync(PhotoResource, json);` makes an authenticated call to our Azure Functions and uploads our photo
+> `await Client.InvokeApiAsync(PhotoResource, json);` makes a call to our Azure Functions and uploads our photo
 
 ### 2b. Use `UploadPhoto` in `MainViewModel`
 
@@ -283,24 +279,22 @@ private async Task TakePhoto()
 2. (PC) In Visual Studio, select **Debug** > **Start Debugging**
     - (Mac) In Visual Studio for Mac, select **Run** > **Start Debugging**
 
-3. On the Android device, if the **LoginPage** complete the login flow
+3. On the Android device, on the **MainPage**, tap the Camera icon
 
-4. On the Android device, on the **MainPage**, tap the Camera icon
+4. On the Android device, if prompted for permission, tap **Allow**
 
-5. On the Android device, if prompted for permission, tap **Allow**
+5. On the Android device, ensure the Camera appears
 
-6. On the Android device, ensure the Camera appears
+6. On the Android device, take a happy-looking selfie
 
-7. On the Android device, take a happy-looking selfie
-
-8. In the [Azure portal](https://portal.azure.com/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn), navigate to the Azure Blob Storage instance **storage[Your Last Name]**
+7. In the [Azure portal](https://portal.azure.com/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn), navigate to the Azure Blob Storage instance **storage[Your Last Name]**
     - E.g., storageminnick
 
-9. In the **Storage Account** dashboard, on the left-hand menu, select **Blobs**
+8. In the **Storage Account** dashboard, on the left-hand menu, select **Blobs**
 
-10. On the **Blobs** page, select **photos**
+9.  On the **Blobs** page, select **photos**
 
-11. On the **Photos** page, ensure a blob has been added
+10. On the **Photos** page, ensure a blob has been added
 
 ![A blob saved in blob storage](../Images/PortalPhotoSavedAsBlob.png)
 
@@ -311,24 +305,22 @@ private async Task TakePhoto()
 2. (PC) In Visual Studio, select **Debug** > **Start Debugging**
     - (Mac) In Visual Studio for Mac, select **Run** > **Start Debugging**
 
-3. On the iOS device, if the **LoginPage** complete the login flow
+3. On the iOS device, on the **MainPage**, tap the Camera icon
 
-4. On the iOS device, on the **MainPage**, tap the Camera icon
+4. On the iOS device, if prompted for permission, tap **Allow**
 
-5. On the iOS device, if prompted for permission, tap **Allow**
+5. On the iOS device, ensure the Camera appears
 
-6. On the iOS device, ensure the Camera appears
+6. On the iOS device, take a happy-looking selfie
 
-7. On the iOS device, take a happy-looking selfie
-
-8. In the [Azure portal](https://portal.azure.com/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn), navigate to the Azure Blob Storage instance **storage[Your Last Name]**
+7. In the [Azure portal](https://portal.azure.com/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn), navigate to the Azure Blob Storage instance **storage[Your Last Name]**
     - E.g., storageminnick
 
-9. In the **Storage Account** dashboard, on the left-hand menu, select **Blobs**
+8. In the **Storage Account** dashboard, on the left-hand menu, select **Blobs**
 
-10. On the **Blobs** page, select **photos**
+9.  On the **Blobs** page, select **photos**
 
-11. On the **Photos** page, ensure a blob has been added
+10. On the **Photos** page, ensure a blob has been added
 
 ![A blob saved in blob storage](../Images/PortalPhotoSavedAsBlob.png)
 
@@ -339,24 +331,22 @@ private async Task TakePhoto()
 2. (PC) In Visual Studio, select **Debug** > **Start Debugging**
     - (Mac) In Visual Studio for Mac, select **Run** > **Start Debugging**
 
-3. On the UWP device, if the **LoginPage** complete the login flow
+3. On the UWP device, on the **MainPage**, tap the Camera icon
 
-4. On the UWP device, on the **MainPage**, tap the Camera icon
+4. On the UWP device, if prompted for permission, tap **Allow**
 
-5. On the UWP device, if prompted for permission, tap **Allow**
+5. On the UWP device, ensure the Camera appears
 
-6. On the UWP device, ensure the Camera appears
+6. On the UWP device, take a happy-looking selfie
 
-7. On the UWP device, take a happy-looking selfie
-
-8. In the [Azure portal](https://portal.azure.com/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn), navigate to the Azure Blob Storage instance **storage[Your Last Name]**
+7. In the [Azure portal](https://portal.azure.com/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn), navigate to the Azure Blob Storage instance **storage[Your Last Name]**
     - E.g., storageminnick
 
-9. In the **Storage Account** dashboard, on the left-hand menu, select **Blobs**
+8. In the **Storage Account** dashboard, on the left-hand menu, select **Blobs**
 
-10. On the **Blobs** page, select **photos**
+9.  On the **Blobs** page, select **photos**
 
-11. On the **Photos** page, ensure a blob has been added
+10. On the **Photos** page, ensure a blob has been added
 
 ![A blob saved in blob storage](../Images/PortalPhotoSavedAsBlob.png)
 

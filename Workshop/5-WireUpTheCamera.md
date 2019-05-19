@@ -93,14 +93,6 @@ The [Xamarin Media Plugin](https://www.nuget.org/packages/Xam.Plugin.Media/) pro
     <uses-sdk android:minSdkVersion="21" android:targetSdkVersion="28" />
     <uses-permission android:name="android.permission.INTERNET" />
     <application android:label="HappyXamDevs.Android">
-        <activity android:name="com.microsoft.windowsazure.mobileservices.authentication.RedirectUrlActivity" android:launchMode="singleTop" android:noHistory="true">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="happyxamdevs" android:host="easyauth.callback" />
-            </intent-filter>
-        </activity>
         <provider android:name="android.support.v4.content.FileProvider" android:authorities="${applicationId}.fileprovider" android:exported="false" android:grantUriPermissions="true">
             <meta-data android:name="android.support.FILE_PROVIDER_PATHS" android:resource="@xml/file_paths">
             </meta-data>
@@ -465,7 +457,7 @@ When the application runs, the UWP framework will automatically select the best 
 
 ### 7. Add a MainViewModel
 
-In the previous section you added behavior to your login page using a view model, and you will need to do the same for this page.
+In this section you will add behavior to your main page using a view model.
 
 1. In the Visual Studio Solution Explorer, right-click on **HappyXamDevs** > **ViewModels** > **Add** > **Class**
 
@@ -570,47 +562,43 @@ namespace HappyXamDevs.ViewModels
 
 1. In Visual Studio, right-click on **HappyXamDevs.Android** > **Set as Startup Project**
 
-2. (PC) In Visual Studio, select **Debug** > **Start Debugging**
+1. (PC) In Visual Studio, select **Debug** > **Start Debugging**
     - (Mac) In Visual Studio for Mac, select **Run** > **Start Debugging**
 
-3. On the Android device, if the **LoginPage** complete the login flow
+1. On the Android device, on the **MainPage**, tap the Camera icon
 
-4. On the Android device, on the **MainPage**, tap the Camera icon
+1. On the Android device, if prompted for permission, tap **Allow**
 
-5. On the Android device, if prompted for permission, tap **Allow**
+1. On the Android device, ensure the Camera appears
 
-6. On the Android device, ensure the Camera appears
+1. On the Android device, tap the back button to navigate away from the Camera
 
-7. On the Android device, tap the back button to navigate away from the Camera
+1. On the Android device, on **MainPage**, tap files icon
 
-8. On the Android device, on **MainPage**, tap files icon
+1. On the Android device, if prompted for permission, tap **Allow**
 
-9. On the Android device, if prompted for permission, tap **Allow**
-
-10. On the Android device, on **MainPage**, ensure the photos library appears
+1. On the Android device, on **MainPage**, ensure the photos library appears
 
 ### 8b. Test Camera & Photo Library Functionality, UWP
 
 1. In Visual Studio, right-click on **HappyXamDevs.UWP** > **Set as Startup Project**
 
-2. (PC) In Visual Studio, select **Debug** > **Start Debugging**
+1. (PC) In Visual Studio, select **Debug** > **Start Debugging**
     - (Mac) In Visual Studio for Mac, select **Run** > **Start Debugging**
 
-3. On the UWP device, if the **LoginPage** complete the login flow
+1. On the UWP device, on the **MainPage**, tap the Camera icon
 
-4. On the UWP device, on the **MainPage**, tap the Camera icon
+1. On the UWP device, if prompted for permission, tap **Allow**
 
-5. On the UWP device, if prompted for permission, tap **Allow**
+1. On the UWP device, ensure the Camera appears
 
-6. On the UWP device, ensure the Camera appears
+1. On the UWP device, tap the back button to navigate away from the Camera
 
-7. On the UWP device, tap the back button to navigate away from the Camera
+1. On the UWP device, on **MainPage**, tap files icon
 
-8. On the UWP device, on **MainPage**, tap files icon
+1. On the UWP device, if prompted for permission, tap **Allow**
 
-9. On the UWP device, if prompted for permission, tap **Allow**
-
-10. On the UWP device, on **MainPage**, ensure the photos library appears
+1. On the UWP device, on **MainPage**, ensure the photos library appears
 
 ### 8c. Test Camera & Photo Library Functionality, iOS
 
@@ -618,24 +606,22 @@ namespace HappyXamDevs.ViewModels
 
 1. In Visual Studio, right-click on **HappyXamDevs.UWP** > **Set as Startup Project**
 
-2. (PC) In Visual Studio, select **Debug** > **Start Debugging**
+1. (PC) In Visual Studio, select **Debug** > **Start Debugging**
     - (Mac) In Visual Studio for Mac, select **Run** > **Start Debugging**
 
-3. On the iOS device, if the **LoginPage** complete the login flow
+1. On the iOS device, on the **MainPage**, tap the Camera icon
 
-4. On the iOS device, on the **MainPage**, tap the Camera icon
+1. On the iOS device, if prompted for permission, tap **Allow**
 
-5. On the iOS device, if prompted for permission, tap **Allow**
+1. On the iOS device, ensure the Camera appears
 
-6. On the iOS device, ensure the Camera appears
+1. On the iOS device, tap the back button to navigate away from the Camera
 
-7. On the iOS device, tap the back button to navigate away from the Camera
+1. On the iOS device, on **MainPage**, tap files icon
 
-8. On the iOS device, on **MainPage**, tap files icon
+1. On the iOS device, if prompted for permission, tap **Allow**
 
-9. On the iOS device, if prompted for permission, tap **Allow**
-
-10. On the iOS device, on **MainPage**, ensure the photos library appears
+1.  On the iOS device, on **MainPage**, ensure the photos library appears
 
 ## Next step
 

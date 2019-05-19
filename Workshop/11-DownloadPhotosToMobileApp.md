@@ -6,7 +6,7 @@ The next step is to extend `IAzureService` to be able to download photos to the 
 
 ## 1. Installing Xamarin.Essentials NuGet Package
 
-Each platform has different rules around file storage, and different locations where files are stored. Handling the different cases for iOS, Android and UWP is complicated and involves some platform specific code (similar to how we implemented the authentication).
+Each platform has different rules around file storage, and different locations where files are stored. Handling the different cases for iOS, Android and UWP is complicated and involves some platform specific code.
 
 To make life easier for Xamarin developers, Microsoft created a NuGet package called [Xamarin.Essentials](https://www.nuget.org/packages/Xamarin.Essentials) that provides cross-platform implementations of common platform-specific functionality including a helper to provide a storage location that works on all platforms.
 
@@ -170,13 +170,9 @@ namespace HappyXamDevs.Services
 {
     public interface IAzureService
     {
-        Task<bool> Authenticate();
-
         Task DownloadPhoto(PhotoMetadataModel photoMetadata);
 
         Task<IEnumerable<PhotoMetadataModel>> GetAllPhotoMetadata();
-
-        bool IsLoggedIn();
 
         Task UploadPhoto(MediaFile photo);
 

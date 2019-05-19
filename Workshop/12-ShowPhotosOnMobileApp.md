@@ -206,7 +206,7 @@ public MainViewModel()
 
 ## 3. Refreshing the `ListView` when `MainPage.xaml` appears
 
-When the main page is launched, it checks to see if the user is logged in, and if not shows the login page. After the user logs in, `MainPage` should automatically load all the photos.
+When the main page is launched, `MainPage` should automatically load all the photos.
 
 1. In the Visual Studio Solution Explorer, open **HappyXamDevs** > **MainPage.xaml.cs**
 
@@ -232,15 +232,7 @@ namespace HappyXamDevs
 
             var azureService = DependencyService.Get<IAzureService>();
 
-            if (!azureService.IsLoggedIn())
-            {
-                if(!Navigation.ModalStack.Any())
-                    await Navigation.PushModalAsync(new LoginPage(), false);
-            }
-            else
-            {
-                PhotosListView.BeginRefresh();
-            }
+            PhotosListView.BeginRefresh();
         }
     }
 }
@@ -248,7 +240,7 @@ namespace HappyXamDevs
 
 > **About the Code**
 >
-> `else { PhotosListView.BeginRefresh(); }` When `MainPage` appears on the screen, if the user is logged in, the `ListView` will automatically trigger pull-to-refresh
+> `else { PhotosListView.BeginRefresh(); }` When `MainPage` appears on the screen the `ListView` will automatically trigger pull-to-refresh
 
 ## 4. Test Updated UI
 
@@ -261,19 +253,17 @@ You should now have everything in place to view the photos that have been upload
 2. (PC) In Visual Studio, select **Debug** > **Start Debugging**
     - (Mac) In Visual Studio for Mac, select **Run** > **Start Debugging**
 
-3. On the Android device, if the **LoginPage** complete the login flow
+3. On the Android device, on the **MainPage**, tap the Camera icon
 
-4. On the Android device, on the **MainPage**, tap the Camera icon
+4. On the Android device, if prompted for permission, tap **Allow**
 
-5. On the Android device, if prompted for permission, tap **Allow**
+5. On the Android device, ensure the Camera appears
 
-6. On the Android device, ensure the Camera appears
+6. On the Android device, take a happy-looking selfie
 
-7. On the Android device, take a happy-looking selfie
+7. On the Android device, trigger a pull-to-refresh
 
-8. On the Android device, trigger a pull-to-refresh
-
-9. On the Android device, ensure the uploaded photo and its associated metadata appear
+8. On the Android device, ensure the uploaded photo and its associated metadata appear
 
     > **Note:** Repeat the pull-to-refresh a few times until the image appears, because the Azure Functions may take a few seconds to complete. If the image still doesn't appear after a minute, there likely is a bug.
 
@@ -284,19 +274,17 @@ You should now have everything in place to view the photos that have been upload
 2. (PC) In Visual Studio, select **Debug** > **Start Debugging**
     - (Mac) In Visual Studio for Mac, select **Run** > **Start Debugging**
 
-3. On the iOS device, if the **LoginPage** complete the login flow
+3. On the iOS device, on the **MainPage**, tap the Camera icon
 
-4. On the iOS device, on the **MainPage**, tap the Camera icon
+4. On the iOS device, if prompted for permission, tap **Allow**
 
-5. On the iOS device, if prompted for permission, tap **Allow**
+5. On the iOS device, ensure the Camera appears
 
-6. On the iOS device, ensure the Camera appears
+6. On the iOS device, take a happy-looking selfie
 
-7. On the iOS device, take a happy-looking selfie
+7. On the iOS device, trigger a pull-to-refresh
 
-8. On the iOS device, trigger a pull-to-refresh
-
-9. On the iOS device, ensure the uploaded photo and its associated metadata appear
+8. On the iOS device, ensure the uploaded photo and its associated metadata appear
 
     > **Note:** Repeat the pull-to-refresh a few times until the image appears, because the Azure Functions may take a few seconds to complete. If the image still doesn't appear after a minute, there likely is a bug.
 
@@ -308,19 +296,17 @@ You should now have everything in place to view the photos that have been upload
 2. (PC) In Visual Studio, select **Debug** > **Start Debugging**
     - (Mac) Skip this step
 
-3. On the UWP device, if the **LoginPage** complete the login flow
+3. On the UWP device, on the **MainPage**, tap the Camera icon
 
-4. On the UWP device, on the **MainPage**, tap the Camera icon
+4. On the UWP device, if prompted for permission, tap **Allow**
 
-5. On the UWP device, if prompted for permission, tap **Allow**
+5. On the UWP device, ensure the Camera appears
 
-6. On the UWP device, ensure the Camera appears
+6. On the UWP device, take a happy-looking selfie
 
-7. On the UWP device, take a happy-looking selfie
+7. On the UWP device, trigger a pull-to-refresh
 
-8. On the UWP device, trigger a pull-to-refresh
-
-9. On the UWP device, ensure the uploaded photo and its associated metadata appear
+8. On the UWP device, ensure the uploaded photo and its associated metadata appear
 
     > **Note:** Repeat the pull-to-refresh a few times until the image appears, because the Azure Functions may take a few seconds to complete. If the image still doesn't appear after a minute, there likely is a bug.
 

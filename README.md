@@ -2,7 +2,7 @@
 
 In this workshop you will build a cloud-connected, AI powered mobile app that runs on iOS, Android and UWP using Xamarin and Xamarin.Forms.
 
-The app you are creating is called __Happy Xamarin Developers__ and is a social-media style image sharing app to share photos of happy Xamarin developers with the world. This app uses a number of Azure cloud services, including Authentication, Cognitive Services, Functions, Blob storage and CosmosDB.
+The app you are creating is called __Happy Xamarin Developers__ and is a social-media style image sharing app to share photos of happy Xamarin developers with the world. This app uses a number of Azure cloud services, including Cognitive Services, Functions, Blob storage and CosmosDB.
 
 ![Final screenshot of the app](./Images/FinalAppScreenshot.jpeg)
 
@@ -12,8 +12,6 @@ The app you are creating is called __Happy Xamarin Developers__ and is a social-
 
 * You will also need an Azure account to configure the services required. These services will either be using free tiers, or be very cheap and only needed for the duration of the workshop. If you do not already have an Azure account, you can sign up for a [free Azure account](https://azure.microsoft.com/free?WT.mc_id=mobileappsoftomorrow-workshop-jabenn) to get US$200 of credit on all services for 30 days, plus 12 months of free access for popular services, and unlimited access to 25 free services.
 
-* This app will be authenticated using Facebook. You will need a Facebook account to both configure the authentication, and for all the users who will log in.
-
 * This workshop was written using Visual Studio 2017 v15.7 and Visual Studio for Mac 7.5. If you are using a newer version then the menus, options and dialogs might be different. If you are using an older version, then please update your install if you have any problems.
 
 * This workshop assumes you have at least a basic familiarity with C# and Visual Studio.
@@ -22,7 +20,7 @@ The app you are creating is called __Happy Xamarin Developers__ and is a social-
 
 In this lab you will learn how to create a simple, multi-page Xamarin.Forms app that runs on iOS, Android and UWP.
 
-You will learn how to use plug-ins to take advantage or hardware specific features such as the camera, how to use Cognitive Services, and how to wire up an app to a back-end built using Azure functions and Blob storage. On the back-end side, you will learn how to create an API using Azure functions, behind a mobile app service that provides authentication, and how to connect this API up to Cognitive Services, Blob storage and CosmosDB (a globally distributed database system running on Azure).
+You will learn how to use plug-ins to take advantage or hardware specific features such as the camera, how to use Cognitive Services, and how to wire up an app to a back-end built using Azure functions and Blob storage. On the back-end side, you will learn how to create an API using Azure functions, and how to connect this API up to Cognitive Services, Blob storage and CosmosDB (a globally distributed database system running on Azure).
 
 <!-- TODO - add an architecture diagram -->
 
@@ -32,7 +30,7 @@ In this workshop, your instructors will provide you guidance based on many years
 
 The examples are not production quality - for example you won't be handling exceptions anywhere in the code. You will also be writing functions inside the Azure portal and configuring services directly, whereas in a production app you would want to use CI/CD using services like [VSTS](https://docs.microsoft.com/vsts/index?view=vsts&WT.mc_id=mobileappsoftomorrow-workshop-jabenn) and tools like the [Azure Resource Manager](https://docs.microsoft.com/azure/azure-resource-manager/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn).
 
-We will also not be considering security in too much detail, beyond securing functions behind facebook authentication. For a production app, please refer to the [Azure Security documentation](https://docs.microsoft.com/azure/security/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn) and consider using tools like [Azure Key Vault](https://docs.microsoft.com/azure/key-vault/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn).
+We will also not be considering security. For a production app, please refer to the [Azure Security documentation](https://docs.microsoft.com/azure/security/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn) and consider using tools like [Azure Key Vault](https://docs.microsoft.com/azure/key-vault/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn).
 
 For more information on best practices and getting your app to a professional level, we recommend checking the [Xamarin University courses](https://university.xamarin.com/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn).
 
@@ -41,19 +39,18 @@ For more information on best practices and getting your app to a professional le
 The individual steps are linked below.
 
 1. [Create the solution](./Workshop/1-CreateSolution.md)
-2. [Set up an Azure Functions app](./Workshop/2-SetupAzureFunctions.md)
-3. [Create an Azure Service inside the mobile app](./Workshop/3-CreateAnAzureServiceInTheMobileApp.md)
-4. [Create the Login page](./Workshop/4-CreateLoginPage.md)
-5. [Wire up the camera using a Xamarin plugin](./Workshop/5-WireUpTheCamera.md)
-6. [Detect faces and emotion using the Azure FaceAPI](./Workshop/6-DetectFaces.md)
-7. [Configure storage using Blob storage and CosmosDB](./Workshop/7-ConfigureStorage.md)
-8. [Create an Azure Function to save the photos to blob storage](./Workshop/8-FunctionToSavePhotos.md)
-9. [Create a blob storage trigger to analyze the photos and save the results to Cosmos DB](./Workshop/9-BlobStorageTrigger.md)
-10. [Create some Azure Functions to retrieve photos](./Workshop/10-FunctionToLoadPhotos.md)
-11. [Download photos to the mobile app](./Workshop/11-DownloadPhotosToMobileApp.md)
-12. [Show the photos on the mobile app](./Workshop/12-ShowPhotosOnMobileApp.md)
-13. [Improve the UI](./Workshop/13-ImproveTheUI.md)
-14. [Cleaning up](./Workshop/14-CleaningUp.md)
+1. [Set up an Azure Functions app](./Workshop/2-SetupAzureFunctions.md)
+1. [Create an Azure Service inside the mobile app](./Workshop/3-CreateAnAzureServiceInTheMobileApp.md)
+1. [Wire up the camera using a Xamarin plugin](./Workshop/5-WireUpTheCamera.md)
+1. [Detect faces and emotion using the Azure FaceAPI](./Workshop/6-DetectFaces.md)
+1. [Configure storage using Blob storage and CosmosDB](./Workshop/7-ConfigureStorage.md)
+1. [Create an Azure Function to save the photos to blob storage](./Workshop/8-FunctionToSavePhotos.md)
+1. [Create a blob storage trigger to analyze the photos and save the results to Cosmos DB](./Workshop/9-BlobStorageTrigger.md)
+1. [Create some Azure Functions to retrieve photos](./Workshop/10-FunctionToLoadPhotos.md)
+1. [Download photos to the mobile app](./Workshop/11-DownloadPhotosToMobileApp.md)
+1. [Show the photos on the mobile app](./Workshop/12-ShowPhotosOnMobileApp.md)
+1. [Improve the UI](./Workshop/13-ImproveTheUI.md)
+1. [Cleaning up](./Workshop/14-CleaningUp.md)
 
 ## Cleaning up
 

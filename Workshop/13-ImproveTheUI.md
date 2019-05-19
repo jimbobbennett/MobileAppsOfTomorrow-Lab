@@ -165,7 +165,7 @@ Once you have your new view cell, it's time to use it inside your list view.
 
 ## Congratulations
 
-We've created a cloud-enabled, AI powered mobile app that runs on iOS, Android and UWP with 95% of code reuse across platforms. You've configured an Azure function app using Facebook authentication, added functions to upload and download photos, wired these up to Blob storage and Cosmos DB and set up triggers to listen on new photos and analyse them using the power of Azure Cognitive Services. You've also built a mobile app to use these services, as well as taking advantage of the camera present on all mobile phones, and even AI inside your mobile app.
+We've created a cloud-enabled, AI powered mobile app that runs on iOS, Android and UWP with 95% of code reuse across platforms. You've configured an Azure function app, added functions to upload and download photos, wired these up to Blob storage and Cosmos DB and set up triggers to listen on new photos and analyse them using the power of Azure Cognitive Services. You've also built a mobile app to use these services, as well as taking advantage of the camera present on all mobile phones, and even AI inside your mobile app.
 
 ## Next step
 

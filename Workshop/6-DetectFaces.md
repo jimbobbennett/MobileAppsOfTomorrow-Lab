@@ -116,8 +116,6 @@ namespace HappyXamDevs.Services
 {
     public interface IAzureService
     {
-        bool IsLoggedIn();
-        Task<bool> Authenticate();
         Task<bool> VerifyHappyFace(MediaFile photo);
     }
 }
@@ -268,19 +266,17 @@ namespace HappyXamDevs.ViewModels
 4. (PC) In Visual Studio, select **Debug** > **Start Debugging**
     - (Mac) In Visual Studio for Mac, select **Run** > **Start Debugging**
 
-5. On the Android device, if the **LoginPage** complete the login flow
+5. On the Android device, on the **MainPage**, tap the Camera icon
 
-6. On the Android device, on the **MainPage**, tap the Camera icon
+6. On the Android device, if prompted for permission, tap **Allow**
 
-7. On the Android device, if prompted for permission, tap **Allow**
+7. On the Android device, ensure the Camera appears
 
-8. On the Android device, ensure the Camera appears
+8. On the Android device, take a happy-looking selfie
 
-9. On the Android device, take a happy-looking selfie
+9.  In Visual Studio, ensure the breakpoint on `if(isHappy)` triggers
 
-10. In Visual Studio, ensure the breakpoint on `if(isHappy)` triggers
-
-11. In the **MainViewModel.cs** editor, verify the value of `isHappy` is true
+10. In the **MainViewModel.cs** editor, verify the value of `isHappy` is true
 
 ## 5b. Test The Face API, iOS
 
@@ -293,19 +289,17 @@ namespace HappyXamDevs.ViewModels
 4. (PC) In Visual Studio, select **Debug** > **Start Debugging**
     - (Mac) In Visual Studio for Mac, select **Run** > **Start Debugging**
 
-5. On the iOS device, if the **LoginPage** complete the login flow
+5. On the iOS device, on the **MainPage**, tap the Camera icon
 
-6. On the iOS device, on the **MainPage**, tap the Camera icon
+6. On the iOS device, if prompted for permission, tap **Allow**
 
-7. On the iOS device, if prompted for permission, tap **Allow**
+7. On the iOS device, ensure the Camera appears
 
-8. On the iOS device, ensure the Camera appears
+8. On the iOS device, take a happy-looking selfie
 
-9. On the iOS device, take a happy-looking selfie
+9.  In Visual Studio, ensure the breakpoint on `if(isHappy)` triggers
 
-10. In Visual Studio, ensure the breakpoint on `if(isHappy)` triggers
-
-11. In the **MainViewModel.cs** editor, verify the value of `isHappy` is true
+10. In the **MainViewModel.cs** editor, verify the value of `isHappy` is true
 
 ## 5c. Test The Face API, UWP
 
@@ -318,19 +312,17 @@ namespace HappyXamDevs.ViewModels
 4. (PC) In Visual Studio, select **Debug** > **Start Debugging**
     - (Mac) In Visual Studio for Mac, select **Run** > **Start Debugging**
 
-5. On the UWP device, if the **LoginPage** complete the login flow
+5. On the UWP device, on the **MainPage**, tap the Camera icon
 
-6. On the UWP device, on the **MainPage**, tap the Camera icon
+6. On the UWP device, if prompted for permission, tap **Allow**
 
-7. On the UWP device, if prompted for permission, tap **Allow**
+7. On the UWP device, ensure the Camera appears
 
-8. On the UWP device, ensure the Camera appears
+8. On the UWP device, take a happy-looking selfie
 
-9. On the UWP device, take a happy-looking selfie
+9.  In Visual Studio, ensure the breakpoint on `if(isHappy)` triggers
 
-10. In Visual Studio, ensure the breakpoint on `if(isHappy)` triggers
-
-11. In the **MainViewModel.cs** editor, verify the value of `isHappy` is true
+10. In the **MainViewModel.cs** editor, verify the value of `isHappy` is true
 
 ## Next step
 

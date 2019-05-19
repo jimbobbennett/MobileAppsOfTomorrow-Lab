@@ -247,28 +247,26 @@ Now that we have a function that returns an object with the results of the visio
 2. (PC) In Visual Studio, select **Debug** > **Start Debugging**
     - (Mac) In Visual Studio for Mac, select **Run** > **Start Debugging**
 
-3. On the Android device, if the **LoginPage** complete the login flow
+3. On the Android device, on the **MainPage**, tap the Camera icon
 
-4. On the Android device, on the **MainPage**, tap the Camera icon
+4. On the Android device, if prompted for permission, tap **Allow**
 
-5. On the Android device, if prompted for permission, tap **Allow**
+5. On the Android device, ensure the Camera appears
 
-6. On the Android device, ensure the Camera appears
+6. On the Android device, take a happy-looking selfie
 
-7. On the Android device, take a happy-looking selfie
-
-8. In the [Azure portal](https://portal.azure.com/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn), navigate to the Cosmos Db instance **happyxamdevs-[Your Last Name]**
+7. In the [Azure portal](https://portal.azure.com/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn), navigate to the Cosmos Db instance **happyxamdevs-[Your Last Name]**
     - E.g., happyxamdevs-minnick
 
-9. On the **Cosmos Db** dashboard, on the left-hand menu, select **Data Explorer**
+8. On the **Cosmos Db** dashboard, on the left-hand menu, select **Data Explorer**
 
-10. On the **Data Explorer** page, select **Photos**
+9.  On the **Data Explorer** page, select **Photos**
 
-11. On the **Data Explorer** page, select **PhotosMetadata**
+10. On the **Data Explorer** page, select **PhotosMetadata**
 
-12. On the **Data Explorer** page, select **Documents**
+11. On the **Data Explorer** page, select **Documents**
 
-13. In the **Documents** frame, ensure a new metadata entry has been added
+12. In the **Documents** frame, ensure a new metadata entry has been added
 
 ![Browsing documents in Cosmos DB](../Images/PortalCosmosBrowseDocument.png)
 
@@ -279,28 +277,26 @@ Now that we have a function that returns an object with the results of the visio
 2. (PC) In Visual Studio, select **Debug** > **Start Debugging**
     - (Mac) In Visual Studio for Mac, select **Run** > **Start Debugging**
 
-3. On the iOS device, if the **LoginPage** complete the login flow
+3. On the iOS device, on the **MainPage**, tap the Camera icon
 
-4. On the iOS device, on the **MainPage**, tap the Camera icon
+4. On the iOS device, if prompted for permission, tap **Allow**
 
-5. On the iOS device, if prompted for permission, tap **Allow**
+5. On the iOS device, ensure the Camera appears
 
-6. On the iOS device, ensure the Camera appears
+6. On the iOS device, take a happy-looking selfie
 
-7. On the iOS device, take a happy-looking selfie
-
-8. In the [Azure portal](https://portal.azure.com/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn), navigate to the Cosmos Db instance **happyxamdevs-[Your Last Name]**
+7. In the [Azure portal](https://portal.azure.com/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn), navigate to the Cosmos Db instance **happyxamdevs-[Your Last Name]**
     - E.g., happyxamdevs-minnick
 
-9. On the **Cosmos Db** dashboard, on the left-hand menu, select **Data Explorer**
+8. On the **Cosmos Db** dashboard, on the left-hand menu, select **Data Explorer**
 
-10. On the **Data Explorer** page, select **Photos**
+9.  On the **Data Explorer** page, select **Photos**
 
-11. On the **Data Explorer** page, select **PhotosMetadata**
+10. On the **Data Explorer** page, select **PhotosMetadata**
 
-12. On the **Data Explorer** page, select **Documents**
+11. On the **Data Explorer** page, select **Documents**
 
-13. In the **Documents** frame, ensure a new metadata entry has been added
+12. In the **Documents** frame, ensure a new metadata entry has been added
 
 ![Browsing documents in Cosmos DB](../Images/PortalCosmosBrowseDocument.png)
 
@@ -311,28 +307,26 @@ Now that we have a function that returns an object with the results of the visio
 2. (PC) In Visual Studio, select **Debug** > **Start Debugging**
     - (Mac) In Visual Studio for Mac, select **Run** > **Start Debugging**
 
-3. On the UWP device, if the **LoginPage** complete the login flow
+3. On the UWP device, on the **MainPage**, tap the Camera icon
 
-4. On the UWP device, on the **MainPage**, tap the Camera icon
+4. On the UWP device, if prompted for permission, tap **Allow**
 
-5. On the UWP device, if prompted for permission, tap **Allow**
+5. On the UWP device, ensure the Camera appears
 
-6. On the UWP device, ensure the Camera appears
+6. On the UWP device, take a happy-looking selfie
 
-7. On the UWP device, take a happy-looking selfie
-
-8. In the [Azure portal](https://portal.azure.com/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn), navigate to the Cosmos Db instance **happyxamdevs-[Your Last Name]**
+7. In the [Azure portal](https://portal.azure.com/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn), navigate to the Cosmos Db instance **happyxamdevs-[Your Last Name]**
     - E.g., happyxamdevs-minnick
 
-9. On the **Cosmos Db** dashboard, on the left-hand menu, select **Data Explorer**
+8. On the **Cosmos Db** dashboard, on the left-hand menu, select **Data Explorer**
 
-10. On the **Data Explorer** page, select **Photos**
+9.  On the **Data Explorer** page, select **Photos**
 
-11. On the **Data Explorer** page, select **PhotosMetadata**
+10. On the **Data Explorer** page, select **PhotosMetadata**
 
-12. On the **Data Explorer** page, select **Documents**
+11. On the **Data Explorer** page, select **Documents**
 
-13. In the **Documents** frame, ensure a new metadata entry has been added
+12. In the **Documents** frame, ensure a new metadata entry has been added
 
 ![Browsing documents in Cosmos DB](../Images/PortalCosmosBrowseDocument.png)
 
