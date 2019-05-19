@@ -244,4 +244,4 @@ public async Task<IEnumerable<PhotoMetadataModel>> GetAllPhotoMetadata()
 
 ## Next step
 
-Now that you have photos downloaded, the next step is to [show these photos on the UI](./12-ShowPhotosOnMobileApp.md).
+Now that you have photos downloaded, the next step is to [show these photos on the UI](./11-ShowPhotosOnMobileApp.md).

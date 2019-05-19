@@ -125,4 +125,4 @@ namespace HappyXamDevs.Services
 
 ## Next step
 
-Now that your Azure service has been created, the next step is to [wire up the camera using a Xamarin plugin](./5-WireUpTheCamera.md).
+Now that your Azure service has been created, the next step is to [wire up the camera using a Xamarin plugin](./4-WireUpTheCamera.md).

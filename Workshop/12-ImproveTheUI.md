@@ -169,4 +169,4 @@ We've created a cloud-enabled, AI powered mobile app that runs on iOS, Android a
 
 ## Next step
 
-Your app is complete. The next step is to [cleaning up your Azure resources](./14-CleaningUp.md) to save money.
+Your app is complete. The next step is to [cleaning up your Azure resources](./13-CleaningUp.md) to save money.

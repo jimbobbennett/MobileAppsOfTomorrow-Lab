@@ -10,9 +10,11 @@ The app you are creating is called __Happy Xamarin Developers__ and is a social-
 
 * Please make sure you have run through the [setup prerequisites](./SETUP.MD) to configure your development environment before working through this workshop.
 
-* You will also need an Azure account to configure the services required. These services will either be using free tiers, or be very cheap and only needed for the duration of the workshop. If you do not already have an Azure account, you can sign up for a [free Azure account](https://azure.microsoft.com/free?WT.mc_id=mobileappsoftomorrow-workshop-jabenn) to get US$200 of credit on all services for 30 days, plus 12 months of free access for popular services, and unlimited access to 25 free services.
+* You will also need an Azure account to configure the services required. These services will either be using free tiers, or be very cheap and only needed for the duration of the workshop. If you do not already have an Azure account, you can sign up for a [free Azure account](https://azure.microsoft.com/free?WT.mc_id=mobileappsoftomorrow-workshop-jabenn) to get US$200 of credit on all services for 30 days, plus 12 months of free access for popular services, and unlimited access to 25 free services. You will need a credit card when you sign up for verification purposes only.
+  
+  If you are a student, sign up for a [free student account](https://azure.microsoft.com/free/student?WT.mc_id=mobileappsoftomorrow-workshop-jabenn) using your academic institution email address. You get $100 to use any time in the first 12 months, plus 12 months of free access for popular services, and unlimited access to 25 free services. After 12 months you will be able to renew your account and get another $100 as long as you are still a student.
 
-* This workshop was written using Visual Studio 2017 v15.7 and Visual Studio for Mac 7.5. If you are using a newer version then the menus, options and dialogs might be different. If you are using an older version, then please update your install if you have any problems.
+* This workshop was written using Visual Studio 2019 and Visual Studio for Mac 8. If you are using a newer version then the menus, options and dialogs might be different. If you are using an older version, then please update your install if you have any problems.
 
 * This workshop assumes you have at least a basic familiarity with C# and Visual Studio.
 
@@ -28,11 +30,11 @@ You will learn how to use plug-ins to take advantage or hardware specific featur
 
 In this workshop, your instructors will provide you guidance based on many years of experience doing mobile cross platform development with Xamarin. Of course within one single day, we cannot implement all the best practices in development, continuous integration, testing, QA, etc. This workshop is an introduction to cross-platform development with Xamarin and Azure which will get you started you into this fantastic world.
 
-The examples are not production quality - for example you won't be handling exceptions anywhere in the code. You will also be writing functions inside the Azure portal and configuring services directly, whereas in a production app you would want to use CI/CD using services like [VSTS](https://docs.microsoft.com/vsts/index?view=vsts&WT.mc_id=mobileappsoftomorrow-workshop-jabenn) and tools like the [Azure Resource Manager](https://docs.microsoft.com/azure/azure-resource-manager/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn).
+The examples are not production quality - for example you won't be handling exceptions anywhere in the code. You will also be writing functions inside the Azure portal and configuring services directly, whereas in a production app you would want to write your functions using Visual Studio, use CI/CD using services like [Azure DevOps](hhttps://azure.microsoft.com/en-gb/services/devops/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn) and tools like the [Azure Resource Manager](https://docs.microsoft.com/azure/azure-resource-manager/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn).
 
 We will also not be considering security. For a production app, please refer to the [Azure Security documentation](https://docs.microsoft.com/azure/security/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn) and consider using tools like [Azure Key Vault](https://docs.microsoft.com/azure/key-vault/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn).
 
-For more information on best practices and getting your app to a professional level, we recommend checking the [Xamarin University courses](https://university.xamarin.com/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn).
+For more information on best practices and getting your app to a professional level, we recommend checking the [Xamarin learning paths on Microsoft Learn](https://docs.microsoft.com/en-us/learn/browse/?resource_type=learning%20path&products=xamarin&WT.mc_id=mobileappsoftomorrow-workshop-jabenn).
 
 ## Steps
 
@@ -41,20 +43,20 @@ The individual steps are linked below.
 1. [Create the solution](./Workshop/1-CreateSolution.md)
 1. [Set up an Azure Functions app](./Workshop/2-SetupAzureFunctions.md)
 1. [Create an Azure Service inside the mobile app](./Workshop/3-CreateAnAzureServiceInTheMobileApp.md)
-1. [Wire up the camera using a Xamarin plugin](./Workshop/5-WireUpTheCamera.md)
-1. [Detect faces and emotion using the Azure FaceAPI](./Workshop/6-DetectFaces.md)
-1. [Configure storage using Blob storage and CosmosDB](./Workshop/7-ConfigureStorage.md)
-1. [Create an Azure Function to save the photos to blob storage](./Workshop/8-FunctionToSavePhotos.md)
-1. [Create a blob storage trigger to analyze the photos and save the results to Cosmos DB](./Workshop/9-BlobStorageTrigger.md)
-1. [Create some Azure Functions to retrieve photos](./Workshop/10-FunctionToLoadPhotos.md)
-1. [Download photos to the mobile app](./Workshop/11-DownloadPhotosToMobileApp.md)
-1. [Show the photos on the mobile app](./Workshop/12-ShowPhotosOnMobileApp.md)
-1. [Improve the UI](./Workshop/13-ImproveTheUI.md)
-1. [Cleaning up](./Workshop/14-CleaningUp.md)
+1. [Wire up the camera using a Xamarin plugin](./Workshop/4-WireUpTheCamera.md)
+1. [Detect faces and emotion using the Azure FaceAPI](./Workshop/5-DetectFaces.md)
+1. [Configure storage using Blob storage and CosmosDB](./Workshop/6-ConfigureStorage.md)
+1. [Create an Azure Function to save the photos to blob storage](./Workshop/7-FunctionToSavePhotos.md)
+1. [Create a blob storage trigger to analyze the photos and save the results to Cosmos DB](./Workshop/8-BlobStorageTrigger.md)
+1. [Create some Azure Functions to retrieve photos](./Workshop/9-FunctionToLoadPhotos.md)
+1. [Download photos to the mobile app](./Workshop/10-DownloadPhotosToMobileApp.md)
+1. [Show the photos on the mobile app](./Workshop/11-ShowPhotosOnMobileApp.md)
+1. [Improve the UI](./Workshop/12-ImproveTheUI.md)
+1. [Cleaning up](./Workshop/13-CleaningUp.md)
 
 ## Cleaning up
 
-During this workshop you will have created different Azure services, and some have an associated cost. The final step contains [instructions to clean up these resources](./Workshop/14-CleaningUp.md), so to save paying unnecessarily, remember to work through this step to delete the resource group you created regardless of how far through the workshop you manage to get.
+During this workshop you will have created different Azure services, and some have an associated cost. The final step contains [instructions to clean up these resources](./Workshop/13-CleaningUp.md), so to save paying unnecessarily, remember to work through this step to delete the resource group you created regardless of how far through the workshop you manage to get.
 
 ## Further reading
 

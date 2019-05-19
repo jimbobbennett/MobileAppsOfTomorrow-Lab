@@ -163,4 +163,4 @@ public static async Task<IActionResult> Run(HttpRequestMessage req, string blobN
 
 ## Next step
 
-Now that you have functions to download photo metadata and individual photos, the next step is to [use these in your Xamarin app to download photos](./11-DownloadPhotosToMobileApp.md).
+Now that you have functions to download photo metadata and individual photos, the next step is to [use these in your Xamarin app to download photos](./10-DownloadPhotosToMobileApp.md).

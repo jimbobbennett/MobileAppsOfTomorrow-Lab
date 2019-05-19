@@ -326,4 +326,4 @@ namespace HappyXamDevs.ViewModels
 
 ## Next step
 
-Now that your app can take photos and verify that they are of happy developers, the next step is to [configure storage in Azure using Blob storage and CosmosDB](./7-ConfigureStorage.md) so that you have somewhere to upload your photos to.
+Now that your app can take photos and verify that they are of happy developers, the next step is to [configure storage in Azure using Blob storage and CosmosDB](./6-ConfigureStorage.md) so that you have somewhere to upload your photos to.

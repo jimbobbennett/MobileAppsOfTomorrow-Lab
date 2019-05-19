@@ -625,4 +625,4 @@ namespace HappyXamDevs.ViewModels
 
 ## Next step
 
-Now that your app can take photos, the next step is to [detect faces and emotion in these photos using the Azure FaceAPI](./6-DetectFaces.md).
+Now that your app can take photos, the next step is to [detect faces and emotion in these photos using the Azure FaceAPI](./5-DetectFaces.md).

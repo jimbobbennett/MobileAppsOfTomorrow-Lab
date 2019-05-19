@@ -332,4 +332,4 @@ Now that we have a function that returns an object with the results of the visio
 
 ## Next step
 
-Now that you have photos in Blob storage and photo metadata in Cosmos DB, the next step is to [create some Azure Functions to retrieve the photos](./10-FunctionToLoadPhotos.md).
+Now that you have photos in Blob storage and photo metadata in Cosmos DB, the next step is to [create some Azure Functions to retrieve the photos](./9-FunctionToLoadPhotos.md).

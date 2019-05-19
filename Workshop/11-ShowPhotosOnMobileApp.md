@@ -312,4 +312,4 @@ You should now have everything in place to view the photos that have been upload
 
 ## Next step
 
-Now that you have a basic UI to show photos, the next step is to [improve the UI](./13-ImproveTheUI.md).
+Now that you have a basic UI to show photos, the next step is to [improve the UI](./12-ImproveTheUI.md).

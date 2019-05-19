@@ -72,4 +72,4 @@ We will create a database that contains a collection in which we will add our ph
 
 ## Next step
 
-Now that you have storage configured, the next step is to [create an Azure Function to save the photos to blob storage](./8-FunctionToSavePhotos.md).
+Now that you have storage configured, the next step is to [create an Azure Function to save the photos to blob storage](./7-FunctionToSavePhotos.md).
