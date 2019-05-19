@@ -32,6 +32,8 @@ The [Xamarin Media Plugin](https://www.nuget.org/packages/Xam.Plugin.Media/) pro
 
 ## 2. Configure iOS Camera Settings
 
+Before you can access the camera or the photo library, you have to add a privacy description. This is shown to the used inside the dialog to allow your app to access the camera or the users photo library.
+
 ### PC
 
 1. In the Visual Studio Solution Explorer, right-click on **HappyXamDevs.iOS** > **Info.plist** > **Open with...**
@@ -86,24 +88,21 @@ The [Xamarin Media Plugin](https://www.nuget.org/packages/Xam.Plugin.Media/) pro
 
 ## 2. Configure Android Camera Settings
 
+### Configure the manifest
+
 1. In Visual Studio Solution Explorer, open **HappyXamDevs.Android** > **Properties** > **AndroidManifest.xml**
 
 2. If you are using Visual Studio for Mac, In the **AndroidManifest.xml** editor, at the bottom, select **Source**
 
-3. In the **AndroidManifest.xml** source editor, enter the following code:
+3. In the **AndroidManifest.xml** source editor, update the `application` node in the XML to be the following:
 
    ```xml
-   <?xml version="1.0" encoding="utf-8"?>
-   <manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="1.0" package="com.companyname.HappyXamDevs" android:installLocation="auto">
-     <uses-sdk android:minSdkVersion="21" android:targetSdkVersion="28" />
-     <uses-permission android:name="android.permission.INTERNET" />
-     <application android:label="HappyXamDevs.Android">
+    <application android:label="HappyXamDevs.Android">
         <provider android:name="android.support.v4.content.FileProvider" android:authorities="${applicationId}.fileprovider" android:exported="false" android:grantUriPermissions="true">
             <meta-data android:name="android.support.FILE_PROVIDER_PATHS" android:resource="@xml/file_paths">
             </meta-data>
         </provider>
-     </application>
-   </manifest>
+    </application>
    ```
 
    > **About the Code**
@@ -112,18 +111,37 @@ The [Xamarin Media Plugin](https://www.nuget.org/packages/Xam.Plugin.Media/) pro
 
 4. In Visual Studio, save the changes to **AndroidManifest.xml** by selecting **File** > **Save All**
 
-5. In the Visual Studio Solution Explorer, right-click on **HappyXamDevs.Android** > **Resources** > **Add** > **New Folder**
+### Create an XML resource folder
 
-6. In the Visual Studio Solution Explorer, name the new folder `xml`
+1. In the Visual Studio Solution Explorer, right-click on **HappyXamDevs.Android** > **Resources** > **Add** > **New Folder**
 
-7. - (PC) In the Visual Studio Solution Explorer, right-click on the newly created `xml` folder > **Add** > **Class**
+1. In the Visual Studio Solution Explorer, name the new folder `xml`
 
-    - (Mac) On Visual Studio for Mac, right-click on the newly created `xml` folder > **Add** > **New File**
+### Create an XML resource file
 
-8. In the **Add New Item** window, name the file `file_paths.xml`
+#### PC
+
+1. In the Visual Studio Solution Explorer, right-click on the newly created `xml` folder > **Add** > **Class**
+
+1. Name the file `file_paths.xml`
     > **Note:** `file_paths.xml` must be all lower-case
 
-9. In the **file_paths.xml** editor, enter the following code:
+1. Click **New**
+
+#### Mac
+
+1. On Visual Studio for Mac, right-click on the newly created `xml` folder > **Add** > **New File**
+
+1. Select **XML -> Empty XML File**
+
+1. Name the file `file_paths.xml`
+    > **Note:** `file_paths.xml` must be all lower-case
+
+1. Click **New**
+
+#### Add the code
+
+1. In the **file_paths.xml** editor, enter the following code:
 
    ```xml
    <?xml version="1.0" encoding="utf-8"?>
@@ -137,9 +155,11 @@ The [Xamarin Media Plugin](https://www.nuget.org/packages/Xam.Plugin.Media/) pro
    >
    > `<paths>` allows us to set an `external-files-path` for any image or video taken by the camera in our app
 
-10. In the Visual Studio Solution Explorer, open **HappyXamDevs.Android** > **MainActivity.cs**
+### Configure permissions
 
-11. In the **MainActivity.cs** editor, enter the following code:
+1. In the Visual Studio Solution Explorer, open **HappyXamDevs.Android** > **MainActivity.cs**
+
+1. In the **MainActivity.cs** editor, enter the following code:
 
     ```csharp
     using Android.App;
@@ -189,7 +209,7 @@ The [Xamarin Media Plugin](https://www.nuget.org/packages/Xam.Plugin.Media/) pro
 
 ## 4. Add some images
 
-For the UI, you will need to add a couple of toolbar buttons to **MainPage.xaml**, one to use the camera to take a photo, the other to select a photo from the users photo library. 
+For the UI, you will need to add a couple of toolbar buttons to **MainPage.xaml**, one to use the camera to take a photo, the other to select a photo from the users photo library.
 
 At this point we will just implement the code to take the photo or access the photo library.
 
