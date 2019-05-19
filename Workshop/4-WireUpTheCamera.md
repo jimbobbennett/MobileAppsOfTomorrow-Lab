@@ -159,43 +159,30 @@ Before you can access the camera or the photo library, you have to add a privacy
 
 1. In the Visual Studio Solution Explorer, open **HappyXamDevs.Android** > **MainActivity.cs**
 
-1. In the **MainActivity.cs** editor, enter the following code:
+2. In the **MainActivity.cs** editor, add a call to `Plugin.Permissions.PermissionsImplementation.Current.OnRequestPermissionsResult` at the top of the `OnRequestPermissionsResult` method.
 
-    ```csharp
-    using Android.App;
-    using Android.Content.PM;
-    using Android.OS;
-    using Android.Runtime;
+   ```csharp
+   public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
+   {
+       Plugin.Permissions.PermissionsImplementation.Current.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+       ...
+   }
+   ```
 
-    namespace HappyXamDevs.Droid
-    {
-        [Activity(Label = "HappyXamDevs", Icon = "@mipmap/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
-        public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
-        {
-            public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Permission[] grantResults)
-            {
-                Plugin.Permissions.PermissionsImplementation.Current.OnRequestPermissionsResult(requestCode, permissions, grantResults);
-                base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
-            }
+3. Add the following code to call `Plugin.CurrentActivity.CrossCurrentActivity.Current.Init` in the `OnCreate` method, before the call to `LoadApplication`:
 
-            protected override void OnCreate(Bundle bundle)
-            {
-                TabLayoutResource = Resource.Layout.Tabbar;
-                ToolbarResource = Resource.Layout.Toolbar;
+   ```csharp
+   protected override void OnCreate(Bundle savedInstanceState)
+   {
+       ...
+       Plugin.CurrentActivity.CrossCurrentActivity.Current.Init(this, savedInstanceState);
+       .LoadApplication(new App());
+   }
+   ```
 
-                base.OnCreate(bundle);
-
-                global::Xamarin.Forms.Forms.Init(this, bundle);
-                Plugin.CurrentActivity.CrossCurrentActivity.Current.Init(this, bundle);
-                LoadApplication(new App());
-            }
-        }
-    }
-    ```
-
-    > **About the Code**
-    >
-    > `OnRequestPermissionsResult` allows the Xamarin Media Plugin to display Permissions Requests to current screen of our app
+   > **About the Code**
+   >
+   > `OnRequestPermissionsResult` allows the Xamarin Media Plugin to display Permissions Requests to current screen of our app
 
 ## 3. Configure UWP Camera Settings
 
