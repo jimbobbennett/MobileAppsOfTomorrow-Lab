@@ -30,7 +30,7 @@ You will learn how to use plug-ins to take advantage or hardware specific featur
 
 In this workshop, your instructors will provide you guidance based on many years of experience doing mobile cross platform development with Xamarin. Of course within one single day, we cannot implement all the best practices in development, continuous integration, testing, QA, etc. This workshop is an introduction to cross-platform development with Xamarin and Azure which will get you started you into this fantastic world.
 
-The examples are not production quality - for example you won't be handling exceptions anywhere in the code. You will also be writing functions inside the Azure portal and configuring services directly, whereas in a production app you would want to write your functions using Visual Studio, use CI/CD using services like [Azure DevOps](hhttps://azure.microsoft.com/en-gb/services/devops/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn) and tools like the [Azure Resource Manager](https://docs.microsoft.com/azure/azure-resource-manager/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn).
+The examples are not production quality - for example you won't be handling exceptions anywhere in the code. You will also be writing functions inside the Azure portal and configuring services directly, whereas in a production app you would want to write your functions using Visual Studio, use CI/CD using services like [Azure DevOps](https://azure.microsoft.com/en-gb/services/devops/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn) and tools like the [Azure Resource Manager](https://docs.microsoft.com/azure/azure-resource-manager/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn).
 
 We will also not be considering security. For a production app, please refer to the [Azure Security documentation](https://docs.microsoft.com/azure/security/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn) and consider using tools like [Azure Key Vault](https://docs.microsoft.com/azure/key-vault/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn).
 
@@ -82,3 +82,4 @@ This lab was built by [Jim Bennett](https://developer.microsoft.com/advocates/ji
 | 1.0     | 23 May 2018 | Initial release |
 | 1.1     | 11 June 2018 | Updates after first run to fix bugs and improve clarity |
 | 1.2     | 02 March 2019 | Migrated Azure Functions from v1 to v2 |
+| 1.3     | 19 May 2019 | Removing Auth, updating to VS 2019 |
