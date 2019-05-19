@@ -32,17 +32,7 @@ We'll be using the [Microsoft.Azure.Mobile.Client](https://www.nuget.org/package
 
     ![Adding the Microsoft.Azure.Mobile.Client NuGet package on Mac](../Images/VSMacAddMobileClientNuget.png)
 
-1. In Visual Studio for Mac, right-click the `HappyXamDevs.Android` project > **Add** > **Add NuGet Packages**
-
-1. In the **NuGet Package Manager** window, in the search results, select **Microsoft.Azure.Mobile.Client**
-
-1. In the **NuGet Package Manager** window, select **Add Package**
-
-1. In Visual Studio for Mac, right-click the `HappyXamDevs.iOS` project > **Add** > **Add NuGet Packages**
-
-1. In the **NuGet Package Manager** window, in the search results, select **Microsoft.Azure.Mobile.Client**
-
-1. In the **NuGet Package Manager** window, select **Add Package**
+1. Repeat the above steps for the `HappyXamDevs.Android` and `HappyXamDevs.iOS` projects
 
 ## 2. Creating a folder in the cross-platform project
 
@@ -73,22 +63,7 @@ We'll be using the [Microsoft.Azure.Mobile.Client](https://www.nuget.org/package
 
 4. Click **New**
 
-### Adding the code
-
-1. In the `IAzureService.cs` editor, add the following code:
-
-```csharp
-using System.Threading.Tasks;
-
-namespace HappyXamDevs.Services
-{
-    public interface IAzureService
-    {
-    }
-}
-```
-
-## 4. Creating a cross-platform Azure service to implmenet this interface
+## 4. Creating a cross-platform Azure service to implement this interface
 
 ### Creating the file
 
