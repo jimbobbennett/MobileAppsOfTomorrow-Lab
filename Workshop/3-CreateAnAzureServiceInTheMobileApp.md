@@ -95,9 +95,10 @@ We'll be using the [Microsoft.Azure.Mobile.Client](https://www.nuget.org/package
    using System.Threading.Tasks;
    using Microsoft.WindowsAzure.MobileServices;
 
+   [assembly: Xamarin.Forms.Dependency(typeof(HappyXamDevs.Services.AzureService))]
+
    namespace HappyXamDevs.Services
    {
-       [assembly: Xamarin.Forms.Dependency(typeof(HappyXamDevs.Droid.Services.AzureService))]
        public class AzureService : IAzureService
        {
            protected const string AzureAppName = "[Your Function App Name]";

@@ -86,9 +86,9 @@ namespace HappyXamDevs.Services
 }
 ```
 
-3. In the Visual Studio Solution Explorer, open **HappyXamDevs** > **Services** > **AzureServiceBase.cs**
+3. In the Visual Studio Solution Explorer, open **HappyXamDevs** > **Services** > **AzureService.cs**
 
-4. In the **AzureServiceBase.cs** editor, enter the following using statements:
+4. In the **AzureService.cs** editor, enter the following using statements:
 
 ```csharp
 using System.IO;
@@ -97,7 +97,7 @@ using Xamarin.Essentials;
 using HappyXamDevs.Models;
 ```
 
-5. In the **AzureServiceBase.cs** editor, enter the following method:
+5. In the **AzureService.cs** editor, enter the following method:
 
 ```csharp
 public async Task DownloadPhoto(PhotoMetadataModel photoMetadata)
@@ -129,7 +129,7 @@ public async Task DownloadPhoto(PhotoMetadataModel photoMetadata)
 
 ## 3. Downloading the photo metadata
 
-1. In the **AzureServiceBase.cs** editor, add the following method:
+1. In the **AzureService.cs** editor, add the following method:
 
 ```csharp
 public async Task<IEnumerable<PhotoMetadataModel>> GetAllPhotoMetadata()

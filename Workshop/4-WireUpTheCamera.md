@@ -176,7 +176,7 @@ Before you can access the camera or the photo library, you have to add a privacy
    {
        ...
        Plugin.CurrentActivity.CrossCurrentActivity.Current.Init(this, savedInstanceState);
-       .LoadApplication(new App());
+       LoadApplication(new App());
    }
    ```
 

@@ -102,9 +102,9 @@ The Azure Cognitive Services FaceAPI is accessible from a NuGet package that pro
     }
     ```
 
-3. In the Visual Studio Solution Explorer, open **HappyXamDevs** > **Services** > **AzureServiceBase.cs**
+3. In the Visual Studio Solution Explorer, open **HappyXamDevs** > **Services** > **AzureService.cs**
 
-4. In the **AzureServiceBase.cs** editor, add the following using statements:
+4. In the **AzureService.cs** editor, add the following using statements:
 
     ```csharp
     using System.Linq;
@@ -114,7 +114,7 @@ The Azure Cognitive Services FaceAPI is accessible from a NuGet package that pro
     using Plugin.Media.Abstractions;
     ```
 
-5. In the **AzureServiceBase.cs** editor, add the following `readonly` field:
+5. In the **AzureService.cs** editor, add the following `readonly` field:
 
     ```csharp
     private readonly FaceClient faceApiClient = new FaceClient(new ApiKeyServiceClientCredentials("[YOUR API KEY HERE]"))
@@ -131,7 +131,7 @@ The Azure Cognitive Services FaceAPI is accessible from a NuGet package that pro
     - **Correct Base Url:** `https://westus.api.cognitive.microsoft.com/`
     - **Incorrect Base Url:** `https://westus.api.cognitive.microsoft.com/face/v1.0`
 
-6. In the **AzureServiceBase.cs** editor, add the following method:
+6. In the **AzureService.cs** editor, add the following method:
 
     ```csharp
     public async Task<bool> VerifyHappyFace(MediaFile photo)

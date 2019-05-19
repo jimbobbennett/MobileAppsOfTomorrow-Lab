@@ -21,7 +21,7 @@ Let's begin by creating a new cross-platform Xamarin.Forms app. Clone this repos
    ![The Visual Studio for Mac new project dialog](../Images/VSMNewProject.png)
 
 5. Click **Next**
-6. Name the project **HappyXamDewvs**, leave the organization identifier as it is, ensure **iOS** and **Android** are both ticked, and that the **Shared code** option is set to **Use .NET Standard Library**
+6. Name the project **HappyXamDevs**, leave the organization identifier as it is, ensure **iOS** and **Android** are both ticked, and that the **Shared code** option is set to **Use .NET Standard Library**
 
    ![The Visual Studio for Mac configure project dialog](../Images/VSMConfigureProject2.png)
 
@@ -35,7 +35,7 @@ Let's begin by creating a new cross-platform Xamarin.Forms app. Clone this repos
 
 ## 2. Explore the project
 
-This solution contains 4 projects
+This solution contains 4 projects on Windows, 3 on macOS.
 
 | Project     | Description |
 |-------------|-------------|
