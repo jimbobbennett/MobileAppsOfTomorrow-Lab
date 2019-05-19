@@ -8,69 +8,57 @@ We'll be using the [Microsoft.Azure.Mobile.Client](https://www.nuget.org/package
 
 ## 1. Installing NuGet Packages
 
-1. Open our newly created Xamarin.Forms app in Visual Studio
+### PC
 
-2. (PC) In Visual Studio, right-click the `HappyXamDevs` solution > **Manage NuGet Packages For Solution..**
-
-    - (Mac) In Visual Studio for Mac, right-click the `HappyXamDevs` project > **Add** > **Add NuGet Packages**
-
-3. (PC) In the **NuGet Package Manager** window, select **Browse**
-
-    - (Mac) _Skip this step_
-
-4. In the **NuGet Package Manager** window, in the search bar, enter **Microsoft.Azure.Mobile.Client**
-
-5. In the **NuGet Package Manager** window, in the search results, select **Microsoft.Azure.Mobile.Client**
-
-6. (PC) In the **NuGet Package Manager** window, select **Install**
+1. In Visual Studio, right-click the `HappyXamDevs` solution > **Manage NuGet Packages For Solution..**
+1. In the **NuGet Package Manager** window, select **Browse**
+1. In the **NuGet Package Manager** window, in the search bar, enter **Microsoft.Azure.Mobile.Client**
+1. In the **NuGet Package Manager** window, in the search results, select **Microsoft.Azure.Mobile.Client**
+1. In the **NuGet Package Manager** window, select **Install**
 
     ![Adding the Microsoft.Azure.Mobile.Client NuGet package on PC](../Images/VS2017AddMobileClientNuget.png)
 
-    - (Mac) In the **NuGet Package Manager** window, select **Add Package**
+### Mac
+
+1. In Visual Studio for Mac, right-click the `HappyXamDevs` project > **Add** > **Add NuGet Packages**
+
+1. In the **NuGet Package Manager** window, in the search bar, enter **Microsoft.Azure.Mobile.Client**
+
+1. In the **NuGet Package Manager** window, in the search results, select **Microsoft.Azure.Mobile.Client**
+
+1. (In the **NuGet Package Manager** window, select **Add Package**
 
     ![Adding the Microsoft.Azure.Mobile.Client NuGet package on Mac](../Images/VSMacAddMobileClientNuget.png)
 
-7. (PC) _Skip this step_
+1. In Visual Studio for Mac, right-click the **HappyXamDevs.Android** project > **Add** > **Add NuGet Packages**
 
-    - (Mac) In Visual Studio for Mac, right-click the **HappyXamDevs.Android** project > **Add** > **Add NuGet Packages**
+1. In the **NuGet Package Manager** window, in the search results, select **Microsoft.Azure.Mobile.Client**
 
-8. (PC) _Skip this step_
+1. In the **NuGet Package Manager** window, select **Add Package**
 
-    - (Mac) In the **NuGet Package Manager** window, in the search results, select **Microsoft.Azure.Mobile.Client**
+1. In Visual Studio for Mac, right-click the **HappyXamDevs.iOS** project > **Add** > **Add NuGet Packages**
 
-9. (PC) _Skip this step_
+1. In the **NuGet Package Manager** window, in the search results, select **Microsoft.Azure.Mobile.Client**
 
-    - (Mac) In the **NuGet Package Manager** window, select **Add Package**
-
-10. (PC) _Skip this step_
-
-    - (Mac) In Visual Studio for Mac, right-click the **HappyXamDevs.iOS** project > **Add** > **Add NuGet Packages**
-
-11. (PC) _Skip this step_
-
-    - (Mac) In the **NuGet Package Manager** window, in the search results, select **Microsoft.Azure.Mobile.Client**
-
-12. (PC) _Skip this step_
-
-    - (Mac) In the **NuGet Package Manager** window, select **Add Package**
+1. In the **NuGet Package Manager** window, select **Add Package**
 
 ## 2. Creating a cross-platform Azure service
 
-1. In the Visual Studio Solution Explorer, right-click on the second-from-the-top **HappyXamDevs** option > **Add** > **New Folder**
-    > **Warning:** Do not select **Add Solution Folder**. If you are given the option **Add Solution Folder**, you have right-clicked on top-most **HappyXamDevs** option.
+1. In the Visual Studio Solution Explorer, right-click on the **HappyXamDevs** project > **Add** > **New Folder**
+    > **Warning:** Do not select **Add Solution Folder**. If you are given the option **Add Solution Folder**, you have right-clicked on the **HappyXamDevs** solution, not the project.
 
-2. In the Visual Studio Solution Explorer, name the new folder `Services`
+1. In the Visual Studio Solution Explorer, name the new folder `Services`
 
-3. (PC) In the Visual Studio Solution Explorer, right-click on the newly created **Services** folder > **Add** > **Class**
+1. - (PC) In the Visual Studio Solution Explorer, right-click on the newly created **Services** folder > **Add** > **Class**
 
-    - (Mac) On Visual Studio for Mac, right-click on the newly created `Services` folder > **Add** > **New File**
+   - (Mac) On Visual Studio for Mac, right-click on the newly created `Services` folder > **Add** > **New File**
 
-4. In the **Add New Item** window, name the file `IAzureService.cs`
+1. In the **Add New Item** window, name the file `IAzureService.cs`
 
-5. (PC) In the **Add New Item** window, click **Add**
-    - (Mac) In the **Add New Item** window, click **New**
+1. - (PC) In the **Add New Item** window, click **Add**
+   - (Mac) In the **Add New Item** window, click **New**
 
-6. In the `IAzureService.cs` editor, add the following code:
+1. In the `IAzureService.cs` editor, add the following code:
 
 ```csharp
 using System.Threading.Tasks;
@@ -83,13 +71,13 @@ namespace HappyXamDevs.Services
 }
 ```
 
-1. In the Visual Studio Solution Explorer, right-click on **Services** folder > **Add** > **Class**
+1. - (PC) In the Visual Studio Solution Explorer, right-click on **Services** folder > **Add** > **Class**
 
     - (Mac) On Visual Studio for Mac, right-click on the **Services** folder > **Add** > **New File**
 
 2. In the **Add New Item** window, name the file `AzureServiceBase.cs`
 
-3. (PC) In the **Add New Item** window, click **Add**
+3. - (PC) In the **Add New Item** window, click **Add**
     - (Mac) In the **Add New Item** window, click **New**
 
 4. In the `AzureServiceBase.cs` editor, add the following code
