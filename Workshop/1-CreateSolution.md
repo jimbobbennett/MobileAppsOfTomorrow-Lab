@@ -1,6 +1,6 @@
 # Creating the solution
 
-Let's begin by opening the MobileAppsOfTomorrow-Lab template, a cross-platform Xamarin.Forms app. Clone this repository, or download the Zip file.
+Let's begin by opening the *MobileAppsOfTomorrow-Lab* template, a cross-platform Xamarin.Forms app. Clone this repository, or download the Zip file.
 
 ## 1. Open the Workshop's Created Solution Template
 
@@ -15,6 +15,7 @@ Let's begin by opening the MobileAppsOfTomorrow-Lab template, a cross-platform X
 1. In Finder, navigate to **MobileAppsOfTomorrow-Lab** > **FinishedWorkshopSteps** > **1-CreateSolution** > **HappyXamDevs**
 1. In Finder, double-click **HappyXamDevs.sln**
 1. Ensure the **HappyXamDevs** solution launches in Visual Studio
+1. The **HappyXamDevs.UWP** project will not load on Visual Studio for Mac, soright-click this project and select *Delete* to remove it. Select **Delete from Disk** from the popup, then confirm that you want to delete the project and the entire project directory.
 
 ## 2. Explore the project
 

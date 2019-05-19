@@ -36,12 +36,11 @@ For this app, we will create our back-end using Azure Functions.
         - **Name:** HappyXamDevs
     - **OS:** Windows
     - **Hosting Plan:** Consumption
-    - **Location:** West US
+    - **Location:** Pick the location closest to you, for example West Europe
     - **Runtime Stack**: .NET
-    - **Storage** 
+    - **Storage**
         - [x] Create new
-        - storage[Your Last Name]
-            - E.g 
+        - Leave the default value in here
     - **Application Insights**
         - **Disabled**
 
