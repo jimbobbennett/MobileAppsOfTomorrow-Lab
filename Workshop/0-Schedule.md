@@ -1,6 +1,6 @@
 # Schedule
 
-This is an indicative schedule for the workshop in VS Live Las Vegas 2019.
+This is an indicative schedule for the workshop in VS Live Redmond 2019.
 
 | **Time** | **Title** | **Presenter** |
 | ---------|------|----------|
