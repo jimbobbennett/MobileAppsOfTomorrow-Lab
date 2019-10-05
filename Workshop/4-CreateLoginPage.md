@@ -12,9 +12,11 @@ We'll be using the [MVVM design pattern](https://docs.microsoft.com/xamarin/xama
 
 We are going to create a `Xamarin.Forms.ContentPage`, a Xamarin.Forms control that contains some form of content, normally a layout control containing other controls.
 
-1. (PC) In the **Visual Studio Solution Explorer**, right-click **HappyXamDevs** > **Add** > **New Item...**
+1. (PC) In the **Visual Studio Solution Explorer**, right-click on the second-from-the-top **HappyXamDevs** option > **Add** > **New Item...**
 
-    - (Mac) In the **Visual Studio Solution Explorer**, right-click **HappyXamDevs** > **Add** > **New File**
+    - (Mac) In the **Visual Studio Solution Explorer**, right-click on the second-from-the-top **HappyXamDevs** option > **Add** > **New File**
+
+    > **Warning:** Do not right-click on top-most **HappyXamDevs** option.
 
 2. (PC) In the **Add New Item** window, select **Installed** > **Visual C# Items** > **Xamarin.Forms** > **Content Page**
 
