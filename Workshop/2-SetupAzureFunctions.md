@@ -31,21 +31,21 @@ This back-end will use Facebook authentication, meaning that any calls to our Az
 
     - **Subscription**: [Select your Azure Subscription]
 
-    > Note: As a reminder, if you don't have an Azure account, [you can create a free one](https://azure.microsoft.com/free?WT.mc_id=mobileappsoftomorrow-workshop-jabenn).
+    > Note: As a reminder, if you don't have an Azure account, [you can create a free one](https://azure.microsoft.com/free?WT.mc_id=mobileappsoftomorrow-workshop-jabenn)
 
     - **Resource Group**
         - [x] Create new
         - **Name:** HappyXamDevs
     - **OS:** Windows
-    - **Hosting Plan:** Consumption
+    - **Hosting Plan:** Consumption Plan
     - **Location:** West US
-    - **Runtime Stack**: .NET
+    - **Runtime Stack**: .NET Core
     - **Storage** 
         - [x] Create new
         - storage[Your Last Name]
-            - E.g 
+            - E.g `happyxamdevsminnick`
     - **Applictaion Insights**
-        - **Disabled**
+        - *keep the default configuration*
 
 8. Click **Create**
 
@@ -82,19 +82,20 @@ To set up authentication using Facebook, you will need to create an app in Faceb
 5. On the **Facebook for Developers** page, expand the browser window until the **≡** menu disappears
     > **Note:** The **Facebook for Developers** page is a mobile-responsive website and the **≡** menu is only meant for mobile
 
-6. On the **Facebook for Developers** page, select **My Apps** > **Add new app**
+6. On the **Facebook for Developers** page, select **My Apps** > **Create App**
 
 7. In the **Create a New App ID** prompt, enter the following: 
-    - **App Name**: HappyXamDevs
+    - **Display Name**: HappyXamDevs
     - **Contact Email**: [Your email address]
 
 8. Click **Create App Id**
 
 9. If prompted, complete the **Security Check**
 
-10. On the **Facebook For Developers Dashboard**, select **Integrate Facebook Login** > **Confirm**
+10. On the **Facebook For Developers Dashboard**, select **Add a Product** > **Facebook Login** > **Set up**
 
 11. On the left-hand menu, select **Facebook Login** > **Settings**
+> **Note:** We will be ignoring the **Quickstart** option
 
 12. On the **Client OAuth Settings** menu, make the following sections:
 
@@ -106,12 +107,13 @@ To set up authentication using Facebook, you will need to create an app in Faceb
     - **Use Strict Mode for Redirect URIs**: Yes
     - **Valid OAuth Redirect URIs**: https://[Your Azure Function Domain]/.auth/login/facebook/callback
         - E.g. `https://happyxamdevsfunction-minnick.azurewebsites.net/.auth/login/facebook/callback`
+    - **Login from Devices:** No
 
 13. Click **Save Changes**
 
 ![Facebook Login Settings](../Images/FacebookLoginSettings.png)
 
-14. On the **Facebook For Developers Dashboard**, select **Settings** > **Basic**
+14. On the **Facebook For Developers Dashboard**, on the left-hand menu, select **Settings** > **Basic**
 
 15. Copy the **App Id** and **App Secret**
     - We will use these values later when configuring the Azure Functions Authentication

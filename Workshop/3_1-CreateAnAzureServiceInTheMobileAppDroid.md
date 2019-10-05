@@ -20,7 +20,7 @@
 
     - (Mac) In the **NuGet Package Manager** window, select **Add Package**
 
-6. In the Visual Studio Solution Explorer, open `HappyXamDevs.Android` > `MainActivity.cs` 
+6. In the **Visual Studio Solution Explorer**, open `HappyXamDevs.Android` > `MainActivity.cs` 
 
 7. In the `MainActivity.cs` editor, enter the following code: 
 
@@ -51,15 +51,15 @@ namespace HappyXamDevs.Droid
 
 > **About the Code**
 >
-> `Plugin.CurrentActivity.CrossCurrentActivity.Current.Init(this, bundle);` initialized the `Plugin.CurrentActivity` library
+> `Plugin.CurrentActivity.CrossCurrentActivity.Current.Init(this, bundle);` initializes the `Plugin.CurrentActivity` library
 
 ## 2. Create AzureService.cs
 
-1. In the Visual Studio Solution Explorer, right-click on the project `HappyXamDevs.Android` > **Add** > **New Folder**
+1. In the **Visual Studio Solution Explorer**, right-click on the project `HappyXamDevs.Android` > **Add** > **New Folder**
 
-2. In the Visual Studio Solution Explorer, name the new folder `Services`
+2. In the **Visual Studio Solution Explorer**, name the new folder `Services`
 
-3. In the Visual Studio Solution Explorer, right-click on the newly created `Services` folder > **Add** > **Class**
+3. In the **Visual Studio Solution Explorer**, right-click on the newly created `Services` folder > **Add** > **Class**
 
     - (Mac) On Visual Studio for Mac, right-click on the newly created `Services` folder > **Add** > **New File**
 
@@ -100,11 +100,13 @@ namespace HappyXamDevs.Droid.Services
 
 We configured **Allowed external redirect URLs** in the Azure Function App as the return URL. We now need to configure our Android app to be able to handle this URL. This configuration is done in `HappyXamDevs.Android` > `Properties` > `AndroidManifest.xml`.
 
-1. In the Visual Studio Solution Explorer, open `HappyXamDevs.Android` > `Properties` > `AndroidManifest.xml`
+1. In the **Visual Studio Solution Explorer**, open `HappyXamDevs.Android` > `Properties` > `AndroidManifest.xml`
 
 2. In the `AndroidManifest.xml` editor, at the botton, select the `Source` tab
 
-3. In the `Source` tab of the `AndroidManifest.xml` editor, enter the following code:
+3. (PC) In the `Source` tab of the `AndroidManifest.xml` editor, enter the following code:
+    - (Mac) In the **Visual Studio Solution Explorer**, right-click on `AndroidMainifest.xml`
+    - (Mac) In the right-click menu, select **Open With** > **Source Code Editor**
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>

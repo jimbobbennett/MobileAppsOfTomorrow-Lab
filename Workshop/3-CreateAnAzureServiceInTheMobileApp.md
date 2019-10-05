@@ -55,12 +55,12 @@ We'll be using the [Microsoft.Azure.Mobile.Client](https://www.nuget.org/package
 
 ## 2. Creating a cross-platform Azure service
 
-1. In the Visual Studio Solution Explorer, right-click on the second-from-the-top **HappyXamDevs** option > **Add** > **New Folder**
+1. In the **Visual Studio Solution Explorer**, right-click on the second-from-the-top **HappyXamDevs** option > **Add** > **New Folder**
     > **Warning:** Do not select **Add Solution Folder**. If you are given the option **Add Solution Folder**, you have right-clicked on top-most **HappyXamDevs** option.
 
-2. In the Visual Studio Solution Explorer, name the new folder `Services`
+2. In the **Visual Studio Solution Explorer**, name the new folder `Services`
 
-3. (PC) In the Visual Studio Solution Explorer, right-click on the newly created **Services** folder > **Add** > **Class**
+3. (PC) In the **Visual Studio Solution Explorer**, right-click on the newly created **Services** folder > **Add** > **Class**
 
     - (Mac) On Visual Studio for Mac, right-click on the newly created `Services` folder > **Add** > **New File**
 
@@ -88,7 +88,7 @@ namespace HappyXamDevs.Services
 
 > **Note:** `Authenticate` will return `true` if the user is successfully authenticated and `false` if not. This will be an asynchronous method, so the return value will be wrapped in a `System.Threading.Tasks.Task`. 
 
-7. In the Visual Studio Solution Explorer, right-click on **Services** folder > **Add** > **Class**
+7. In the **Visual Studio Solution Explorer**, right-click on **Services** folder > **Add** > **Class**
 
     - (Mac) On Visual Studio for Mac, right-click on the **Services** folder > **Add** > **New File**
 
