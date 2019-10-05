@@ -17,10 +17,10 @@ namespace HappyXamDevs.UWP
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            if (e.Parameter is Uri)
+            if (e.Parameter is Uri uriParameter)
             {
                 var azureService = Xamarin.Forms.DependencyService.Get<IAzureService>() as AzureService;
-                azureService.Client.ResumeWithURL(e.Parameter as Uri);
+                azureService.Client.ResumeWithURL(uriParameter);
             }
         }
     }

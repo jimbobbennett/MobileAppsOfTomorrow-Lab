@@ -32,6 +32,20 @@ namespace HappyXamDevs.UWP
             throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
         }
 
+        protected override void OnActivated(IActivatedEventArgs args)
+        {
+            if (args is ProtocolActivatedEventArgs protocolArgs
+                && Window.Current.Content is Frame content
+                && content.Content is MainPage)
+            {
+                content.Navigate(typeof(MainPage), protocolArgs.Uri);
+            }
+
+            Window.Current.Activate();
+
+            base.OnActivated(args);
+        }
+
         /// <summary>
         /// Invoked when application execution is being suspended.  Application state is saved
         /// without knowing whether the application will be terminated or resumed with the contents
@@ -44,21 +58,6 @@ namespace HappyXamDevs.UWP
             var deferral = e.SuspendingOperation.GetDeferral();
             //TODO: Save application state and stop any background activity
             deferral.Complete();
-        }
-
-        protected override void OnActivated(IActivatedEventArgs args)
-        {
-            if (args.Kind is ActivationKind.Protocol)
-            {
-                var protocolArgs = args as ProtocolActivatedEventArgs;
-                var content = Window.Current.Content as Frame;
-                if (content.Content.GetType() == typeof(MainPage))
-                {
-                    content.Navigate(typeof(MainPage), protocolArgs.Uri);
-                }
-            }
-            Window.Current.Activate();
-            base.OnActivated(args);
         }
 
         /// <summary>
