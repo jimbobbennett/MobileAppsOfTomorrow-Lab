@@ -8,7 +8,7 @@ Let's begin by opening the MobileAppsOfTomorrow-Lab template, a cross-platform X
     - (Mac) In Finder, navigate to **MobileAppsOfTomorrow-Lab** > **FinishedWorkshopSteps** > **1-CreateSolution** > **HappyXamDevs**
 
 2. (PC) In File Explorer, double-click **HappyXamDevs.sln**
-    - (Mac) (Mac) In Finder, double-click **HappyXamDevs.sln**
+    - (Mac) In Finder, double-click **HappyXamDevs.sln**
 
 3. Ensure the **HappyXamDevs** solution launches in Visual Studio
 
