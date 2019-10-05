@@ -98,7 +98,8 @@ namespace HappyXamDevs.Services
     - (Mac) In the **Add New Item** window, click **New**
 
 10. In the `AzureServiceBase.cs` editor, add the following code
-    > **Note:** Replace `[Your Function App Name]` with the name of your Azure Function App, e.g. `HappyXamDevsFunction-Minnick`
+
+> **Note:** Replace `[Your Function App Name]` with the name of your Azure Function App, e.g. `HappyXamDevsFunction-Minnick`
 
 ```csharp
 using System;
@@ -157,6 +158,8 @@ namespace HappyXamDevs.Services
 > `abstract Task AuthenticateUser()` will be implemented in our Android, iOS and/or UWP projects later
 >
 > `Task<bool> Authenticate()` first checks to see if there already is a logged in user, and if not call the `AuthenticateUser()` 
+
+11. Replace `[Your Function App Name]` with the name of your Azure Function App, e.g. `HappyXamDevsFunction-Minnick`
 
 ## Next step
 
