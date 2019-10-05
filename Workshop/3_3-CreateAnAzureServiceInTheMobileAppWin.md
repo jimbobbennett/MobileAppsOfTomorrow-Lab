@@ -30,8 +30,7 @@ namespace HappyXamDevs.UWP.Services
     {
         protected override Task AuthenticateUser()
         {
-            return Client.LoginAsync(MobileServiceAuthenticationProvider.Facebook,
-                                    "happyxamdevs");
+            return Client.LoginAsync(MobileServiceAuthenticationProvider.Facebook, "happyxamdevs");
         }
     }
 }
@@ -54,17 +53,16 @@ Just like with Android and iOS you will need to configure your app to handle the
 ```csharp
 protected override void OnActivated(IActivatedEventArgs args)
 {
-    if (args.Kind is ActivationKind.Protocol)
-    {
-        var protocolArgs = args as ProtocolActivatedEventArgs;
-        var content = Window.Current.Content as Frame;
-        if (content.Content.GetType() == typeof(MainPage))
-        {
-            content.Navigate(typeof(MainPage), protocolArgs.Uri);
-        }
-    }
-    Window.Current.Activate();
-    base.OnActivated(args);
+	if (args is ProtocolActivatedEventArgs protocolArgs
+		&& Window.Current.Content is Frame content
+		&& content.Content is MainPage)
+	{
+		content.Navigate(typeof(MainPage), protocolArgs.Uri);
+	}
+
+	Window.Current.Activate();
+
+	base.OnActivated(args);
 }
 ```
 
