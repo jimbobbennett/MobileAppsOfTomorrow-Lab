@@ -186,7 +186,7 @@ namespace HappyXamDevs.Droid
 12. In the **Visual Studio Solution Explorer**, right-click on **HappyXamDevs.Android** > **Resources** > **file_paths.xml**
 
 13. (PC) In the right-click menu, select **Properties**
-    - (Mac) In the3 right-click menu, select **Build Action** > **AndroidResource**
+    - (Mac) In the right-click menu, select **Build Action** > **AndroidResource**
 
 14. (PC) In the **Properties** window, set the **Build Action** to **AndroidResource**
     - (Mac) *Skip this step*
