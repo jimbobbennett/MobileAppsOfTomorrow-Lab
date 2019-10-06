@@ -8,9 +8,11 @@ The `ImageCell` in our `ListView` is functional, but not the prettiest way to sh
 
 Currently the `ListView` is using an out-the-box `ImageCell` as the item template. This is functional, but doesn't display the photo very well.
 
-1. (PC) In the Visual Studio Solution Explorer, right-click **HappyXamDevs** > **Add** > **New Item...**
+1. (PC) In the **Visual Studio Solution Explorer**, right-click on the second-from-the-top **HappyXamDevs** option > **Add** > **New Item...**
 
-    - (Mac) In the Visual Studio Solution Explorer, right-click **HappyXamDevs** > **Add** > **New File**
+    - (Mac) In the **Visual Studio Solution Explorer**, right-click on the second-from-the-top **HappyXamDevs** option > **Add** > **New File**
+
+    > **Warning:** Do not right-click on top-most **HappyXamDevs** option.
 
 2. (PC) In the **Add New Item** window, select **Installed** > **Visual C# Items** > **Xamarin.Forms** > **Content View**
 
@@ -26,7 +28,7 @@ Currently the `ListView` is using an out-the-box `ImageCell` as the item templat
 
     - (Mac) In the **New File** window, click **Add**
 
-5. In the Visual Studio Solution Explorer, open **HappyXamDevs** > **PhotoCell.xaml**
+5. In the **Visual Studio Solution Explorer**, open **HappyXamDevs** > **PhotoCell.xaml**
 
 6. In the `PhotoCell.xaml` editor, replace the provided template with the following code:
 
@@ -73,7 +75,7 @@ Currently the `ListView` is using an out-the-box `ImageCell` as the item templat
 >
 > A second `Label` is in the last row, binding its `Text` to the `Tags` property of the `PhotoModel`. We use a small, dark grey, italic font.
 
-2. In the Visual Studio Solution Explorer, open **HappyXamDevs** > **PhotoCell.xaml.cs**
+2. In the **Visual Studio Solution Explorer**, open **HappyXamDevs** > **PhotoCell.xaml.cs**
 
 3. In the **PhotoCell.xaml.cs** editor, enter the following code
 
@@ -98,7 +100,7 @@ namespace HappyXamDevs
 
 Once you have your new view cell, it's time to use it inside your list view.
 
-1. In the Visual Studio Solution Explorer, open **HappyXamDevs** > **MainPage.xaml**
+1. In the **Visual Studio Solution Explorer**, open **HappyXamDevs** > **MainPage.xaml**
 
 2. In the **MainPage.xaml** editor, enter the following code:
 
