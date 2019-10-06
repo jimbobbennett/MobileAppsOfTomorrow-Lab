@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
@@ -6,9 +6,8 @@
         <LangVersion>latest</LangVersion>
     </PropertyGroup>
     <ItemGroup>
-        <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="1.0.29" />
+        <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="1.0.30-beta1" />
         <PackageReference Include="WindowsAzure.Storage" Version="9.3.3" />
-        <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
         <PackageReference Include="Microsoft.Azure.CognitiveServices.Vision.ComputerVision" Version="6.0.0-dev.20190919.3" />
         <PackageReference Include="Microsoft.Azure.WebJobs.Extensions.Storage" Version="3.0.8" />
         <PackageReference Include="Microsoft.Azure.WebJobs.Extensions.CosmosDB" Version="3.0.4" />
