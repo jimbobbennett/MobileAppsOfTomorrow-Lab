@@ -322,7 +322,7 @@ private async Task TakePhoto()
 7. On the iOS device, take a happy-looking selfie
 
 8. In the [Azure portal](https://portal.azure.com/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn), navigate to the Azure Blob Storage instance **happyxamdevs[Your Last Name]**
-    - E.g., happyxamdevsminnick
+    - E.g. `happyxamdevsminnick`
 
 9. In the **Storage Account** dashboard, on the left-hand menu, select **Blobs**
 
@@ -350,7 +350,7 @@ private async Task TakePhoto()
 7. On the UWP device, take a happy-looking selfie
 
 8. In the [Azure portal](https://portal.azure.com/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn), navigate to the Azure Blob Storage instance **happyxamdevs[Your Last Name]**
-    - E.g., happyxamdevsminnick
+    - E.g. `happyxamdevsminnick`
 
 9. In the **Storage Account** dashboard, on the left-hand menu, select **Blobs**
 
