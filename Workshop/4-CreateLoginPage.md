@@ -499,19 +499,7 @@ namespace HappyXamDevs
 
 ## 7. Test the Login Flow
 
-### 7a. Test the Login Flow, Web Browser
-
-1. Open a web browser and navigate to your Azure Functions App url
-    - E.g. https://happyxamdevsfunction-minnick.azurewebsites.net
-
-2. Ensure you are redirected to the Facebook login
-
-3. At the Facebook login page, log into your facebook account
-
-4. After completing the Facebook login, ensure you are redirected to your Azure Functions App url
-    - E.g. https://happyxamdevsfunction-minnick.azurewebsites.net
-
-### 7b. Test the Login Flow, Android
+### 7a. Test the Login Flow, Android
 
 1. In Visual Studio, right-click on **HappyXamDevs.Android** > **Set as Startup Project**
 
@@ -529,7 +517,7 @@ namespace HappyXamDevs
 7. On the Android device, ensure **LoginPage** disappears and you are returned to **MainPage**
     > **Note:** **MainPage** should say **Welcome to Xamarin.Forms**
 
-### 7c. Test the Login Flow, UWP
+### 7b. Test the Login Flow, UWP
 
 1. (PC) In Visual Studio, right-click on **HappyXamDevs.UWP** > **Set as Startup Project**
     - (Mac) _Skip this step_
@@ -552,7 +540,7 @@ namespace HappyXamDevs
     > **Note:** **MainPage** should say **Welcome to Xamarin.Forms**
     - (Mac) _Skip this step_
 
-### 7d. Test the Login Flow, iOS
+### 7c. Test the Login Flow, iOS
 
 1. (PC) _Skip this step_
     - (Mac) In Visual Studio, right-click on **HappyXamDevs.iOS** > **Set as Startup Project**
