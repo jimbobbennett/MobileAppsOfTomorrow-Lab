@@ -37,7 +37,7 @@ By default, HTTP triggers support GET and POST methods. This function will only 
 1. On the left-hand menu, expand the **UploadPhoto** drop-down
 2. On the left-hand menu, under **UploadPhoto**, select the **Integrate**
 3. In the **Integrate** window, under **Triggers**, select **HTTP (req)**
-4. In the **HTTP trigger** window, make the following selections:
+4. At the bottom of the page, in the **HTTP trigger** frame, make the following selections:
     - **Allowed Http methods:** Selected methods
     - **Request parameter name:** req
     - **Route Template**: photo
@@ -293,8 +293,8 @@ private async Task TakePhoto()
 
 7. On the Android device, take a happy-looking selfie
 
-8. In the [Azure portal](https://portal.azure.com/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn), navigate to the Azure Blob Storage instance **storage[Your Last Name]**
-    - E.g., storageminnick
+8. In the [Azure portal](https://portal.azure.com/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn), navigate to the Azure Blob Storage instance **happyxamdevs[Your Last Name]**
+    - E.g. happyxamdevsminnick
 
 9. In the **Storage Account** dashboard, on the left-hand menu, select **Blobs**
 
@@ -321,8 +321,8 @@ private async Task TakePhoto()
 
 7. On the iOS device, take a happy-looking selfie
 
-8. In the [Azure portal](https://portal.azure.com/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn), navigate to the Azure Blob Storage instance **storage[Your Last Name]**
-    - E.g., storageminnick
+8. In the [Azure portal](https://portal.azure.com/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn), navigate to the Azure Blob Storage instance **happyxamdevs[Your Last Name]**
+    - E.g., happyxamdevsminnick
 
 9. In the **Storage Account** dashboard, on the left-hand menu, select **Blobs**
 
@@ -349,8 +349,8 @@ private async Task TakePhoto()
 
 7. On the UWP device, take a happy-looking selfie
 
-8. In the [Azure portal](https://portal.azure.com/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn), navigate to the Azure Blob Storage instance **storage[Your Last Name]**
-    - E.g., storageminnick
+8. In the [Azure portal](https://portal.azure.com/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn), navigate to the Azure Blob Storage instance **happyxamdevs[Your Last Name]**
+    - E.g., happyxamdevsminnick
 
 9. In the **Storage Account** dashboard, on the left-hand menu, select **Blobs**
 

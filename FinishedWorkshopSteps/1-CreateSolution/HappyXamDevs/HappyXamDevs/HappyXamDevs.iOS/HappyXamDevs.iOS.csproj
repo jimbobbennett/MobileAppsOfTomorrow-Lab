@@ -64,6 +64,7 @@
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="CustomRenderers\LargeTitleNavigationRenderer.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
     <None Include="Entitlements.plist" />
@@ -122,12 +123,12 @@
     <Reference Include="Xamarin.iOS" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Xamarin.Forms" Version="3.5.0.169047" />
+    <PackageReference Include="Xamarin.Forms" Version="4.3.0.851321-pre3" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
     <ProjectReference Include="..\HappyXamDevs\HappyXamDevs.csproj">
-      <Project>{A4EBD806-0B14-40DE-8B15-93B8914AE182}</Project>
+      <Project>{B44B8317-2C29-47A0-B839-10C349C30F94}</Project>
       <Name>HappyXamDevs</Name>
     </ProjectReference>
   </ItemGroup>

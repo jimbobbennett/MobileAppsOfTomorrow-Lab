@@ -12,9 +12,11 @@ We'll be using the [MVVM design pattern](https://docs.microsoft.com/xamarin/xama
 
 We are going to create a `Xamarin.Forms.ContentPage`, a Xamarin.Forms control that contains some form of content, normally a layout control containing other controls.
 
-1. (PC) In the Visual Studio Solution Explorer, right-click **HappyXamDevs** > **Add** > **New Item...**
+1. (PC) In the **Visual Studio Solution Explorer**, right-click on the second-from-the-top **HappyXamDevs** option > **Add** > **New Item...**
 
-    - (Mac) In the Visual Studio Solution Explorer, right-click **HappyXamDevs** > **Add** > **New File**
+    - (Mac) In the **Visual Studio Solution Explorer**, right-click on the second-from-the-top **HappyXamDevs** option > **Add** > **New File**
+
+    > **Warning:** Do not right-click on top-most **HappyXamDevs** option.
 
 2. (PC) In the **Add New Item** window, select **Installed** > **Visual C# Items** > **Xamarin.Forms** > **Content Page**
 
@@ -34,7 +36,7 @@ We are going to create a `Xamarin.Forms.ContentPage`, a Xamarin.Forms control th
 
      ![Creating a content page using VS2017](../Images/VSMCreateLoginPage.png)
 
-5. In the Visual Studio Solution Explorer, open **HappyXamDevs** > **LoginPage.xaml**
+5. In the **Visual Studio Solution Explorer**, open **HappyXamDevs** > **LoginPage.xaml**
 
 6. In the `LoginPage.xaml` editor, replace the provided template with the following code:
 
@@ -90,14 +92,14 @@ You can read more about this [in the Xamarin docs](https://docs.microsoft.com/xa
 
 Android stores images in the `Resources/drawable` folders, with different `drawable` folders for different device resolutions; `drawable-hdpi` for high density screens, `drawable-xhdpi` for extra high density screens, etc. Images of different resolutions are put into these folders.
 
-1. In the Visual Studio Solution Explorer, navigate to **HappyXamDevs.Android** > **Resources**
+1. In the **Visual Studio Solution Explorer**, navigate to **HappyXamDevs.Android** > **Resources**
 
-2. In the Visual Studio Solution Explorer, note the many `drawable` folders
+2. In the **Visual Studio Solution Explorer**, note the many `drawable` folders
     >  **Note:** The lowest-resolution image will be added to `drawable-hdpi` while the highest-resolution image will be added to `drawable-xxxhdpi`
 
-3. (PC) In the Visual Studio Solution Explorer, right-click on the  **drawable-hdpi** folder > **Add** > **Existing Item...**
+3. (PC) In the **Visual Studio Solution Explorer**, right-click on the  **drawable-hdpi** folder > **Add** > **Existing Item...**
 
-    - (Mac) In the Visual Studio Solution Explorer, right-click on  **drawable-hdpi** > **Add** > **Add Files...**
+    - (Mac) In the **Visual Studio Solution Explorer**, right-click on  **drawable-hdpi** > **Add** > **Add Files...**
 
 4. In the file explorer window, navigate to **MobileAppsOfTomorrow-Lab** > **Assets** > **Android** > **drawable-hdpi**
 
@@ -106,9 +108,9 @@ Android stores images in the `Resources/drawable` folders, with different `drawa
 6. (PC) _Skip this step_
     - (Mac) In the confirmation popup, select **Copy the file to the directory** > **OK**
 
-7. (PC) In the Visual Studio Solution Explorer, right-click on the  **drawable-xhdpi** folder > **Add** > **Existing Item...**
+7. (PC) In the **Visual Studio Solution Explorer**, right-click on the  **drawable-xhdpi** folder > **Add** > **Existing Item...**
 
-    - (Mac) In the Visual Studio Solution Explorer, right-click on  **drawable-xhdpi** > **Add** > **Add Files...**
+    - (Mac) In the **Visual Studio Solution Explorer**, right-click on  **drawable-xhdpi** > **Add** > **Add Files...**
 
 8. In the file explorer window, navigate to **MobileAppsOfTomorrow-Lab** > **Assets** > **Android** > **drawable-xhdpi**
 
@@ -117,9 +119,9 @@ Android stores images in the `Resources/drawable` folders, with different `drawa
 10. (PC) _Skip this step_
     - (Mac) In the confirmation popup, select **Copy the file to the directory** > **OK**
 
-11. (PC) In the Visual Studio Solution Explorer, right-click on the  **drawable-xxhdpi** folder > **Add** > **Existing Item...**
+11. (PC) In the **Visual Studio Solution Explorer**, right-click on the  **drawable-xxhdpi** folder > **Add** > **Existing Item...**
 
-    - (Mac) In the Visual Studio Solution Explorer, right-click on  **drawable-xxhdpi** > **Add** > **Add Files...**
+    - (Mac) In the **Visual Studio Solution Explorer**, right-click on  **drawable-xxhdpi** > **Add** > **Add Files...**
 
 12. In the file explorer window, navigate to **MobileAppsOfTomorrow-Lab** > **Assets** > **Android** > **drawable-xxhdpi**
 
@@ -128,9 +130,9 @@ Android stores images in the `Resources/drawable` folders, with different `drawa
 14. (PC) _Skip this step_
     - (Mac) In the confirmation popup, select **Copy the file to the directory** > **OK**
 
-15. (PC) In the Visual Studio Solution Explorer, right-click on the  **drawable-xxxhdpi** folder > **Add** > **Existing Item...**
+15. (PC) In the **Visual Studio Solution Explorer**, right-click on the  **drawable-xxxhdpi** folder > **Add** > **Existing Item...**
 
-    - (Mac) In the Visual Studio Solution Explorer, right-click on  **drawable-xxxhdpi** > **Add** > **Add Files...**
+    - (Mac) In the **Visual Studio Solution Explorer**, right-click on  **drawable-xxxhdpi** > **Add** > **Add Files...**
 
 16. In the file explorer window, navigate to **MobileAppsOfTomorrow-Lab** > **Assets** > **Android** > **drawable-xxxhdpi**
 
@@ -145,8 +147,8 @@ iOS uses asset catalogs to manage images. For each image, we create a named imag
 
 At runtime, the iOS device will select the appropriate image based on its screen resolution.
 
-1. (PC) In the Visual Studio Solution Explorer, open **HappyXamDevs.iOS** >  **Asset Catalogs** > **Assets**
-    - (Mac) In the Visual Studio Solution Explorer, open **HappyXamDevs.iOS** >  **Assets.xcassets**
+1. (PC) In the **Visual Studio Solution Explorer**, open **HappyXamDevs.iOS** >  **Asset Catalogs** > **Assets**
+    - (Mac) In the **Visual Studio Solution Explorer**, open **HappyXamDevs.iOS** >  **Assets.xcassets**
 
 2. (PC) In the **Assets.xcassets** window, select **Add** (box with green **+**) > **Add Image Set**
     - (Mac) In the **Assets.xcassets** window, on the left-hand menu, right-click **AppIcon** > **New Image Set**
@@ -185,19 +187,19 @@ When the application runs, the UWP framework will automatically select the best 
 
 > **Note:** If using Visual Studio for Mac, skip this step
 
-1. In the Visual Studio Solution Explorer, right-click **HappyXamDevs.UWP** > **Add** > **Existing Item...**
+1. In the **Visual Studio Solution Explorer**, right-click **HappyXamDevs.UWP** > **Add** > **Existing Item...**
 
 2. In the file explorer, navigate to **MobileAppsOfTomorrow-Lab** > **Assets** > **UWP**
 
 3. In the file explorer, double-click **Bit_Learning.scale-100**
 
-4. In the Visual Studio Solution Explorer, right-click **HappyXamDevs.UWP** > **Add** > **Existing Item...**
+4. In the **Visual Studio Solution Explorer**, right-click **HappyXamDevs.UWP** > **Add** > **Existing Item...**
 
 5. In the file explorer, navigate to **MobileAppsOfTomorrow-Lab** > **Assets** > **UWP**
 
 6. In the file explorer, double-click **Bit_Learning.scale-200**
 
-7. In the Visual Studio Solution Explorer, right-click **HappyXamDevs.UWP** > **Add** > **Existing Item...**
+7. In the **Visual Studio Solution Explorer**, right-click **HappyXamDevs.UWP** > **Add** > **Existing Item...**
 
 8. In the file explorer, navigate to **MobileAppsOfTomorrow-Lab** > **Assets** > **UWP**
 
@@ -205,7 +207,7 @@ When the application runs, the UWP framework will automatically select the best 
 
 ## 3. Styling the Login Button
 
-1. In the Visual Studio Solution Explorer, open **HappyXamDevs** > **App.xaml**
+1. In the **Visual Studio Solution Explorer**, open **HappyXamDevs** > **App.xaml**
 
 2. In the **App.xaml** editor, enter the following code to define a new color, `CoolPurple`:
 
@@ -227,7 +229,7 @@ When the application runs, the UWP framework will automatically select the best 
 >
 > `ResourceDictionary` is a static dictionary where we can define run-time constants to be used anywhere in our Xamarin.Forms project
 
-3. In the Visual Studio Solution Explorer, open **HappyXamDevs** > **LoginPage.xaml**
+3. In the **Visual Studio Solution Explorer**, open **HappyXamDevs** > **LoginPage.xaml**
 
 4. In the **LoginPage.xaml** editor, add the `BackgroundColor` using the `StaticResource` we created in the `ResourceDictionary`:
 
@@ -253,12 +255,12 @@ To provide functionality to the Login page, we will create a `LoginViewModel` an
 
 To help with creating view models, we will create a `BaseViewModel` that provides an implementation of `INotifyPropertyChanged`. 
 
-1. In the Visual Studio Solution Explorer, right-click on the second-from-the-top **HappyXamDevs** option > **Add** > **New Folder**
+1. In the **Visual Studio Solution Explorer**, right-click on the second-from-the-top **HappyXamDevs** option > **Add** > **New Folder**
     > **Warning:** Do not select **Add Solution Folder**. If you are given the option **Add Solution Folder**, you have right-clicked on top-most **HappyXamDevs** option.
 
-2. In the Visual Studio Solution Explorer, name the new folder `ViewModels`
+2. In the **Visual Studio Solution Explorer**, name the new folder `ViewModels`
 
-3. In the Visual Studio Solution Explorer, right-click on the newly created `ViewModels` folder > **Add** > **Class**
+3. In the **Visual Studio Solution Explorer**, right-click on the newly created `ViewModels` folder > **Add** > **Class**
 
     - (Mac) On Visual Studio for Mac, right-click on the newly created `ViewModels` folder > **Add** > **New File**
 
@@ -305,7 +307,7 @@ namespace HappyXamDevs.ViewModels
 >
 > `Set` is a helper method to allow you to update a field and if the value of the field changes, raise the `PropertyChanged` event. The `CallerMemberName` attribute on the `propertyName` parameter means the compiler will pass the name of the calling method or property in for you. This is allows us to call `Set` from a property setter and the compiler will automatically pass in the property name, ensuring the change notification is raised for the correct property.
 
-9. In the Visual Studio Solution Explorer, right-click on the `ViewModels` folder > **Add** > **Class**
+9. In the **Visual Studio Solution Explorer**, right-click on the `ViewModels` folder > **Add** > **Class**
 
     - (Mac) On Visual Studio for Mac, right-click on the  `ViewModels` folder > **Add** > **New File**
 
@@ -357,7 +359,7 @@ namespace HappyXamDevs.ViewModels
 
 Now we have a ViewModel, it needs to be set as the binding context of the page, and the login button needs to be wired up to the command.
 
-1. In the Visual Studio Solution Explorer, open **HappyXamDevs** > **LoginPage.xaml**
+1. In the **Visual Studio Solution Explorer**, open **HappyXamDevs** > **LoginPage.xaml**
 
 2. In the `LoginPage.xaml` editor, update the code to match the following:
 
@@ -412,7 +414,7 @@ The Blank Forms App template just contained one `ContentPage`, `MainPage.xaml`.
 
 We will wrap the page in a `NavigationPage` which provides page-level navigation allowing the user to navigate back and forth. You can read more on navigation pages in the [Xamarin docs](https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/navigation/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn).
 
-1. In the Visual Studio Solution Explorer, open **HappyXamDevs** > **App.xaml.cs**
+1. In the **Visual Studio Solution Explorer**, open **HappyXamDevs** > **App.xaml.cs**
 
 2. In the **App.xaml.cs** editor, enter the following code:
 
@@ -455,7 +457,7 @@ namespace HappyXamDevs
 >
 > `MainPage = navigationPage` sets the `MainPage`, also known as the "Root Page", of the Xamarin.Forms application to use a `NavigationPage`
 
-3. In the Visual Studio Solution Explorer, open **HappyXamDevs** > **MainPage.xaml.cs**
+3. In the **Visual Studio Solution Explorer**, open **HappyXamDevs** > **MainPage.xaml.cs**
 
 4. In the **MainPage.xaml.cs** editor, enter the following code:
 

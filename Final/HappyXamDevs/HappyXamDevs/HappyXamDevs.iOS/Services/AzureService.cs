@@ -21,33 +21,25 @@ namespace HappyXamDevs.iOS.Services
 
         private static Task<UIViewController> GetCurrentViewController()
         {
-            var tcs = new TaskCompletionSource<UIViewController>();
-
-            DispatchQueue.MainQueue.DispatchAsync(() =>
+            return Xamarin.Forms.Device.InvokeOnMainThreadAsync(() =>
             {
                 var rootController = UIApplication.SharedApplication.KeyWindow.RootViewController;
 
                 switch (rootController.PresentedViewController)
                 {
                     case UINavigationController navigationController:
-                        tcs.SetResult(navigationController.TopViewController);
-                        break;
+                        return navigationController.TopViewController;
 
                     case UITabBarController tabBarController:
-                        tcs.SetResult(tabBarController.SelectedViewController);
-                        break;
+                        return tabBarController.SelectedViewController;
 
                     case null:
-                        tcs.SetResult(rootController);
-                        break;
+                        return rootController;
 
                     default:
-                        tcs.SetResult(rootController.PresentedViewController);
-                        break;
+                        return rootController.PresentedViewController;
                 }
             });
-
-            return tcs.Task;
         }
     }
 }

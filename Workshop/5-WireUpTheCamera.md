@@ -50,7 +50,7 @@ The [Xamarin Media Plugin](https://www.nuget.org/packages/Xam.Plugin.Media/) pro
 
 ## 2. Configure iOS Camera Settings
 
-1. (PC) In the Visual Studio Solution Explorer, right-click on **HappyXamDevs.iOS** > **Info.plist** > **Open with...**
+1. (PC) In the **Visual Studio Solution Explorer**, right-click on **HappyXamDevs.iOS** > **Info.plist** > **Open with...**
     - (Mac) In Visual Studio Solution Explorer, double-click **HappyXamDevs.iOS** > **Info.plist**
 
 2. (PC) In the **Open With** window, select **Generic PList editor** > **OK**.
@@ -76,14 +76,16 @@ The [Xamarin Media Plugin](https://www.nuget.org/packages/Xam.Plugin.Media/) pro
 10. In the **Info.plist** editor, next to **Privacy - Photo library usage description**, set its **Value**: 
     - **Value**: The photo library is used to select pictures of Happy Xamarin Developers
 
-11. In Visual Studio, save the changes to **Info.plist** by selectiong **File** > **Save All**
+11. (PC) In Visual Studio, save the changes to **Info.plist** by selectiong **File** > **Save All**
+    - (Mac) In Visual Studio, save the changes to **Info.plist** by pressing **CMD + S**
 
 ## 2. Configure Android Camera Settings
 
 1. In Visual Studio Solution Explorer, open **HappyXamDevs.Android** > **Properties** > **AndroidManifest.xml**
 
 2. (PC) _Skip this step_
-    - (Mac) In the **AndroidManifest.xml** editor, at the bottom, select **Source**
+    - (Mac) In the **Visual Studio Solution Explorer**, right-click on **AndroidMainifest.xml**
+    - (Mac) In the right-click menu, select **Open With** > **Source Code Editor**
 
 3. In the **AndroidManifest.xml** source editor, enter the following code:
 
@@ -115,11 +117,12 @@ The [Xamarin Media Plugin](https://www.nuget.org/packages/Xam.Plugin.Media/) pro
 
 4. In Visual Studio, save the changes to **AndroidManifest.xml** by selecting **File** > **Save All**
 
-5. In the Visual Studio Solution Explorer, right-click on **HappyXamDevs.Android** > **Resources** > **Add** > **New Folder**
+5. In the **Visual Studio Solution Explorer**, right-click on **HappyXamDevs.Android** > **Resources** > **Add** > **New Folder**
 
-6. In the Visual Studio Solution Explorer, name the new folder `xml`
+6. In the **Visual Studio Solution Explorer**, name the new folder `xml`
+> **Note:** Ensure `xml` is all lower-case because the folder name is case-sensitve
 
-7. In the Visual Studio Solution Explorer, right-click on the newly created `xml` folder > **Add** > **Class**
+7. In the **Visual Studio Solution Explorer**, right-click on the newly created `xml` folder > **Add** > **Class**
 
     - (Mac) On Visual Studio for Mac, right-click on the newly created `xml` folder > **Add** > **New File**
 
@@ -140,7 +143,7 @@ The [Xamarin Media Plugin](https://www.nuget.org/packages/Xam.Plugin.Media/) pro
 >
 > `<paths>` allows us to set an `external-files-path` for any image or video taken by the camera in our app
 
-10. In the Visual Studio Solution Explorer, open **HappyXamDevs.Android** > **MainActivity.cs**
+10. In the **Visual Studio Solution Explorer**, open **HappyXamDevs.Android** > **MainActivity.cs**
 
 11. In the **MainActivity.cs** editor, enter the following code:
 
@@ -182,7 +185,7 @@ namespace HappyXamDevs.Droid
 
 ## 3. Configure UWP Camera Settings
 
-1. In the Visual Studio Solution Explorer, open **HappyXamDevs.UWP** > **Package.appxmanifest**
+1. In the **Visual Studio Solution Explorer**, open **HappyXamDevs.UWP** > **Package.appxmanifest**
 
 2. In the **Package.appxmanifest** editor, select the **Capabilities** tab
 
@@ -200,14 +203,14 @@ At this point we will just implement the code to take the photo or access the ph
 
 Android stores images in the `Resources/drawable` folders, with different `drawable` folders for different device resolutions - so `drawable-hdpi` for high density screens, `drawable-xhdpi` for extra high density screens and so on. Images of different resolutions are put into these folders.
 
-1. In the Visual Studio Solution Explorer, navigate to **HappyXamDevs.Android** > **Resources**
+1. In the **Visual Studio Solution Explorer**, navigate to **HappyXamDevs.Android** > **Resources**
 
-2. In the Visual Studio Solution Explorer, note the many `drawable` folders
+2. In the **Visual Studio Solution Explorer**, note the many `drawable` folders
     >  **Note:** The lowest-resolution image will be added to `drawable-hdpi` while the highest-resolution image will be added to `drawable-xxxhdpi`
 
-3. (PC) In the Visual Studio Solution Explorer, right-click on the  **drawable-hdpi** folder > **Add** > **Existing Item...**
+3. (PC) In the **Visual Studio Solution Explorer**, right-click on the  **drawable-hdpi** folder > **Add** > **Existing Item...**
 
-    - (Mac) In the Visual Studio Solution Explorer, right-click on  **drawable-hdpi** > **Add** > **Add Files...**
+    - (Mac) In the **Visual Studio Solution Explorer**, right-click on  **drawable-hdpi** > **Add** > **Add Files...**
 
 4. In the file explorer window, navigate to **MobileAppsOfTomorrow-Lab** > **Assets** > **Android** > **drawable-hdpi**
 
@@ -216,9 +219,9 @@ Android stores images in the `Resources/drawable` folders, with different `drawa
 6. (PC) _Skip this step_
     - (Mac) In the confirmation popup, select **Copy the file to the directory** > **OK**
 
-7. (PC) In the Visual Studio Solution Explorer, right-click on the  **drawable-xhdpi** folder > **Add** > **Existing Item...**
+7. (PC) In the **Visual Studio Solution Explorer**, right-click on the  **drawable-xhdpi** folder > **Add** > **Existing Item...**
 
-    - (Mac) In the Visual Studio Solution Explorer, right-click on  **drawable-xhdpi** > **Add** > **Add Files...**
+    - (Mac) In the **Visual Studio Solution Explorer**, right-click on  **drawable-xhdpi** > **Add** > **Add Files...**
 
 8. In the file explorer window, navigate to **MobileAppsOfTomorrow-Lab** > **Assets** > **Android** > **drawable-xhdpi**
 
@@ -227,9 +230,9 @@ Android stores images in the `Resources/drawable` folders, with different `drawa
 10. (PC) _Skip this step_
     - (Mac) In the confirmation popup, select **Copy the file to the directory** > **OK**
 
-11. (PC) In the Visual Studio Solution Explorer, right-click on the  **drawable-xxhdpi** folder > **Add** > **Existing Item...**
+11. (PC) In the **Visual Studio Solution Explorer**, right-click on the  **drawable-xxhdpi** folder > **Add** > **Existing Item...**
 
-    - (Mac) In the Visual Studio Solution Explorer, right-click on  **drawable-xxhdpi** > **Add** > **Add Files...**
+    - (Mac) In the **Visual Studio Solution Explorer**, right-click on  **drawable-xxhdpi** > **Add** > **Add Files...**
 
 12. In the file explorer window, navigate to **MobileAppsOfTomorrow-Lab** > **Assets** > **Android** > **drawable-xxhdpi**
 
@@ -238,9 +241,9 @@ Android stores images in the `Resources/drawable` folders, with different `drawa
 14. (PC) _Skip this step_
     - (Mac) In the confirmation popup, select **Copy the file to the directory** > **OK**
 
-15. (PC) In the Visual Studio Solution Explorer, right-click on the  **drawable-xxxhdpi** folder > **Add** > **Existing Item...**
+15. (PC) In the **Visual Studio Solution Explorer**, right-click on the  **drawable-xxxhdpi** folder > **Add** > **Existing Item...**
 
-    - (Mac) In the Visual Studio Solution Explorer, right-click on  **drawable-xxxhdpi** > **Add** > **Add Files...**
+    - (Mac) In the **Visual Studio Solution Explorer**, right-click on  **drawable-xxxhdpi** > **Add** > **Add Files...**
 
 16. In the file explorer window, navigate to **MobileAppsOfTomorrow-Lab** > **Assets** > **Android** > **drawable-xxxhdpi**
 
@@ -255,8 +258,8 @@ iOS uses asset catalogs to manage images. For each image, we create a named imag
 
 At runtime, the iOS device will select the appropriate image based on its screen resolution.
 
-1. (PC) In the Visual Studio Solution Explorer, open **HappyXamDevs.iOS** >  **Asset Catalogs** > **Assets**
-    - (Mac) In the Visual Studio Solution Explorer, open **HappyXamDevs.iOS** >  **Assets.xcassets**
+1. (PC) In the **Visual Studio Solution Explorer**, open **HappyXamDevs.iOS** >  **Asset Catalogs** > **Assets**
+    - (Mac) In the **Visual Studio Solution Explorer**, open **HappyXamDevs.iOS** >  **Assets.xcassets**
 
 2. (PC) In the **Assets.xcassets** window, select **Add** (box with green **+**) > **Add Image Set**
     - (Mac) In the **Assets.xcassets** window, on the left-hand menu, right-click **AppIcon** > **New Image Set**
@@ -295,19 +298,19 @@ When the application runs, the UWP framework will automatically select the best 
 
 > **Note:** If using Visual Studio for Mac, skip this step
 
-1. In the Visual Studio Solution Explorer, right-click **HappyXamDevs.UWP** > **Add** > **Existing Item...**
+1. In the **Visual Studio Solution Explorer**, right-click **HappyXamDevs.UWP** > **Add** > **Existing Item...**
 
 2. In the file explorer, navigate to **MobileAppsOfTomorrow-Lab** > **Assets** > **UWP**
 
 3. In the file explorer, double-click **SelectFromLibrary.scale-100**
 
-4. In the Visual Studio Solution Explorer, right-click **HappyXamDevs.UWP** > **Add** > **Existing Item...**
+4. In the **Visual Studio Solution Explorer**, right-click **HappyXamDevs.UWP** > **Add** > **Existing Item...**
 
 5. In the file explorer, navigate to **MobileAppsOfTomorrow-Lab** > **Assets** > **UWP**
 
 6. In the file explorer, double-click **SelectFromLibrary.scale-200**
 
-7. In the Visual Studio Solution Explorer, right-click **HappyXamDevs.UWP** > **Add** > **Existing Item...**
+7. In the **Visual Studio Solution Explorer**, right-click **HappyXamDevs.UWP** > **Add** > **Existing Item...**
 
 8. In the file explorer, navigate to **MobileAppsOfTomorrow-Lab** > **Assets** > **UWP**
 
@@ -323,14 +326,14 @@ At this point we will just implement the code to take the photo or access the ph
 
 Android stores images in the `Resources/drawable` folders, with different `drawable` folders for different device resolutions - so `drawable-hdpi` for high density screens, `drawable-xhdpi` for extra high density screens and so on. Images of different resolutions are put into these folders.
 
-1. In the Visual Studio Solution Explorer, navigate to **HappyXamDevs.Android** > **Resources**
+1. In the **Visual Studio Solution Explorer**, navigate to **HappyXamDevs.Android** > **Resources**
 
-2. In the Visual Studio Solution Explorer, note the many `drawable` folders
+2. In the **Visual Studio Solution Explorer**, note the many `drawable` folders
     >  **Note:** The lowest-resolution image will be added to `drawable-hdpi` while the highest-resolution image will be added to `drawable-xxxhdpi`
 
-3. (PC) In the Visual Studio Solution Explorer, right-click on the  **drawable-hdpi** folder > **Add** > **Existing Item...**
+3. (PC) In the **Visual Studio Solution Explorer**, right-click on the  **drawable-hdpi** folder > **Add** > **Existing Item...**
 
-    - (Mac) In the Visual Studio Solution Explorer, right-click on  **drawable-hdpi** > **Add** > **Add Files...**
+    - (Mac) In the **Visual Studio Solution Explorer**, right-click on  **drawable-hdpi** > **Add** > **Add Files...**
 
 4. In the file explorer window, navigate to **MobileAppsOfTomorrow-Lab** > **Assets** > **Android** > **drawable-hdpi**
 
@@ -339,9 +342,9 @@ Android stores images in the `Resources/drawable` folders, with different `drawa
 6. (PC) _Skip this step_
     - (Mac) In the confirmation popup, select **Copy the file to the directory** > **OK**
 
-7. (PC) In the Visual Studio Solution Explorer, right-click on the  **drawable-xhdpi** folder > **Add** > **Existing Item...**
+7. (PC) In the **Visual Studio Solution Explorer**, right-click on the  **drawable-xhdpi** folder > **Add** > **Existing Item...**
 
-    - (Mac) In the Visual Studio Solution Explorer, right-click on  **drawable-xhdpi** > **Add** > **Add Files...**
+    - (Mac) In the **Visual Studio Solution Explorer**, right-click on  **drawable-xhdpi** > **Add** > **Add Files...**
 
 8. In the file explorer window, navigate to **MobileAppsOfTomorrow-Lab** > **Assets** > **Android** > **drawable-xhdpi**
 
@@ -350,9 +353,9 @@ Android stores images in the `Resources/drawable` folders, with different `drawa
 10. (PC) _Skip this step_
     - (Mac) In the confirmation popup, select **Copy the file to the directory** > **OK**
 
-11. (PC) In the Visual Studio Solution Explorer, right-click on the  **drawable-xxhdpi** folder > **Add** > **Existing Item...**
+11. (PC) In the **Visual Studio Solution Explorer**, right-click on the  **drawable-xxhdpi** folder > **Add** > **Existing Item...**
 
-    - (Mac) In the Visual Studio Solution Explorer, right-click on  **drawable-xxhdpi** > **Add** > **Add Files...**
+    - (Mac) In the **Visual Studio Solution Explorer**, right-click on  **drawable-xxhdpi** > **Add** > **Add Files...**
 
 12. In the file explorer window, navigate to **MobileAppsOfTomorrow-Lab** > **Assets** > **Android** > **drawable-xxhdpi**
 
@@ -361,9 +364,9 @@ Android stores images in the `Resources/drawable` folders, with different `drawa
 14. (PC) _Skip this step_
     - (Mac) In the confirmation popup, select **Copy the file to the directory** > **OK**
 
-15. (PC) In the Visual Studio Solution Explorer, right-click on the  **drawable-xxxhdpi** folder > **Add** > **Existing Item...**
+15. (PC) In the **Visual Studio Solution Explorer**, right-click on the  **drawable-xxxhdpi** folder > **Add** > **Existing Item...**
 
-    - (Mac) In the Visual Studio Solution Explorer, right-click on  **drawable-xxxhdpi** > **Add** > **Add Files...**
+    - (Mac) In the **Visual Studio Solution Explorer**, right-click on  **drawable-xxxhdpi** > **Add** > **Add Files...**
 
 16. In the file explorer window, navigate to **MobileAppsOfTomorrow-Lab** > **Assets** > **Android** > **drawable-xxxhdpi**
 
@@ -378,8 +381,8 @@ iOS uses asset catalogs to manage images. For each image, we create a named imag
 
 At runtime, the iOS device will select the appropriate image based on its screen resolution.
 
-1. (PC) In the Visual Studio Solution Explorer, open **HappyXamDevs.iOS** >  **Asset Catalogs** > **Assets**
-    - (Mac) In the Visual Studio Solution Explorer, open **HappyXamDevs.iOS** >  **Assets.xcassets**
+1. (PC) In the **Visual Studio Solution Explorer**, open **HappyXamDevs.iOS** >  **Asset Catalogs** > **Assets**
+    - (Mac) In the **Visual Studio Solution Explorer**, open **HappyXamDevs.iOS** >  **Assets.xcassets**
 
 2. (PC) In the **Assets.xcassets** window, select **Add** (box with green **+**) > **Add Image Set**
     - (Mac) In the **Assets.xcassets** window, on the left-hand menu, right-click **AppIcon** > **New Image Set**
@@ -418,19 +421,19 @@ When the application runs, the UWP framework will automatically select the best 
 
 > **Note:** If using Visual Studio for Mac, skip this step
 
-1. In the Visual Studio Solution Explorer, right-click **HappyXamDevs.UWP** > **Add** > **Existing Item...**
+1. In the **Visual Studio Solution Explorer**, right-click **HappyXamDevs.UWP** > **Add** > **Existing Item...**
 
 2. In the file explorer, navigate to **MobileAppsOfTomorrow-Lab** > **Assets** > **UWP**
 
 3. In the file explorer, double-click **TakePhoto.scale-100**
 
-4. In the Visual Studio Solution Explorer, right-click **HappyXamDevs.UWP** > **Add** > **Existing Item...**
+4. In the **Visual Studio Solution Explorer**, right-click **HappyXamDevs.UWP** > **Add** > **Existing Item...**
 
 5. In the file explorer, navigate to **MobileAppsOfTomorrow-Lab** > **Assets** > **UWP**
 
 6. In the file explorer, double-click **TakePhoto.scale-200**
 
-7. In the Visual Studio Solution Explorer, right-click **HappyXamDevs.UWP** > **Add** > **Existing Item...**
+7. In the **Visual Studio Solution Explorer**, right-click **HappyXamDevs.UWP** > **Add** > **Existing Item...**
 
 8. In the file explorer, navigate to **MobileAppsOfTomorrow-Lab** > **Assets** > **UWP**
 
@@ -438,7 +441,7 @@ When the application runs, the UWP framework will automatically select the best 
 
 ## 6. Adding Toolbar Buttons to `MainPage.xaml`
 
-1. In the Visual Studio Solution Explorer, open **HappyXamDevs** > **MainPage.xaml**
+1. In the **Visual Studio Solution Explorer**, open **HappyXamDevs** > **MainPage.xaml**
 
 2. In the **MainPage.xaml** editor, replace the following code:
 
@@ -467,7 +470,7 @@ When the application runs, the UWP framework will automatically select the best 
 
 In the previous section you added behavior to your login page using a view model, and you will need to do the same for this page.
 
-1. In the Visual Studio Solution Explorer, right-click on **HappyXamDevs** > **ViewModels** > **Add** > **Class**
+1. In the **Visual Studio Solution Explorer**, right-click on **HappyXamDevs** > **ViewModels** > **Add** > **Class**
 
     - (Mac) On Visual Studio for Mac, right-click on **HappyXamDevs** > **ViewModels** > **Add** > **New File**
 
@@ -522,7 +525,7 @@ namespace HappyXamDevs.ViewModels
 >
 > `SelectFromLibraryCommand` runs `SelectFromLibrary()` and will be triggered by a Button Command (we will add this in the next step)
 
-2. In the Visual Studio Solution Explorer, open **HappyXamDevs** > **MainPage.xaml**
+2. In the **Visual Studio Solution Explorer**, open **HappyXamDevs** > **MainPage.xaml**
 
 3. In the **MainPage.xaml** editor, replace the following code:
 

@@ -27,7 +27,8 @@ Before you can use the Computer Vision API, you will need an API key. You can ge
 5. In the **Computer Vision** window, click **Create**
 
 6. In the **Create** window, enter the following:
-    - **Name:** HappyXamDevs-ComputerVision
+    - **Name:** HappyXamDevs-ComputerVision-[Your Last Name]
+    > **Note:** Replace `[Your Last Name]` with your last name, e.g. `HappyXamDevs-ComputerVision-Minnick`
     - **Subscription:** [Your Azure Subscription]
     - **Location:** West US
     - **Pricing Tier:** F0
@@ -45,11 +46,10 @@ Before you can use the Computer Vision API, you will need an API key. You can ge
 9. On the **HappyXamDevs-ComputerVision** dashboard, on the left-hand menu, select **Overview**
 
 10. On the **Overview** page, copy the base url of **Endpoint**
-    > **Important:** Only copy the base url of the API endpoint
-    >    - Correct Endopint Example: `https://westus.api.cognitive.microsoft.com/`
-    >    - Incorrect Endopint Example: `https://westus.api.cognitive.microsoft.com/vision/v1.0`
-
     > **Note:** We will add the base url to our Azure Functions' Application Settings later
+    > **Important:** Only copy the base url of the API endpoint
+    > >    - Correct Endopint Example: `https://westus.api.cognitive.microsoft.com/`
+    > >    - Incorrect Endopint Example: `https://westus.api.cognitive.microsoft.com/vision/v1.0`
 
 ## 2. Creating a Queue Trigger Azure Function
 
@@ -62,9 +62,9 @@ Functions can also have bindings to other Azure resources such as storage and Co
 
 2. On the **Azure Functions** dashboard, on the left-hand menu, click **HappXamDevsFunction-[Your Last Name]**
 
-3. On the **Overview** page, click **Application settings**
+3. On the **Overview** page, click **Configuration**
 
-4. On the **Application settings** page, in the **Application settings** frame, click **+ Add new setting**
+4. On the **Application settings** page, in the **Application settings** frame, click **+ New application settting**
 
 5. On the **Application settings** page, in the **Application settings** frame, enter the following:
     - **App Setting:** ComputerVisionApiKey
@@ -231,7 +231,7 @@ Now that we have a function that returns an object with the results of the visio
     - **Collection throughput** [Leave Blank]
 
 10. On the **Azure Cosmos Db Output** frame, click **Save**
-11. On the **Integrate** window, select **Azure Queue Storage (myQueueItem)**
+11. On the **Integrate** window, towards the top, select **Azure Queue Storage (myQueueItem)**
 12. In the **Azure Queue Storage trigger** window, enter the following
     - **Message parameter name:** blobName
     - **Queue name:** processblobqueue
@@ -266,7 +266,7 @@ Now that we have a function that returns an object with the results of the visio
 
 11. On the **Data Explorer** page, select **PhotosMetadata**
 
-12. On the **Data Explorer** page, select **Documents**
+12. On the **Data Explorer** page, select **Items**
 
 13. In the **Documents** frame, ensure a new metadata entry has been added
 

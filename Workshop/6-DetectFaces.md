@@ -25,7 +25,9 @@ We will use the power of artificial intelligence (AI), thanks to [Azure Cognitiv
 
 8. In the **Create** window, enter the following:
 
-    - **Name:** HappyXamDevs-Face
+    - **Name:** HappyXamDevs-Face-[Your Last Name]
+    > **Note:** Replace `[Your Last Name]` with your last name
+    > The Face resource name must be unique 
     - **Subscription:** [Select your subscription]
     - **Location:** West Us
     - **Pricing tier** F0
@@ -47,9 +49,9 @@ We will use the power of artificial intelligence (AI), thanks to [Azure Cognitiv
 13. In the **XamHappyDevs-Face** dashboard, on the left-hand menu, select **Overview**
 
 14. In the **Overview** window, copy the Base Url of **Endpoint**
-    - Incorrect Base Url: `https://westus.api.cognitive.microsoft.com/face/v1.0`
-    - Correct Base Url: `https://westus.api.cognitive.microsoft.com/`
+    - **Correct Base Url:** `https://westus.api.cognitive.microsoft.com/`
     > **Note:** We will use this value in our mobile app
+    > **Incorrect Base Url:** `https://westus.api.cognitive.microsoft.com/face/v1.0`
 
 ## 2. Adding Microsoft.Azure.CognitiveServices.Vision.Face NuGet Package
 
@@ -147,9 +149,8 @@ private readonly FaceClient faceApiClient = new FaceClient(new ApiKeyServiceClie
 >
 > **Note:** Replace `[Your Face API Base Url]` with the Base Url of the **Face API**
 > > **Warning:** Do not use the full URL; only use the base url
-
-- **Correct Base Url:** `https://westus.api.cognitive.microsoft.com/`
-- **Incorrect Base Url:** `https://westus.api.cognitive.microsoft.com/face/v1.0`
+> > **Correct Base Url:** `https://westus.api.cognitive.microsoft.com/`
+> > **Incorrect Base Url:** `https://westus.api.cognitive.microsoft.com/face/v1.0`
 
 6. In the **AzureServiceBase.cs** editor, add the following method:
 

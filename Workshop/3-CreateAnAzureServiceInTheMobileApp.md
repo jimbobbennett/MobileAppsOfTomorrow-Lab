@@ -55,12 +55,12 @@ We'll be using the [Microsoft.Azure.Mobile.Client](https://www.nuget.org/package
 
 ## 2. Creating a cross-platform Azure service
 
-1. In the Visual Studio Solution Explorer, right-click on the second-from-the-top **HappyXamDevs** option > **Add** > **New Folder**
+1. In the **Visual Studio Solution Explorer**, right-click on the second-from-the-top **HappyXamDevs** option > **Add** > **New Folder**
     > **Warning:** Do not select **Add Solution Folder**. If you are given the option **Add Solution Folder**, you have right-clicked on top-most **HappyXamDevs** option.
 
-2. In the Visual Studio Solution Explorer, name the new folder `Services`
+2. In the **Visual Studio Solution Explorer**, name the new folder `Services`
 
-3. (PC) In the Visual Studio Solution Explorer, right-click on the newly created **Services** folder > **Add** > **Class**
+3. (PC) In the **Visual Studio Solution Explorer**, right-click on the newly created **Services** folder > **Add** > **Class**
 
     - (Mac) On Visual Studio for Mac, right-click on the newly created `Services` folder > **Add** > **New File**
 
@@ -88,7 +88,7 @@ namespace HappyXamDevs.Services
 
 > **Note:** `Authenticate` will return `true` if the user is successfully authenticated and `false` if not. This will be an asynchronous method, so the return value will be wrapped in a `System.Threading.Tasks.Task`. 
 
-7. In the Visual Studio Solution Explorer, right-click on **Services** folder > **Add** > **Class**
+7. In the **Visual Studio Solution Explorer**, right-click on **Services** folder > **Add** > **Class**
 
     - (Mac) On Visual Studio for Mac, right-click on the **Services** folder > **Add** > **New File**
 
@@ -98,7 +98,8 @@ namespace HappyXamDevs.Services
     - (Mac) In the **Add New Item** window, click **New**
 
 10. In the `AzureServiceBase.cs` editor, add the following code
-    > **Note:** Replace `[Your Function App Name]` with the name of your Azure Function App, e.g. `HappyXamDevsFunction-Minnick`
+
+> **Note:** Replace `[Your Function App Name]` with the name of your Azure Function App, e.g. `HappyXamDevsFunction-Minnick`
 
 ```csharp
 using System;
@@ -157,6 +158,8 @@ namespace HappyXamDevs.Services
 > `abstract Task AuthenticateUser()` will be implemented in our Android, iOS and/or UWP projects later
 >
 > `Task<bool> Authenticate()` first checks to see if there already is a logged in user, and if not call the `AuthenticateUser()` 
+
+11. Replace `[Your Function App Name]` with the name of your Azure Function App, e.g. `HappyXamDevsFunction-Minnick`
 
 ## Next step
 
