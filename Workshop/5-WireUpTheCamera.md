@@ -183,6 +183,12 @@ namespace HappyXamDevs.Droid
 >
 > `OnRequestPermissionsResult` allows the Xamarin Media Plugin to display Permissions Requests to current screen of our app
 
+12. In the **Visual Studio Solution Explorer**, right-click on **HappyXamDevs.Android** > **Resources** > **file_paths.xml**
+
+13. (PC) In the right-click menu, select **Properties**
+
+14. (PC) In the **Properties** window, set the **Build Action** to **AndroidResource**
+
 ## 3. Configure UWP Camera Settings
 
 1. In the **Visual Studio Solution Explorer**, open **HappyXamDevs.UWP** > **Package.appxmanifest**
