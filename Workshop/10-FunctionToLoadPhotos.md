@@ -40,8 +40,8 @@ public static IActionResult Run(HttpRequestMessage req, IEnumerable<dynamic> doc
 9. In the **run.csx editor**, click **Save**
 
 10. On the **Functions** dashboard, on the left-hand menu, select **GetAllPhotosMetadata** > **Integrate**
-11. On the **Integrate** window, select **HTTP (req)**
-12. On the **HTTP (req)** window, enter the following:
+11. On the **Integrate** window, towards the towp, select **HTTP (req)**
+12. On the **Integrate** window, towards the bottom, in the **HTTP Trigger** frame, enter the following:
     - **Allowed Http methods:** Selected methods
     - **Request parameter name:** req
     - **Route Template**: photo
@@ -51,7 +51,7 @@ public static IActionResult Run(HttpRequestMessage req, IEnumerable<dynamic> doc
     > Note: Uncheck all other **Selected HTTP methods**
 
 13. On the **HTTP (req)** window, click **Save**
-14. On the **Integrate** window, under **Inputs**, select **+ New Input**
+14. On the **Integrate** window, towards the top, under **Inputs**, select **+ New Input**
 15. In the **New Input** window, scroll to the bottom and select **Azure Cosmos DB**
 16. In the **New Input** window, click **Select**
 17. In the **Azure Cosmos DB input** window, enter the following:
@@ -148,8 +148,8 @@ public static async Task<IActionResult> Run(HttpRequestMessage req, string blobN
 
 14. In the **function.proj** editor, click **Save**
 15. On the **Functions** page, on the left-hand menu, select **GetPhoto** > **Integrate**
-16. On the **Integrate** window, select **Http (req)**
-17. In the **Http trigger** window, enter the following:
+16. On the **Integrate** window, towards the top, select **Http (req)**
+17. In the **Integrate** window, towards the bottom, in the **HTTP trigger** frame, enter the following:
     - **Allowed Http methods:** Selected methods
     - **Request parameter name:** req
     - **Route Template**: photo/{blobName}

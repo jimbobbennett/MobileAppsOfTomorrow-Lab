@@ -8,7 +8,7 @@ We now need to be able to upload this photo to Azure so it can be shared with ot
 
 In Azure Blob Storage, blobs are stored in containers, similar to how a folder holds files on a PC. We will be creating our container using the Azure Portal UI, but containers can also be created in code.
 
-1. In the [Azure Portal](https://portal.azure.com/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn), navigate to the Azure Storage resource, **storage[Your Last Name]**
+1. In the [Azure Portal](https://portal.azure.com/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn), navigate to the Azure Storage resource, **happyxamdevs[Your Last Name]**
 
 2. On the **Azure Storage** page, on the left-hand menu, select **Blobs**
 3. On the **Blobs** page, select **+ Container**
@@ -37,11 +37,12 @@ The second type of storage to configure is Cosmos DB. This is a NoSQL database t
 5. In the **Azure Cosmos Db** pane, click **Create**
 6. In the **Create Azure Cosmos DB Account** page, enter the following:
     - **Subscription:** [Select Your Azure Subscription]
-    - **Resource Group:** HappyXamDevs
+        - **Resource Group:** HappyXamDevs
     - **Account Name:** happyxamdevs-[Your Last Name]
         - E.g. happyxamdevs-minnick
     > **Note:** The Storage Account Name must be unique because it is  used as the subdomain for our Azure Cosmos Db url
     - **API:** Core (SQL)
+        - **Apache Spark:** None
     > **Note:** Thfe different APIs have different ways for you to access and query your data, and have different capabilities. The SQL API allows us to query our data using SQL, and supports binding to Azure Functions which we will do in a later section
     - **Location:** WestUS
     - **GeoRedundancy** Disable
@@ -58,13 +59,13 @@ We will create a database that contains a collection in which we will add our ph
     - E.g. happyxamdevs-minnick
 
 2. On the **CosmosDb** page, on the left-hand menu, select **Data Explorer**
-3. In the **Data Explorer** page, click **New Collection**
+3. In the **Data Explorer** page, click **New Container**
 4. In the **New Collection** pane, enter the following:
     - **Database id** 
         - [x] Create New
-        - Photos
+        - **Type a new database id:** Photos
     - [ ] **Provision database throughput**
-    - **Collection Id:** PhotoMetadata
+    - **Container Id:** PhotoMetadata
     - **Partition Key:** /name
     - **Throughput:** 400
  
