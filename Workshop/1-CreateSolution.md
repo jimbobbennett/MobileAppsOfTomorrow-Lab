@@ -27,6 +27,8 @@ This solution contains 3 projects on Mac, and 4 on Windows.
 
 Build and run each app to see them all working, using the steps in the [setup guide](../SETUP.md).
 
+> **Note:** On Windows, copy/paste the `HappyXamDevs` project into the `C:\` folder, because Visual Studio has a `MAX_PATH` length of 260 characters. More information about [`MAX_PATH` is available here](https://docs.microsoft.com/windows/win32/fileio/naming-a-file#maximum-path-length-limitation?WT.mc_id=mobileappsoftomorrow-workshop-jabenn).
+
 > **Note:** On Windows you won't be able to run the iOS app unless you are connected to a [Mac build server](https://docs.microsoft.com/xamarin/ios/get-started/installation/windows/connecting-to-mac/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn).
 
 > **Note:** On macOS you won't be able to build and run the UWP project, and a UWP project won't be present if the solution was created with Visual Studio for Mac.
