@@ -151,6 +151,18 @@ Now that we have our Facebook app configured, head back to the Azure portal to c
 
 > If you prefer to authenticate with another provider, here are the instructions for [Twitter](https://docs.microsoft.com/azure/app-service/app-service-mobile-how-to-configure-twitter-authentication/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn), for [Google](https://docs.microsoft.com/azure/app-service/app-service-mobile-how-to-configure-google-authentication/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn), and for [Microsoft accounts](https://docs.microsoft.com/azure/app-service/app-service-mobile-how-to-configure-microsoft-authentication/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn).
 
+## 5. Test the Login Flow, Web Browser
+
+1. Open a web browser and navigate to your Azure Functions App url
+    - E.g. https://happyxamdevsfunction-minnick.azurewebsites.net
+
+2. Ensure you are redirected to the Facebook login
+
+3. At the Facebook login page, log into your facebook account
+
+4. After completing the Facebook login, ensure you are redirected to your Azure Functions App url
+    - E.g. https://happyxamdevsfunction-minnick.azurewebsites.net
+
 ## Next step
 
 Now you have your Azure Function App created, the next step is to [create an Azure Service inside the mobile app](./3-CreateAnAzureServiceInTheMobileApp.md).
