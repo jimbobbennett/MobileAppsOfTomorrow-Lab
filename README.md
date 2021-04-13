@@ -10,7 +10,7 @@ The app you are creating is called __Happy Xamarin Developers__ and is a social-
 
 * Please make sure you have run through the [setup prerequisites](./SETUP.MD) to configure your development environment before working through this workshop.
 
-* You will also need an Azure account to configure the services required. These services will either be using free tiers, or be very cheap and only needed for the duration of the workshop. If you do not already have an Azure account, you can sign up for a [free Azure account](https://azure.microsoft.com/free?WT.mc_id=mobileappsoftomorrow-workshop-jabenn) to get US$200 of credit on all services for 30 days, plus 12 months of free access for popular services, and unlimited access to 25 free services.
+* You will also need an Azure account to configure the services required. These services will either be using free tiers, or be very cheap and only needed for the duration of the workshop. If you do not already have an Azure account, you can sign up for a [free Azure account](https://azure.microsoft.com/free?WT.mc_id=academic-0000-jabenn) to get US$200 of credit on all services for 30 days, plus 12 months of free access for popular services, and unlimited access to 25 free services.
 
 * This app will be authenticated using Facebook. You will need a Facebook account to both configure the authentication, and for all the users who will log in.
 
@@ -30,9 +30,9 @@ You will learn how to use plug-ins to take advantage or hardware specific featur
 
 In this workshop, your instructors will provide you guidance based on many years of experience doing mobile cross platform development with Xamarin. Of course within one single day, we cannot implement all the best practices in development, continuous integration, testing, QA, etc. This workshop is an introduction to cross-platform development with Xamarin and Azure which will get you started you into this fantastic world.
 
-The examples are not production quality - for example you won't be handling exceptions anywhere in the code. You will also be writing functions inside the Azure portal and configuring services directly, whereas in a production app you would want to use CI/CD using services like [VSTS](https://docs.microsoft.com/vsts/index?view=vsts&WT.mc_id=mobileappsoftomorrow-workshop-jabenn) and tools like the [Azure Resource Manager](https://docs.microsoft.com/azure/azure-resource-manager/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn).
+The examples are not production quality - for example you won't be handling exceptions anywhere in the code. You will also be writing functions inside the Azure portal and configuring services directly, whereas in a production app you would want to use CI/CD using services like [VSTS](https://docs.microsoft.com/vsts/index?view=vsts&WT.mc_id=academic-0000-jabenn) and tools like the [Azure Resource Manager](https://docs.microsoft.com/azure/azure-resource-manager/?WT.mc_id=academic-0000-jabenn).
 
-We will also not be considering security in too much detail, beyond securing functions behind facebook authentication. For a production app, please refer to the [Azure Security documentation](https://docs.microsoft.com/azure/security/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn) and consider using tools like [Azure Key Vault](https://docs.microsoft.com/azure/key-vault/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn).
+We will also not be considering security in too much detail, beyond securing functions behind facebook authentication. For a production app, please refer to the [Azure Security documentation](https://docs.microsoft.com/azure/security/?WT.mc_id=academic-0000-jabenn) and consider using tools like [Azure Key Vault](https://docs.microsoft.com/azure/key-vault/?WT.mc_id=academic-0000-jabenn).
 
 For more information on best practices and getting your app to a professional level, we recommend checking the [Xamarin University courses](https://university.xamarin.com/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn).
 
@@ -63,16 +63,16 @@ During this workshop you will have created different Azure services, and some ha
 
 You can find links to relevant documentation below:
 
-* [Xamarin](https://docs.microsoft.com/xamarin/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn)
-* [Azure Functions](https://docs.microsoft.com/azure/azure-functions/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn)
-* [Blog Storage](https://docs.microsoft.com/azure/storage/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn)
-* [CosmosDB](https://docs.microsoft.com/azure/cosmos-db/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn)
-* [AppCenter](https://docs.microsoft.com/appcenter/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn)
-* [Cognitive services](https://docs.microsoft.com/azure/cognitive-services/?WT.mc_id=mobileappsoftomorrow-workshop-jabenn)
+* [Xamarin](https://docs.microsoft.com/xamarin/?WT.mc_id=academic-0000-jabenn)
+* [Azure Functions](https://docs.microsoft.com/azure/azure-functions/?WT.mc_id=academic-0000-jabenn)
+* [Blog Storage](https://docs.microsoft.com/azure/storage/?WT.mc_id=academic-0000-jabenn)
+* [CosmosDB](https://docs.microsoft.com/azure/cosmos-db/?WT.mc_id=academic-0000-jabenn)
+* [AppCenter](https://docs.microsoft.com/appcenter/?WT.mc_id=academic-0000-jabenn)
+* [Cognitive services](https://docs.microsoft.com/azure/cognitive-services/?WT.mc_id=academic-0000-jabenn)
 
 ## Contributors
 
-This lab was built by [Jim Bennett](https://developer.microsoft.com/advocates/jim-bennett?WT.mc_id=mobileappsoftomorrow-workshop-jabenn), [Laurent Bugnion](https://developer.microsoft.com/advocates/laurent-bugnion?WT.mc_id=mobileappsoftomorrow-workshop-jabenn) and [Brandon Minnick](https://twitter.com/intent/user?user_id=3418408341).
+This lab was built by [Jim Bennett](https://developer.microsoft.com/advocates/jim-bennett?WT.mc_id=academic-0000-jabenn), [Laurent Bugnion](https://developer.microsoft.com/advocates/laurent-bugnion?WT.mc_id=academic-0000-jabenn) and [Brandon Minnick](https://twitter.com/intent/user?user_id=3418408341).
 
 ![Xamarin Azure Advocates](./Images/Xamarin.png)
 
